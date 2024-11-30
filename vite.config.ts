@@ -6,5 +6,8 @@ export default defineConfig({
         glsl({
             include: /\.(glsl|vert|frag)$/,
         })
-    ]
+    ],
+    server: {
+        port: 2222
+    }
 });
