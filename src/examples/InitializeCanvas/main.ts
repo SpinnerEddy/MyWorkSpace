@@ -2,7 +2,7 @@ function initializeWebGL(canvas: HTMLCanvasElement) : WebGL2RenderingContext
 {
     const gl = canvas.getContext('webgl2');
     if(gl == null){
-        return null;
+        throw new Error("Not Support WebGL2!!");
     }
     return gl;
 }
@@ -22,11 +22,6 @@ function main()
     }
 
     const gl = initializeWebGL(canvas);
-    if(gl == null){
-        console.error('Not Support WebGL2!!');
-        return;
-    }
-
     clearCanvas(gl);
 }
 
