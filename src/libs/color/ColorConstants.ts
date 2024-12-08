@@ -12,6 +12,8 @@ export const DefaultColorConstants =
 
 export const MyColorConstants255 =
 {
+    COLOR_EMPTY : new Color255(0, 0, 0, 0),
+
     COLOR_SUBARU : new Color255(174, 180, 156, 255),
 
     COLOR_NOCTCHILL : new Color255(56, 77, 152, 255),

@@ -35,7 +35,7 @@ export class Color{
         return this.a;
     }
 
-    public TranslateTo255() : Color255
+    public translateTo255() : Color255
     {
         const r = Math.ceil(this.r * 255.0);
         const g = Math.ceil(this.g * 255.0);

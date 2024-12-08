@@ -1,4 +1,4 @@
-import { MyColorConstants255 } from "../../libs/color/ColorConstants";
+import { ColorUtility } from "../../libs/color/ColorUtility";
 import { WebGLUtility } from "../../libs/webgl/WebGLUtility";
 
 function main()
@@ -10,7 +10,7 @@ function main()
     }
 
     const gl = new WebGLUtility(canvas);
-    gl.clearColor(MyColorConstants255.COLOR_CHINA.TranslateTo01());
+    gl.clearColor(ColorUtility.hexToColor01("#f68b1f"));
 }
 
 window.onload = main;

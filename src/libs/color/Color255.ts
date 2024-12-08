@@ -35,7 +35,7 @@ export class Color255{
         return this.a;
     }
 
-    public TranslateTo01() : Color
+    public translateTo01() : Color
     {
         const r = Number.parseFloat((this.r / 255.0).toFixed(3));
         const g = Number.parseFloat((this.g / 255.0).toFixed(3));
@@ -45,4 +45,9 @@ export class Color255{
         return new Color(r, g, b, a);
     }
 
+    public translateToColorCode() : string
+    {
+        const toHex = (x : number) => x.toString(16).padStart(2, '0').toUpperCase();
+        return `#${toHex(this.r)}${toHex(this.g)}${toHex(this.b)}`;
+    }
 }
