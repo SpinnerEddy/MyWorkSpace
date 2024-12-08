@@ -1,3 +1,4 @@
+import { Color } from "../../libs/color/Color";
 import { WebGLUtility } from "../../libs/webgl/WebGLUtility";
 
 function main()
@@ -9,7 +10,8 @@ function main()
     }
 
     const gl = new WebGLUtility(canvas);
-    gl.clearColor(0.964, 0.545, 0.121, 1);
+    const color = new Color(0.964, 0.545, 0.121, 1);
+    gl.clearColor(color);
 }
 
 window.onload = main;

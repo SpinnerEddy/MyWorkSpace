@@ -1,3 +1,5 @@
+import { Color } from "../color/Color";
+
 export class WebGLUtility{
     private gl: WebGL2RenderingContext;
 
@@ -11,9 +13,9 @@ export class WebGLUtility{
         return this.gl;
     }
 
-    public clearColor(r : number, g : number, b : number, a : number) : void
+    public clearColor(color : Color) : void
     {
-        this.gl.clearColor(r, g, b, a);
+        this.gl.clearColor(color.red, color.green, color.blue, color.alpha);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     }
 
