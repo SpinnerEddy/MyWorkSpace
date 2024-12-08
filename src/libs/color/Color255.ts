@@ -7,7 +7,7 @@ export class Color255{
     private b : number;
     private a : number;
 
-    constructor(r : number, g : number, b : number, a : number)
+    constructor(r : number, g : number, b : number, a : number = 255)
     {
         this.r = MathUtility.clamp(r, 0, 255);
         this.g = MathUtility.clamp(g, 0, 255);

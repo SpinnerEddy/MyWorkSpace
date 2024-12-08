@@ -7,7 +7,7 @@ export class Color{
     private b : number;
     private a : number;
 
-    constructor(r : number, g : number, b : number, a : number)
+    constructor(r : number, g : number, b : number, a : number = 1.0)
     {
         this.r = MathUtility.clamp(r, 0.0, 1.0);
         this.g = MathUtility.clamp(g, 0.0, 1.0);
