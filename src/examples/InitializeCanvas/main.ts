@@ -1,5 +1,5 @@
-import { ColorUtility } from "../../libs/color/ColorUtility";
-import { WebGLUtility } from "../../libs/webgl/WebGLUtility";
+import { ColorUtility } from "../../libs/src/color/ColorUtility";
+import { WebGLUtility } from "../../libs/src/webgl/WebGLUtility";
 import GUI from "lil-gui";
 
 function main()

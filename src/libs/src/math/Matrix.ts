@@ -9,20 +9,6 @@ export class Matrix{
         this.data = new Float32Array(rowNum * colNum).fill(initializeValue);
     }
 
-    static create(sizeNum : number) : Matrix{
-        let matrix = new Matrix(sizeNum, sizeNum);
-        return matrix;
-    }
-
-    static identity(sizeNum : number) : Matrix{
-        let matrix = this.create(sizeNum);
-        for(let i = 0; i < sizeNum; i++){
-            matrix.set(i, i, 1);
-        }
-
-        return matrix;
-    }
-
     get(x : number, y : number) : number{
         return this.data[x * this.colNum + y];
     }
