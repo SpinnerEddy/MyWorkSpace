@@ -1,5 +1,7 @@
 import { Matrix } from "./Matrix";
 import { Vector } from "./Vector";
+import { Vector2 } from "./Vector2";
+import { Vector3 } from "./Vector3";
 
 export class MatrixHandler{
     static create(sizeNum : number) : Matrix{
@@ -54,7 +56,7 @@ export class MatrixHandler{
             if(b instanceof Vector){
                 b = b.toMatrix();
             }
-            
+
             if(a.col != b.row){
                 throw new Error("Not Equal A Row Number and B Col Number. Cannot Multiply!");
             }
@@ -97,6 +99,33 @@ export class MatrixHandler{
         return result;
     }
 
+    static translate2D(a : Matrix, b : Vector2) : Matrix{
+        if(!MatrixHandler.checkSquare(a, 3)){
+            throw new Error("Matrix is not 3 x 3 Square matrix. Cannot translate!")
+        }
+
+        var translateMatrix = MatrixHandler.identity(3);
+        translateMatrix.set(2, 0, b.x);
+        translateMatrix.set(2, 1, b.y);
+
+        var result = MatrixHandler.multiply(a, translateMatrix);
+        return result;
+    }
+
+    static translate3D(a : Matrix, b : Vector3) : Matrix{
+        if(!MatrixHandler.checkSquare(a, 4)){
+            throw new Error("Matrix is not 3 x 3 Square matrix. Cannot translate!")
+        }
+
+        var translateMatrix = MatrixHandler.identity(4);
+        translateMatrix.set(3, 0, b.x);
+        translateMatrix.set(3, 1, b.y);
+        translateMatrix.set(3, 2, b.z);
+
+        var result = MatrixHandler.multiply(a, translateMatrix);
+        return result;
+    }
+
     static checkSizeEqual(a : Matrix, b : Matrix) : boolean{
         if(a.col != b.col || a.row != b.row){
             console.log(`col : ${a.col},${b.col}`);
@@ -105,5 +134,9 @@ export class MatrixHandler{
         }
 
         return true;
+    }
+
+    static checkSquare(matrix : Matrix, sizeNum : number) : boolean{
+        return (matrix.col == sizeNum) && (matrix.row == sizeNum);
     }
 }

@@ -10,19 +10,19 @@ export class Matrix{
     }
 
     get(x : number, y : number) : number{
-        return this.data[x * this.colNum + y];
+        return this.data[this.rowNum * y + x];
     }
 
     set(x : number, y : number, value : number) : void{
-        this.data[x * this.colNum + y] = value;
-    }
-
-    get row() : number{
-        return this.rowNum;
+        this.data[this.rowNum * y + x] = value;
     }
 
     get col() : number{
         return this.colNum;
+    }
+
+    get row() : number{
+        return this.rowNum;
     }
     
     get isSquareMatrix() : boolean{

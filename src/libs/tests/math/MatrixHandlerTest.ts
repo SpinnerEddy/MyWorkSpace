@@ -110,3 +110,14 @@ test("Matrix Multiply Matrix not square", () => {
     expect(result).toEqual(exceptResult);
 });
 
+test("Vector Translate Matrix", () => {
+    let vector = new Vector3(1, 2, 3);
+    let matrix = vector.toMatrix();
+    
+    let exceptResult = new Matrix(3, 1);
+    exceptResult.set(0, 0, 1);
+    exceptResult.set(1, 0, 2);
+    exceptResult.set(2, 0, 3);
+
+    expect(matrix).toEqual(exceptResult);
+});
