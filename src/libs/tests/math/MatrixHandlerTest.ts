@@ -1,5 +1,6 @@
 import { Matrix } from "../../src/math/Matrix";
 import { MatrixHandler } from "../../src/math/MatrixHandler";
+import { Vector3 } from "../../src/math/Vector3";
 
 test("Matrix Add", () => {
     let matrixA = MatrixHandler.identity(2);
@@ -67,6 +68,20 @@ test("Matrix Multiply Matrix", () => {
     expect(result).toEqual(exceptResult);
 });
 
+test("Matrix Multiply Vector", () => {
+    let matrixA = new Matrix(1, 3);
+    let vectorB = new Vector3(1, 2, 3);
+    matrixA.set(0, 0, 1);
+    matrixA.set(0, 1, 2);
+    matrixA.set(0, 2, 3);
+    let result = MatrixHandler.multiply(matrixA, vectorB);
+
+    let exceptResult = new Matrix(1, 1);
+    exceptResult.set(0, 0, 14);
+
+    expect(result).toEqual(exceptResult);
+});
+
 test("Matrix Multiply Matrix not square", () => {
     let matrixA = new Matrix(2, 3, 0);
     let matrixB = new Matrix(3, 2, 0);
@@ -94,3 +109,4 @@ test("Matrix Multiply Matrix not square", () => {
 
     expect(result).toEqual(exceptResult);
 });
+

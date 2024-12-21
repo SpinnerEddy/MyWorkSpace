@@ -1,4 +1,5 @@
 import { Matrix } from "./Matrix";
+import { Vector } from "./Vector";
 
 export class MatrixHandler{
     static create(sizeNum : number) : Matrix{
@@ -46,9 +47,14 @@ export class MatrixHandler{
     }
 
     static multiply(a : Matrix, b : Matrix): Matrix;
+    static multiply(a : Matrix, b : Vector): Matrix;
     static multiply(a : Matrix, b : number): Matrix;
-    static multiply(a : Matrix, b : Matrix | number) : Matrix{
-        if(b instanceof Matrix){
+    static multiply(a : Matrix, b : Matrix | Vector | number) : Matrix{
+        if(b instanceof Matrix || b instanceof Vector){
+            if(b instanceof Vector){
+                b = b.toMatrix();
+            }
+            
             if(a.col != b.row){
                 throw new Error("Not Equal A Row Number and B Col Number. Cannot Multiply!");
             }
