@@ -50,7 +50,7 @@ export class MatrixHandler{
     static multiply(a : Matrix, b : Matrix | number) : Matrix{
         if(b instanceof Matrix){
             if(a.col != b.row){
-                throw new Error("Not Equal A Row Number and B Col Number. Cannot Multiply");
+                throw new Error("Not Equal A Row Number and B Col Number. Cannot Multiply!");
             }
 
             const result = new Matrix(a.row, b.col);
@@ -74,6 +74,21 @@ export class MatrixHandler{
             }
             return result;
         }
+    }
+
+    static divide(a : Matrix, b : number) : Matrix{
+        if(b == 0){
+            throw new Error("b is zero. Cannot Divide!")
+        }
+
+        const result = new Matrix(a.row, a.col);
+        for(let x = 0; x < a.row; x++){
+            for(let y = 0; y < a.col; y++){
+                result.set(x, y, a.get(x, y) / b);
+            }
+        }
+
+        return result;
     }
 
     static checkSizeEqual(a : Matrix, b : Matrix) : boolean{
