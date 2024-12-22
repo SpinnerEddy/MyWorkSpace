@@ -10,11 +10,11 @@ export class Matrix{
     }
 
     get(x : number, y : number) : number{
-        return this.data[this.rowNum * y + x];
+        return this.data[this.colNum * x + y];
     }
 
     set(x : number, y : number, value : number) : void{
-        this.data[this.rowNum * y + x] = value;
+        this.data[this.colNum * x + y] = value;
     }
 
     get col() : number{

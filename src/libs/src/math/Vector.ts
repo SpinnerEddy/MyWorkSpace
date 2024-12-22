@@ -8,9 +8,9 @@ export class Vector{
     }
 
     toMatrix() : Matrix{
-        var matrix = new Matrix(this.components.length, 0);
+        var matrix = new Matrix(0, this.components.length);
         for(let i = 0; i < this.components.length; i++){
-            matrix.set(i, 0, this.components[i]);
+            matrix.set(0, i, this.components[i]);
         }
 
         return matrix;

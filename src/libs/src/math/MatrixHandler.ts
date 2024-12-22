@@ -53,20 +53,21 @@ export class MatrixHandler{
     static multiply(a : Matrix, b : number): Matrix;
     static multiply(a : Matrix, b : Matrix | Vector | number) : Matrix{
         if(b instanceof Matrix || b instanceof Vector){
+            console.log(a);
             if(b instanceof Vector){
                 b = b.toMatrix();
             }
 
-            if(a.col != b.row){
+            if(a.row != b.col){
                 throw new Error("Not Equal A Row Number and B Col Number. Cannot Multiply!");
             }
 
-            const result = new Matrix(a.row, b.col);
-            for(let x = 0; x < a.row; x++){
-                for(let y = 0; y < a.col; y++){
+            const result = new Matrix(a.col, b.row);
+            for(let y = 0; y < a.col; y++){
+                for(let x = 0; x < b.row; x++){
                     let sum = 0;
-                    for(let v = 0; v < a.col; v++){
-                        sum += a.get(x, v) * b.get(v, y);
+                    for(let v = 0; v < a.row; v++){
+                        sum += a.get(v, y) * b.get(x, v);
                     }
                     result.set(x, y, sum);
                 }
@@ -99,24 +100,16 @@ export class MatrixHandler{
         return result;
     }
 
-    static translate2D(a : Matrix, b : Vector2) : Matrix{
-        if(!MatrixHandler.checkSquare(a, 3)){
-            throw new Error("Matrix is not 3 x 3 Square matrix. Cannot translate!")
-        }
-
+    static translate2D(a : Vector3, b : Vector2) : Matrix{
         var translateMatrix = MatrixHandler.identity(3);
         translateMatrix.set(2, 0, b.x);
         translateMatrix.set(2, 1, b.y);
 
-        var result = MatrixHandler.multiply(a, translateMatrix);
+        var result = MatrixHandler.multiply(translateMatrix, a);
         return result;
     }
 
     static translate3D(a : Matrix, b : Vector3) : Matrix{
-        if(!MatrixHandler.checkSquare(a, 4)){
-            throw new Error("Matrix is not 3 x 3 Square matrix. Cannot translate!")
-        }
-
         var translateMatrix = MatrixHandler.identity(4);
         translateMatrix.set(3, 0, b.x);
         translateMatrix.set(3, 1, b.y);

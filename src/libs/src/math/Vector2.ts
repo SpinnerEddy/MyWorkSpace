@@ -15,9 +15,9 @@ export class Vector2 extends Vector{
     }
 
     override toMatrix(): Matrix {
-        var matrix = new Matrix(2, 1);
+        var matrix = new Matrix(1, 2);
         matrix.set(0, 0, this.x);
-        matrix.set(1, 0, this.y);
+        matrix.set(0, 1, this.y);
         return matrix;
     }
 }
