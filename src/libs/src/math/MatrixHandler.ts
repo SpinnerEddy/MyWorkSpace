@@ -119,6 +119,14 @@ export class MatrixHandler{
         return result;
     }
 
+    static rotate2D(mat : Matrix, angle : number, axis : Vector3) : Matrix{
+
+    }
+
+    static rotate3D(mat : Matrix, angle : number, axis : Vector3) : Matrix{
+
+    }
+
     static checkSizeEqual(a : Matrix, b : Matrix) : boolean{
         if(a.col != b.col || a.row != b.row){
             console.log(`col : ${a.col},${b.col}`);
