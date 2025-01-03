@@ -1,23 +1,22 @@
-import { VectorUtility } from "./interfaces/VectorUtility";
 import { Vector } from "./vector/Vector";
 import { Vector2 } from "./vector/Vector2";
 import { Vector3 } from "./vector/Vector3";
 import { Vector4 } from "./vector/Vector4";
 
-export class VectorHandler implements VectorUtility{
-    min<T extends Vector>(a: T, b: T): T {
+export class VectorHandler{
+    static min<T extends Vector>(a: T, b: T): T {
         const aLength = this.length(a);
         const bLength = this.length(b);
         return aLength <= bLength ? a : b;
     }
 
-    max<T extends Vector>(a: T, b: T): T {
+    static max<T extends Vector>(a: T, b: T): T {
         const aLength = this.length(a);
         const bLength = this.length(b);
         return aLength >= bLength ? a : b;
     }
 
-    add<T extends Vector>(a: T, b: T): T {
+    static add<T extends Vector>(a: T, b: T): T {
         if(a.length != b.length){
             throw new Error("Vector lengths not equal! Cannot Additive!")
         }
@@ -26,7 +25,7 @@ export class VectorHandler implements VectorUtility{
         return this.convertVector(a.length, result);
     }
 
-    sub<T extends Vector>(a: T, b: T): T {
+    static sub<T extends Vector>(a: T, b: T): T {
         if(a.length != b.length){
             throw new Error("Vector lengths not equal! Cannot Additive!")
         }
@@ -35,13 +34,13 @@ export class VectorHandler implements VectorUtility{
         return this.convertVector(a.length, result);
     }
 
-    calcDistance<T extends Vector>(a: T, b: T): number {
+    static calcDistance<T extends Vector>(a: T, b: T): number {
         const subVector = this.sub(a, b);
         const result = this.length(subVector);
         return result;
     }
 
-    calcAngle<T extends Vector>(a: T, b: T): number {
+    static calcAngle<T extends Vector>(a: T, b: T): number {
         if(a.length != b.length){
             throw new Error("Vector lengths not equal! Cannot Additive!")
         }
@@ -60,7 +59,7 @@ export class VectorHandler implements VectorUtility{
         return angle;
     }
 
-    dot<T extends Vector>(a: T, b: T): number {
+    static dot<T extends Vector>(a: T, b: T): number {
         if(a.length != b.length){
             throw new Error("Vector lengths not equal! Cannot Additive!")
         }
@@ -69,12 +68,12 @@ export class VectorHandler implements VectorUtility{
         return result;
     }
 
-    multiply<T extends Vector>(a: T, b: number): T {
+    static multiply<T extends Vector>(a: T, b: number): T {
         const result = a.values.map((val) => val * b);
         return this.convertVector(a.length, result);
     }
 
-    divide<T extends Vector>(a: T, b: number): T {
+    static divide<T extends Vector>(a: T, b: number): T {
         if(b == 0){
             throw new Error("Cannot divide because b is zero!!");
         }
@@ -82,7 +81,7 @@ export class VectorHandler implements VectorUtility{
         return this.convertVector(a.length, result);
     }
 
-    limit<T extends Vector>(a: T, b: number): T {
+    static limit<T extends Vector>(a: T, b: number): T {
         if(a.length < b){
             return a;
         }
@@ -91,26 +90,26 @@ export class VectorHandler implements VectorUtility{
         return result;
     }
 
-    setLength<T extends Vector>(a: T, b: number): T {
+    static setLength<T extends Vector>(a: T, b: number): T {
         const norm = this.normalize(a);
         const result = this.multiply(norm, b);
         return result;
     }
 
-    normalize<T extends Vector>(vector: T): T {
+    static normalize<T extends Vector>(vector: T): T {
         const len = this.length(vector);
         const result = this.divide(vector, len);
 
         return result;
     }
 
-    length<T extends Vector>(vector: T): number {
+    static length<T extends Vector>(vector: T): number {
         const result = Math.sqrt(vector.values.reduce(
             (sum, val) => sum + Math.pow(val, 2.0), 0.0));
         return result;
     }
 
-    lerp<T extends Vector>(min: T, max: T, t: number): T {
+    static lerp<T extends Vector>(min: T, max: T, t: number): T {
         if(t == 0) return min;
         if(t == 1) return max;
 
@@ -120,25 +119,25 @@ export class VectorHandler implements VectorUtility{
         return result;
     }
 
-    cross(a: Vector3, b: Vector3) : Vector3{
+    static cross(a: Vector3, b: Vector3) : Vector3{
         const v1 = a.y*b.z - a.z*b.y;
         const v2 = a.z*b.x - a.x*b.z;
         const v3 = a.x*b.y - a.y*b.x;
         return new Vector3(v1, v2, v3);
     }
 
-    heading2D(vector: Vector2): number {
+    static heading2D(vector: Vector2): number {
         const radians = Math.atan2(vector.y, vector.x);
         return radians;
     }
 
-    heading3D(vector: Vector3) : [elevation: number, azimuth: number] {
+    static heading3D(vector: Vector3) : [elevation: number, azimuth: number] {
         const elevation = Math.atan2(vector.z, Math.sqrt(Math.pow(vector.x, 2.0) + Math.pow(vector.y, 2.0)));
         const azimuth = Math.atan2(vector.y, vector.x);
         return [elevation, azimuth];
     }
 
-    convertVector<T extends Vector>(length: number, values: number[]): T{
+    static convertVector<T extends Vector>(length: number, values: number[]): T{
         const vectorProcessor: { [key: number]: (values: number[]) => Vector } = {
             2: (values) => new Vector2(values[0], values[1]),
             3: (values) => new Vector3(values[0], values[1], values[2]),

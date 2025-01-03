@@ -53,7 +53,6 @@ export class MatrixHandler{
     static multiply(a : Matrix, b : number): Matrix;
     static multiply(a : Matrix, b : Matrix | Vector | number) : Matrix{
         if(b instanceof Matrix || b instanceof Vector){
-            console.log(a);
             if(b instanceof Vector){
                 b = b.toMatrix();
             }
