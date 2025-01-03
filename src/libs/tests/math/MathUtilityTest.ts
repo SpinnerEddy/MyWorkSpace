@@ -21,7 +21,6 @@ test("RadiansToDegrees2", () => {
     expect(degrees).toEqual(220);
 });
 
-
 test("clamp", () => {
     const minValue = -40.0;
     const maxValue = 50.0;
