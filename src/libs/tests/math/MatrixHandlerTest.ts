@@ -1,7 +1,7 @@
-import { Matrix } from "../../src/math/Matrix";
+import { Matrix } from "../../src/math/matrix/Matrix";
 import { MatrixHandler } from "../../src/math/MatrixHandler";
-import { Vector2 } from "../../src/math/Vector2";
-import { Vector3 } from "../../src/math/Vector3";
+import { Vector2 } from "../../src/math/vector/Vector2";
+import { Vector3 } from "../../src/math/vector/Vector3";
 
 test("Matrix Add", () => {
     let matrixA = MatrixHandler.identity(2);

@@ -1,7 +1,7 @@
-import { Matrix } from "./Matrix";
-import { Vector } from "./Vector";
-import { Vector2 } from "./Vector2";
-import { Vector3 } from "./Vector3";
+import { Matrix } from "./matrix/Matrix";
+import { Vector } from "./vector/Vector";
+import { Vector2 } from "./vector/Vector2";
+import { Vector3 } from "./vector/Vector3";
 
 export class MatrixHandler{
     static create(sizeNum : number) : Matrix{
@@ -119,13 +119,13 @@ export class MatrixHandler{
         return result;
     }
 
-    static rotate2D(mat : Matrix, angle : number, axis : Vector3) : Matrix{
+    // static rotate2D(mat : Matrix, angle : number, axis : Vector3) : Matrix{
 
-    }
+    // }
 
-    static rotate3D(mat : Matrix, angle : number, axis : Vector3) : Matrix{
+    // static rotate3D(mat : Matrix, angle : number, axis : Vector3) : Matrix{
 
-    }
+    // }
 
     static checkSizeEqual(a : Matrix, b : Matrix) : boolean{
         if(a.col != b.col || a.row != b.row){

@@ -1,4 +1,4 @@
-import { Matrix } from "./Matrix";
+import { Matrix } from "../matrix/Matrix";
 import { Vector } from "./Vector";
 
 export class Vector4 extends Vector{

@@ -1,10 +1,22 @@
-import { Matrix } from "./Matrix";
+import { Matrix } from "../matrix/Matrix";
 
 export class Vector{
     protected components: number[];
 
     constructor(components: number[]){
         this.components = components;
+    }
+
+    get values(): number[]{
+        return this.components;
+    }
+
+    get length(): number{
+        return this.components.length;
+    }
+
+    get(index: number): number{
+        return this.components[index];
     }
 
     toMatrix() : Matrix{

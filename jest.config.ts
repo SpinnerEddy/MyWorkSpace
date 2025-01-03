@@ -15,7 +15,6 @@ const jestConfig: JestConfigWithTsJest = {
     '^@/(.+)': '<rootDir>/src/$1',
     '^@test/(.+)': '<rootDir>/arc/tests/$1',
   },
-  moduleDirectories: ['node_modules', '<rootDir>']
 };
 
 export default jestConfig;
