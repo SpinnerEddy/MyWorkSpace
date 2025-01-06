@@ -1,3 +1,4 @@
+import { MathUtility } from "./MathUtility";
 import { Matrix } from "./matrix/Matrix";
 import { Vector } from "./vector/Vector";
 import { Vector2 } from "./vector/Vector2";
@@ -18,57 +19,6 @@ export class MatrixHandler{
         }
 
         return matrix;
-    }
-
-    static createRotateMatrix2D(angle: number){
-        const rotateMatrix = MatrixHandler.identity(3);
-        rotateMatrix.set(0, 0, Math.cos(angle));
-        rotateMatrix.set(1, 0, -Math.sin(angle));
-        rotateMatrix.set(0, 1, Math.sin(angle));
-        rotateMatrix.set(1, 1, Math.cos(angle));
-
-        return rotateMatrix;
-    }
-
-    static createRotateMatrix3D(angle: number, axis: Vector3){
-        const rotateMatrix = MatrixHandler.identity(4);
-        if(axis == DefaultVectorConstants.AXIS2DX){
-            rotateMatrix.set(1, 1, Math.cos(angle));
-            rotateMatrix.set(1, 2, -Math.sin(angle));
-            rotateMatrix.set(2, 1, Math.sin(angle));
-            rotateMatrix.set(2, 2, Math.cos(angle));
-        }
-        if(axis == DefaultVectorConstants.AXIS2DY){
-            rotateMatrix.set(0, 0, Math.cos(angle));
-            rotateMatrix.set(0, 2, Math.sin(angle));
-            rotateMatrix.set(2, 0, -Math.sin(angle));
-            rotateMatrix.set(2, 2, Math.cos(angle));
-        }
-        if(axis == DefaultVectorConstants.AXIS2DZ){
-            rotateMatrix.set(0, 0, Math.cos(angle));
-            rotateMatrix.set(1, 0, -Math.sin(angle));
-            rotateMatrix.set(0, 1, Math.sin(angle));
-            rotateMatrix.set(1, 1, Math.cos(angle));
-        }
-
-        return rotateMatrix;
-    }
-
-    static createScaleMatrix2D(scalarX: number, scalarY: number){
-        const scaleMatrix = MatrixHandler.identity(3);
-        scaleMatrix.set(0, 0, scalarX);
-        scaleMatrix.set(1, 1, scalarY);
-
-        return scaleMatrix;
-    }
-
-    static createScaleMatrix3D(scalarX: number, scalarY: number, scalarZ: number){
-        const scaleMatrix = MatrixHandler.identity(4);
-        scaleMatrix.set(0, 0, scalarX);
-        scaleMatrix.set(1, 1, scalarY);
-        scaleMatrix.set(2, 2, scalarZ);
-
-        return scaleMatrix;
     }
 
     static add(a : Matrix, b : Matrix) : Matrix{
@@ -124,6 +74,7 @@ export class MatrixHandler{
                     result.set(x, y, sum);
                 }
             }
+            
             return result;
         }
         else{
@@ -199,7 +150,11 @@ export class MatrixHandler{
         return result;
     }
 
-    static checkSizeEqual(a : Matrix, b : Matrix) : boolean{
+    static checkSquare(matrix : Matrix, sizeNum : number) : boolean{
+        return (matrix.col == sizeNum) && (matrix.row == sizeNum);
+    }
+
+    private static checkSizeEqual(a : Matrix, b : Matrix) : boolean{
         if(a.col != b.col || a.row != b.row){
             console.log(`col : ${a.col},${b.col}`);
             console.log(`row : ${a.row},${b.row}`);
@@ -209,7 +164,55 @@ export class MatrixHandler{
         return true;
     }
 
-    static checkSquare(matrix : Matrix, sizeNum : number) : boolean{
-        return (matrix.col == sizeNum) && (matrix.row == sizeNum);
+    private static createRotateMatrix2D(angle: number){
+        const rotateMatrix = MatrixHandler.identity(3);
+        rotateMatrix.set(0, 0, MathUtility.cos(angle));
+        rotateMatrix.set(1, 0, -MathUtility.sin(angle));
+        rotateMatrix.set(0, 1, MathUtility.sin(angle));
+        rotateMatrix.set(1, 1, MathUtility.cos(angle));
+        
+        return rotateMatrix;
+    }
+
+    private static createRotateMatrix3D(angle: number, axis: Vector3){
+        const rotateMatrix = MatrixHandler.identity(4);
+        if(axis == DefaultVectorConstants.AXIS2DX){
+            rotateMatrix.set(1, 1, MathUtility.cos(angle));
+            rotateMatrix.set(2, 1, -MathUtility.sin(angle));
+            rotateMatrix.set(1, 2, MathUtility.sin(angle));
+            rotateMatrix.set(2, 2, MathUtility.cos(angle));
+        }
+        if(axis == DefaultVectorConstants.AXIS2DY){
+            rotateMatrix.set(0, 0, MathUtility.cos(angle));
+            rotateMatrix.set(2, 0, MathUtility.sin(angle));
+            rotateMatrix.set(0, 2, -MathUtility.sin(angle));
+            rotateMatrix.set(2, 2, MathUtility.cos(angle));
+        }
+        if(axis == DefaultVectorConstants.AXIS2DZ){
+            rotateMatrix.set(0, 0, MathUtility.cos(angle));
+            rotateMatrix.set(1, 0, -MathUtility.sin(angle));
+            rotateMatrix.set(0, 1, MathUtility.sin(angle));
+            rotateMatrix.set(1, 1, MathUtility.cos(angle));
+        }
+        console.log(rotateMatrix);
+
+        return rotateMatrix;
+    }
+
+    private static createScaleMatrix2D(scalarX: number, scalarY: number){
+        const scaleMatrix = MatrixHandler.identity(3);
+        scaleMatrix.set(0, 0, scalarX);
+        scaleMatrix.set(1, 1, scalarY);
+
+        return scaleMatrix;
+    }
+
+    private static createScaleMatrix3D(scalarX: number, scalarY: number, scalarZ: number){
+        const scaleMatrix = MatrixHandler.identity(4);
+        scaleMatrix.set(0, 0, scalarX);
+        scaleMatrix.set(1, 1, scalarY);
+        scaleMatrix.set(2, 2, scalarZ);
+
+        return scaleMatrix;
     }
 }
