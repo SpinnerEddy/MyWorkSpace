@@ -37,11 +37,11 @@ export class Color{
 
     public translateTo255() : Color255
     {
-        const r = Math.ceil(this.r * 255.0);
-        const g = Math.ceil(this.g * 255.0);
-        const b = Math.ceil(this.b * 255.0);
-        const a = Math.ceil(this.a * 255.0);
-
+        const r = Math.round(this.r * 255.0);
+        const g = Math.round(this.g * 255.0);
+        const b = Math.round(this.b * 255.0);
+        const a = Math.round(this.a * 255.0);
+        
         return new Color255(r, g, b, a);
     }
 }
