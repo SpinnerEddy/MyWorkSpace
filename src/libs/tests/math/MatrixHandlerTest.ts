@@ -239,3 +239,22 @@ test("Vector rotate3D 2", () => {
 
     expect(result).toEqual(exceptResult);
 });
+
+test("Matrix LU", () => {
+    let base = MatrixHandler.create(3);
+    base.set(0, 0, 2);
+    base.set(1, 0, 3);
+    base.set(2, 0, -1);
+    base.set(0, 1, 4);
+    base.set(1, 1, 4);
+    base.set(2, 1, -3);
+    base.set(0, 2, -2);
+    base.set(1, 2, 3);
+    base.set(2, 2, -1);
+
+    console.log(base);
+
+    let result = MatrixHandler.lUDecomposition(base);
+    console.log(result[0]);
+    console.log(result[1]);
+});

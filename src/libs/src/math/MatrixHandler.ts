@@ -150,6 +150,49 @@ export class MatrixHandler{
         return result;
     }
 
+    static transpose(baseMatrix : Matrix) : Matrix{
+        const baseCol = baseMatrix.col;
+        const baseRow = baseMatrix.row;
+        const result = new Matrix(baseCol, baseRow);
+        for(let i = 0; i < baseRow; i++){
+            for(let j = 0; j < baseCol; j++){
+                result.set(j, i, baseMatrix.get(i, j));
+            }    
+        }
+
+        return result;
+    }
+
+    static lUDecomposition(baseMatrix : Matrix) : [Matrix, Matrix]{
+        if(!baseMatrix.isSquareMatrix){
+            throw new Error("Not Square Matrix. Cannot Calculate Inverse!!");
+        }
+
+        const matLen = baseMatrix.row;
+        const l = MatrixHandler.create(matLen);
+        const u = MatrixHandler.create(matLen);
+
+        for(let i = 0; i < matLen; i++){
+            for(let j = i; j < matLen; j++){
+                let sum = 0;
+                for(let k = 0; k < i; k++){
+                    sum += l.get(i, k) * u.get(k, j);
+                }
+                u.set(i, j, baseMatrix.get(i, j) - sum);
+            }
+
+            for(let j = i + 1; j < matLen; j++){
+                let sum = 0;
+                for(let k = 0; k < i; k++){
+                    sum += l.get(j, k) * u.get(k, i);
+                }
+                l.set(j, i, (baseMatrix.get(j, i) - sum) / u.get(i, i));
+            }
+        }
+        
+        return [l,u ];
+    }
+
     static checkSquare(matrix : Matrix, sizeNum : number) : boolean{
         return (matrix.col == sizeNum) && (matrix.row == sizeNum);
     }
