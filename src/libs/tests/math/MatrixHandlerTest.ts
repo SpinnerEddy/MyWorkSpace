@@ -252,9 +252,26 @@ test("Matrix LU", () => {
     base.set(1, 2, 3);
     base.set(2, 2, -1);
 
-    console.log(base);
-
     let result = MatrixHandler.lUDecomposition(base);
-    console.log(result[0]);
-    console.log(result[1]);
+    let l = MatrixHandler.create(3);
+    l.set(0, 0, 1);
+    l.set(0, 1, 2);
+    l.set(1, 1, 1);
+    l.set(0, 2, -1);
+    l.set(1, 2, -3);
+    l.set(2, 2, 1);
+
+    let u = MatrixHandler.create(3);
+    u.set(0, 0, 2);
+    u.set(1, 0, 3);
+    u.set(2, 0, -1);
+    u.set(1, 1, -2);
+    u.set(2, 1, -1);
+    u.set(2, 2, -5);
+
+    expect(result[0]).toEqual(l);
+    expect(result[1]).toEqual(u);
+
+    let mult = MatrixHandler.multiply(l, u);
+    expect(mult).toEqual(base);
 });

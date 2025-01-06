@@ -176,17 +176,18 @@ export class MatrixHandler{
             for(let j = i; j < matLen; j++){
                 let sum = 0;
                 for(let k = 0; k < i; k++){
-                    sum += l.get(i, k) * u.get(k, j);
+                    sum += l.get(k, i) * u.get(j, k);
                 }
-                u.set(i, j, baseMatrix.get(i, j) - sum);
+                u.set(j, i, baseMatrix.get(j, i) - sum);
             }
 
+            l.set(i, i, 1);
             for(let j = i + 1; j < matLen; j++){
                 let sum = 0;
                 for(let k = 0; k < i; k++){
-                    sum += l.get(j, k) * u.get(k, i);
+                    sum += l.get(k, j) * u.get(i, k);
                 }
-                l.set(j, i, (baseMatrix.get(j, i) - sum) / u.get(i, i));
+                l.set(i, j, (baseMatrix.get(i, j) - sum) / u.get(i, i));
             }
         }
         
