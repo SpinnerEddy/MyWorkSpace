@@ -194,7 +194,6 @@ export class MatrixHandler{
             rotateMatrix.set(0, 1, MathUtility.sin(angle));
             rotateMatrix.set(1, 1, MathUtility.cos(angle));
         }
-        console.log(rotateMatrix);
 
         return rotateMatrix;
     }

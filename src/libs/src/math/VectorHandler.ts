@@ -137,7 +137,7 @@ export class VectorHandler{
         return [elevation, azimuth];
     }
 
-    static convertVector<T extends Vector>(length: number, values: number[]): T{
+    private static convertVector<T extends Vector>(length: number, values: number[]): T{
         const vectorProcessor: { [key: number]: (values: number[]) => Vector } = {
             2: (values) => new Vector2(values[0], values[1]),
             3: (values) => new Vector3(values[0], values[1], values[2]),
