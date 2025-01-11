@@ -172,35 +172,23 @@ export class MatrixHandler{
         return result;
     }
 
-    static lUDecomposition(baseMatrix : Matrix) : [Matrix, Matrix]{
+    static inverse(baseMatrix : Matrix) : Matrix{
         if(!baseMatrix.isSquareMatrix){
             throw new Error("Not Square Matrix. Cannot Calculate Inverse!!");
         }
 
-        const matLen = baseMatrix.row;
-        const l = MatrixHandler.create(matLen);
-        const u = MatrixHandler.create(matLen);
-
-        for(let i = 0; i < matLen; i++){
-            for(let j = i; j < matLen; j++){
-                let sum = 0;
-                for(let k = 0; k < i; k++){
-                    sum += l.get(k, i) * u.get(j, k);
-                }
-                u.set(j, i, baseMatrix.get(j, i) - sum);
-            }
-
-            l.set(i, i, 1);
-            for(let j = i + 1; j < matLen; j++){
-                let sum = 0;
-                for(let k = 0; k < i; k++){
-                    sum += l.get(k, j) * u.get(i, k);
-                }
-                l.set(i, j, (baseMatrix.get(i, j) - sum) / u.get(i, i));
-            }
+        if(baseMatrix.col == 2){
+            return MatrixHandler.createInverseMatrix22(baseMatrix);
         }
-        
-        return [l,u ];
+        else if(baseMatrix.col == 3){
+            return MatrixHandler.createInverseMatrix33(baseMatrix);
+        }
+        else if(baseMatrix.col == 4){
+            return MatrixHandler.createInverseMatrix44(baseMatrix);
+        }
+        else{
+            return Matrix.Empty;
+        }
     }
 
     static checkSquare(matrix : Matrix, sizeNum : number) : boolean{
@@ -265,5 +253,106 @@ export class MatrixHandler{
         scaleMatrix.set(2, 2, scalarZ);
 
         return scaleMatrix;
+    }
+
+    private static createInverseMatrix22(matrix: Matrix) : Matrix{
+        const a = matrix.get(0, 0);
+        const b = matrix.get(0, 1);
+        const c = matrix.get(1, 0);
+        const d = matrix.get(1, 1);
+
+        const det = a*d - b*c;
+        if(det == 0){
+            return Matrix.Empty;
+        }
+
+        const invDet = 1 / det;
+        const result = new Matrix(matrix.col, matrix.row);
+        result.set(0, 0, d * invDet);
+        result.set(0, 1, -b * invDet);
+        result.set(1, 0, -c * invDet);
+        result.set(1, 1, a * invDet);
+        return result;
+    }
+
+    private static createInverseMatrix33(matrix: Matrix) : Matrix{
+        const a = matrix.get(0, 0);
+        const b = matrix.get(0, 1);
+        const c = matrix.get(0, 2);
+        const d = matrix.get(1, 0);
+        const e = matrix.get(1, 1);
+        const f = matrix.get(1, 2);
+        const g = matrix.get(2, 0);
+        const h = matrix.get(2, 1);
+        const i = matrix.get(2, 2);
+
+        const det = a*e*i + b*f*g + c*d*h - c*e*g - b*d*i - a*f*h;
+        if(det == 0){
+            return Matrix.Empty;
+        }
+
+        const invDet = 1 / det;
+        const result = new Matrix(matrix.col, matrix.row);
+        result.set(0, 0,  (e*i - f*h) * invDet);
+        result.set(0, 1, -(b*i - c*h) * invDet);
+        result.set(0, 2,  (b*f - c*e) * invDet);
+        result.set(1, 0, -(d*i - f*g) * invDet);
+        result.set(1, 1,  (a*i - c*g) * invDet);
+        result.set(1, 2, -(a*f - c*d) * invDet);
+        result.set(2, 0,  (d*h - e*g) * invDet);
+        result.set(2, 1, -(a*h - b*g) * invDet);
+        result.set(2, 2,  (a*e - b*d) * invDet);
+        return result;
+    }
+
+    private static createInverseMatrix44(matrix: Matrix) : Matrix{
+        const a = matrix.get(0, 0);
+        const b = matrix.get(0, 1);
+        const c = matrix.get(0, 2);
+        const d = matrix.get(0, 3);
+        const e = matrix.get(1, 0);
+        const f = matrix.get(1, 1);
+        const g = matrix.get(1, 2);
+        const h = matrix.get(1, 3);
+        const i = matrix.get(2, 0);
+        const j = matrix.get(2, 1);
+        const k = matrix.get(2, 2);
+        const l = matrix.get(2, 3);
+        const m = matrix.get(3, 0);
+        const n = matrix.get(3, 1);
+        const o = matrix.get(3, 2);
+        const p = matrix.get(3, 3);
+
+        const det = a*f*k*p + a*g*l*n + a*h*j*o 
+                    - a*h*k*n - a*g*j*p - a*f*l*o
+                    - b*e*k*p - c*e*l*n - d*e*j*o
+                    + d*e*k*n + c*e*j*p + b*e*l*o
+                    + b*g*i*p + c*h*i*n + d*f*i*o
+                    - d*g*i*n - c*f*i*p - b*h*i*o
+                    - b*g*l*m - c*h*j*m - d*f*k*m
+                    + d*g*j*m + c*f*l*m + b*h*k*m;
+        if(det == 0){
+            return Matrix.Empty;
+        }
+
+        const invDet = 1 / det;
+        const result = new Matrix(matrix.col, matrix.row);
+        result.set(0, 0, (f*k*p + g*l*n + h*j*o - h*k*n - g*j*p - f*l*o) * invDet);
+        result.set(0, 1, (-b*k*p - c*l*n - d*j*o + d*k*n + c*j*p + b*l*o) * invDet);
+        result.set(0, 2, (b*g*p + c*h*n + d*f*o - d*g*n - c*f*p - b*h*o) * invDet);
+        result.set(0, 3, (-b*g*l - c*h*j - d*f*k + d*g*j + c*f*l + b*h*k) * invDet);
+        result.set(1, 0, (-e*k*p - g*l*m - h*i*o + h*k*m + g*i*p + e*l*o) * invDet);
+        result.set(1, 1, (a*k*p + c*l*m + d*i*o - d*k*m - c*i*p - a*l*o) * invDet);
+        result.set(1, 2, (-a*g*p - c*h*m - d*e*o + d*g*m + c*e*p + a*h*o) * invDet);
+        result.set(1, 3, (a*g*l + c*h*i + d*e*k - d*g*i - c*e*l - a*h*k) * invDet);
+        result.set(2, 0, (e*j*p + f*l*m + h*i*n - h*j*m - f*i*p - e*l*n) * invDet);
+        result.set(2, 1, (-a*j*p - b*l*m - d*i*n + d*j*m + b*i*p + a*l*n) * invDet);
+        result.set(2, 2, (a*f*p + b*h*m + d*e*n - d*f*m - b*e*p - a*h*n) * invDet);
+        result.set(2, 3, (-a*f*l - b*h*i - d*e*j + d*f*i + b*e*l + a*h*j) * invDet);
+        result.set(3, 0, (-e*j*o - f*k*m - g*i*n + g*j*m + f*i*o + e*k*n) * invDet);
+        result.set(3, 1, (a*j*o + b*k*m + c*i*n - c*j*m - b*i*o - a*k*n) * invDet);
+        result.set(3, 2, (-a*f*o - b*g*m - c*e*n + c*f*m + b*e*o + a*g*n) * invDet);
+        result.set(3, 3, (a*f*k + b*g*i + c*e*j - c*f*i - b*e*k - a*g*j) * invDet);
+        return result;
     }
 }

@@ -239,38 +239,20 @@ test("Vector rotate3D 2", () => {
     expect(result).toEqual(exceptResult);
 });
 
-test("Matrix LU", () => {
-    let base = MatrixHandler.create(3);
-    base.set(0, 0, 2);
-    base.set(1, 0, 3);
-    base.set(2, 0, -1);
-    base.set(0, 1, 4);
-    base.set(1, 1, 4);
-    base.set(2, 1, -3);
-    base.set(0, 2, -2);
-    base.set(1, 2, 3);
-    base.set(2, 2, -1);
+test("Matrix Inverse 4x4", () => {
+    let matrix = new Matrix(4, 4, 1);
+    matrix.set(0, 3, -1);
+    matrix.set(1, 2, -1);
+    matrix.set(2, 1, -1);
+    matrix.set(3, 0, -1);
 
-    let result = MatrixHandler.lUDecomposition(base);
-    let l = MatrixHandler.create(3);
-    l.set(0, 0, 1);
-    l.set(0, 1, 2);
-    l.set(1, 1, 1);
-    l.set(0, 2, -1);
-    l.set(1, 2, -3);
-    l.set(2, 2, 1);
+    let result = MatrixHandler.inverse(matrix);
 
-    let u = MatrixHandler.create(3);
-    u.set(0, 0, 2);
-    u.set(1, 0, 3);
-    u.set(2, 0, -1);
-    u.set(1, 1, -2);
-    u.set(2, 1, -1);
-    u.set(2, 2, -5);
+    let exceptResult = new Matrix(4, 4, 1/4);
+    exceptResult.set(0, 3, -1/4);
+    exceptResult.set(1, 2, -1/4);
+    exceptResult.set(2, 1, -1/4);
+    exceptResult.set(3, 0, -1/4);
 
-    expect(result[0]).toEqual(l);
-    expect(result[1]).toEqual(u);
-
-    let mult = MatrixHandler.multiply(l, u);
-    expect(mult).toEqual(base);
+    expect(result).toEqual(exceptResult);
 });

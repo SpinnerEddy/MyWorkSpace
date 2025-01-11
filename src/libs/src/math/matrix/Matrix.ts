@@ -3,6 +3,8 @@ export class Matrix{
     protected colNum : number;
     protected data : Float32Array;
 
+    static Empty: Matrix = new Matrix(0, 0);
+
     constructor(rowNum : number, colNum : number, initializeValue: number = 0){
         this.rowNum = rowNum;
         this.colNum = colNum;
@@ -27,6 +29,10 @@ export class Matrix{
     
     get isSquareMatrix() : boolean{
         return this.colNum == this.rowNum;
+    }
+
+    get isEmpty() : boolean{
+        return this == Matrix.Empty;
     }
 
     toArray(): Float32Array{
