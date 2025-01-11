@@ -239,6 +239,23 @@ test("Vector rotate3D 2", () => {
     expect(result).toEqual(exceptResult);
 });
 
+test("Matrix Inverse 3x3", () => {
+    let matrix = new Matrix(3, 3, 1);
+    matrix.set(0, 2, 2);
+    matrix.set(1, 1, 2);
+    matrix.set(2, 0, 2);
+
+    let result = MatrixHandler.inverse(matrix);
+
+    let exceptResult = new Matrix(3, 3, -0.25);
+    exceptResult.set(0, 2, 0.75);
+    exceptResult.set(1, 1, 0.75);
+    exceptResult.set(2, 0, 0.75);
+
+    expect(result).toEqual(exceptResult);
+});
+
+
 test("Matrix Inverse 4x4", () => {
     let matrix = new Matrix(4, 4, 1);
     matrix.set(0, 3, -1);

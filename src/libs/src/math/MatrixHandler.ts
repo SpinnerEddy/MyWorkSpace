@@ -290,7 +290,7 @@ export class MatrixHandler{
         if(det == 0){
             return Matrix.Empty;
         }
-
+        
         const invDet = 1 / det;
         const result = new Matrix(matrix.col, matrix.row);
         result.set(0, 0,  (e*i - f*h) * invDet);
