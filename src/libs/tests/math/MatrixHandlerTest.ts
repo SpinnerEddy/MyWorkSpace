@@ -2,7 +2,6 @@ import { Matrix } from "../../src/math/matrix/Matrix";
 import { MatrixHandler } from "../../src/math/MatrixHandler";
 import { Vector2 } from "../../src/math/vector/Vector2";
 import { Vector3 } from "../../src/math/vector/Vector3";
-import { Vector4 } from "../../src/math/vector/Vector4";
 import { DefaultVectorConstants } from "../../src/math/vector/VectorConstants";
 
 test("Matrix Add", () => {
@@ -132,7 +131,7 @@ test("Vector Translate To Matrix", () => {
 });
 
 test("Vector Translate2D", () => {
-    let vector = new Vector3(1, 2, 1);
+    let vector = new Vector2(1, 2);
     let translateVector = new Vector2(3, 4);
 
     let result = MatrixHandler.translate2D(vector, translateVector);
@@ -145,7 +144,7 @@ test("Vector Translate2D", () => {
 });
 
 test("Vector Translate3D 1", () => {
-    let vector = new Vector4(0, 0, 0, 1);
+    let vector = new Vector3(0, 0, 0);
     let translateVector = new Vector3(1, 2, 3);
 
     let result = MatrixHandler.translate3D(vector, translateVector);
@@ -159,7 +158,7 @@ test("Vector Translate3D 1", () => {
 });
 
 test("Vector Translate3D 2", () => {
-    let vector = new Vector4(5, -5, 10, 1);
+    let vector = new Vector3(5, -5, 10);
     let translateVector = new Vector3(2, 3, -4);
 
     let result = MatrixHandler.translate3D(vector, translateVector);
@@ -173,7 +172,7 @@ test("Vector Translate3D 2", () => {
 });
 
 test("Vector Translate3D 3", () => {
-    let vector = new Vector4(5, -5, 10, 1);
+    let vector = new Vector3(5, -5, 10);
     let translateVector = new Vector3(0, 0, 0);
 
     let result = MatrixHandler.translate3D(vector, translateVector);
@@ -187,7 +186,7 @@ test("Vector Translate3D 3", () => {
 });
 
 test("Vector rotate2D 1", () => {
-    let vector = new Vector3(1, 0, 1);
+    let vector = new Vector2(1, 0);
     let angle = Math.PI * 0.5;
 
     let result = MatrixHandler.rotate2D(vector, angle);
@@ -200,7 +199,7 @@ test("Vector rotate2D 1", () => {
 });
 
 test("Vector rotate2D 2", () => {
-    let vector = new Vector3(1, 0, 1);
+    let vector = new Vector2(1, 0);
     let angle = Math.PI;
 
     let result = MatrixHandler.rotate2D(vector, angle);
@@ -213,7 +212,7 @@ test("Vector rotate2D 2", () => {
 });
 
 test("Vector rotate3D 1", () => {
-    let vector = new Vector4(1, 0, 0, 1);
+    let vector = new Vector3(1, 0, 0);
     let angle = Math.PI * 0.5;
 
     let result = MatrixHandler.rotate3D(vector, angle, DefaultVectorConstants.AXIS2DY);
@@ -227,7 +226,7 @@ test("Vector rotate3D 1", () => {
 });
 
 test("Vector rotate3D 2", () => {
-    let vector = new Vector4(0, 1, 0, 1);
+    let vector = new Vector3(0, 1, 0);
     let angle = Math.PI * 0.5;
 
     let result = MatrixHandler.rotate3D(vector, angle, DefaultVectorConstants.AXIS2DX);

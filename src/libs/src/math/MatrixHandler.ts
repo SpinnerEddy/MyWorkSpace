@@ -103,51 +103,59 @@ export class MatrixHandler{
         return result;
     }
 
-    static translate2D(a : Vector3, b : Vector2) : Matrix{
+    static translate2D(a : Vector2, b : Vector2) : Matrix{
         const translateMatrix = MatrixHandler.identity(3);
         translateMatrix.set(0, 2, b.x);
         translateMatrix.set(1, 2, b.y);
         console.log(translateMatrix);
 
-        const result = MatrixHandler.multiply(translateMatrix, a);
+        const translatedVector = new Vector3(a.x, a.y, 1);
+
+        const result = MatrixHandler.multiply(translateMatrix, translatedVector);
         return result;
     }
 
-    static translate3D(a : Vector4, b : Vector3) : Matrix{
+    static translate3D(a : Vector3, b : Vector3) : Matrix{
         const translateMatrix = MatrixHandler.identity(4);
         translateMatrix.set(0, 3, b.x);
         translateMatrix.set(1, 3, b.y);
         translateMatrix.set(2, 3, b.z);
 
-        const result = MatrixHandler.multiply(translateMatrix, a);
+        const translatedVector = new Vector4(a.x, a.y, a.z, 1);
+
+        const result = MatrixHandler.multiply(translateMatrix, translatedVector);
         return result;
     }
 
-    static rotate2D(vec : Vector3, angle : number) : Matrix{
+    static rotate2D(vec : Vector2, angle : number) : Matrix{
         const rotateMatrix = MatrixHandler.createRotateMatrix2D(angle);
+        const rotatedVec = new Vector3(vec.x, vec.y, 1);
 
-        const result = MatrixHandler.multiply(rotateMatrix, vec);
+        const result = MatrixHandler.multiply(rotateMatrix, rotatedVec);
         return result;
     }
 
-    static rotate3D(vec : Vector4, angle : number, axis : Vector3) : Matrix{
+    static rotate3D(vec : Vector3, angle : number, axis : Vector3) : Matrix{
         const rotateMatrix = MatrixHandler.createRotateMatrix3D(angle, axis);
+        const rotatedVec = new Vector4(vec.x, vec.y, vec.z, 1);
 
-        const result = MatrixHandler.multiply(rotateMatrix, vec);
+        const result = MatrixHandler.multiply(rotateMatrix, rotatedVec);
         return result;
     }
 
-    static scale2D(vec : Vector3, scalarX : number, scalarY : number) : Matrix{
+    static scale2D(vec : Vector2, scalarX : number, scalarY : number) : Matrix{
         const scaleMatrix = MatrixHandler.createScaleMatrix2D(scalarX, scalarY);
+        const scaledVec = new Vector3(vec.x, vec.y, 1);
 
-        const result = MatrixHandler.multiply(scaleMatrix, vec);
+        const result = MatrixHandler.multiply(scaleMatrix, scaledVec);
         return result;
     }
 
-    static scale3D(vec : Vector4, scalarX : number, scalarY : number, scalarZ : number) : Matrix{
+    static scale3D(vec : Vector3, scalarX : number, scalarY : number, scalarZ : number) : Matrix{
         const scaleMatrix = MatrixHandler.createScaleMatrix3D(scalarX, scalarY, scalarZ);
+        const scaledVec = new Vector4(vec.x, vec.y, vec.z, 1);
 
-        const result = MatrixHandler.multiply(scaleMatrix, vec);
+        const result = MatrixHandler.multiply(scaleMatrix, scaledVec);
         return result;
     }
 
