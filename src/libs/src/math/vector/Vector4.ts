@@ -23,11 +23,11 @@ export class Vector4 extends Vector{
     }
 
     override toMatrix(): Matrix {
-        var matrix = new Matrix(1, 4);
+        var matrix = new Matrix(4, 1);
         matrix.set(0, 0, this.x);
-        matrix.set(0, 1, this.y);
-        matrix.set(0, 2, this.z);
-        matrix.set(0, 3, this.w);
+        matrix.set(1, 0, this.y);
+        matrix.set(2, 0, this.z);
+        matrix.set(3, 0, this.w);
         return matrix;
     }
 }

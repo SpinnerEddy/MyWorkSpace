@@ -1,7 +1,7 @@
 export class Matrix{
-    private rowNum : number;
-    private colNum : number;
-    private data : Float32Array;
+    protected rowNum : number;
+    protected colNum : number;
+    protected data : Float32Array;
 
     constructor(rowNum : number, colNum : number, initializeValue: number = 0){
         this.rowNum = rowNum;
@@ -9,12 +9,12 @@ export class Matrix{
         this.data = new Float32Array(rowNum * colNum).fill(initializeValue);
     }
 
-    get(x : number, y : number) : number{
-        return this.data[this.colNum * x + y];
+    get(rowIndex : number, colIndex : number) : number{
+        return this.data[this.rowNum * colIndex + rowIndex];
     }
 
-    set(x : number, y : number, value : number) : void{
-        this.data[this.colNum * x + y] = value;
+    set(rowIndex : number, colIndex : number, value : number) : void{
+        this.data[this.rowNum * colIndex + rowIndex] = value;
     }
 
     get col() : number{
@@ -26,7 +26,7 @@ export class Matrix{
     }
     
     get isSquareMatrix() : boolean{
-        return this.rowNum == this.colNum;
+        return this.colNum == this.rowNum;
     }
 
     toArray(): Float32Array{

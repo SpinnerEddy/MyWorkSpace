@@ -72,11 +72,11 @@ test("Matrix Multiply Matrix", () => {
 });
 
 test("Matrix Multiply Vector", () => {
-    let matrixA = new Matrix(3, 1);
+    let matrixA = new Matrix(1, 3);
     let vectorB = new Vector3(1, 2, 3);
     matrixA.set(0, 0, 1);
-    matrixA.set(1, 0, 2);
-    matrixA.set(2, 0, 3);
+    matrixA.set(0, 1, 2);
+    matrixA.set(0, 2, 3);
     let result = MatrixHandler.multiply(matrixA, vectorB);
 
     let exceptResult = new Matrix(1, 1);
@@ -86,8 +86,8 @@ test("Matrix Multiply Vector", () => {
 });
 
 test("Matrix Multiply Matrix not square", () => {
-    let matrixA = new Matrix(2, 3, 0);
-    let matrixB = new Matrix(3, 2, 0);
+    let matrixA = new Matrix(3, 2, 0);
+    let matrixB = new Matrix(2, 3, 0);
     matrixA.set(0, 0, 1);
     matrixA.set(0, 1, 2);
     matrixA.set(0, 2, 3);
@@ -123,10 +123,10 @@ test("Vector Translate To Matrix", () => {
     let vector = new Vector3(1, 2, 3);
     let matrix = vector.toMatrix();
     
-    let exceptResult = new Matrix(1, 3);
+    let exceptResult = new Matrix(3, 1);
     exceptResult.set(0, 0, 1);
-    exceptResult.set(0, 1, 2);
-    exceptResult.set(0, 2, 3);
+    exceptResult.set(1, 0, 2);
+    exceptResult.set(2, 0, 3);
 
     expect(matrix).toEqual(exceptResult);
 });

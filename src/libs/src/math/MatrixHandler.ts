@@ -60,18 +60,18 @@ export class MatrixHandler{
                 b = b.toMatrix();
             }
 
-            if(a.row != b.col){
+            if(a.col != b.row){
                 throw new Error("Not Equal A Row Number and B Col Number. Cannot Multiply!");
             }
 
-            const result = new Matrix(a.col, b.row);
-            for(let y = 0; y < a.col; y++){
-                for(let x = 0; x < b.row; x++){
+            const result = new Matrix(a.row, b.col);
+            for(let rowIndex = 0; rowIndex < a.row; rowIndex++){
+                for(let colIndex = 0; colIndex < b.col; colIndex++){
                     let sum = 0;
-                    for(let v = 0; v < a.row; v++){
-                        sum += a.get(v, y) * b.get(x, v);
+                    for(let k = 0; k < a.col; k++){
+                        sum += a.get(rowIndex, k) * b.get(k, colIndex);
                     }
-                    result.set(x, y, sum);
+                    result.set(rowIndex, colIndex, sum);
                 }
             }
             
@@ -79,9 +79,9 @@ export class MatrixHandler{
         }
         else{
             const result = new Matrix(a.row, a.col);
-            for(let x = 0; x < a.row; x++){
-                for(let y = 0; y < a.col; y++){
-                    result.set(x, y, a.get(x, y) * b);
+            for(let rowIndex = 0; rowIndex < a.row; rowIndex++){
+                for(let colIndex = 0; colIndex < a.col; colIndex++){
+                    result.set(rowIndex, colIndex, a.get(rowIndex, colIndex) * b);
                 }
             }
             return result;
@@ -105,8 +105,9 @@ export class MatrixHandler{
 
     static translate2D(a : Vector3, b : Vector2) : Matrix{
         const translateMatrix = MatrixHandler.identity(3);
-        translateMatrix.set(2, 0, b.x);
-        translateMatrix.set(2, 1, b.y);
+        translateMatrix.set(0, 2, b.x);
+        translateMatrix.set(1, 2, b.y);
+        console.log(translateMatrix);
 
         const result = MatrixHandler.multiply(translateMatrix, a);
         return result;
@@ -114,9 +115,9 @@ export class MatrixHandler{
 
     static translate3D(a : Vector4, b : Vector3) : Matrix{
         const translateMatrix = MatrixHandler.identity(4);
-        translateMatrix.set(3, 0, b.x);
-        translateMatrix.set(3, 1, b.y);
-        translateMatrix.set(3, 2, b.z);
+        translateMatrix.set(0, 3, b.x);
+        translateMatrix.set(1, 3, b.y);
+        translateMatrix.set(2, 3, b.z);
 
         const result = MatrixHandler.multiply(translateMatrix, a);
         return result;
@@ -211,8 +212,8 @@ export class MatrixHandler{
     private static createRotateMatrix2D(angle: number){
         const rotateMatrix = MatrixHandler.identity(3);
         rotateMatrix.set(0, 0, MathUtility.cos(angle));
-        rotateMatrix.set(1, 0, -MathUtility.sin(angle));
-        rotateMatrix.set(0, 1, MathUtility.sin(angle));
+        rotateMatrix.set(0, 1, -MathUtility.sin(angle));
+        rotateMatrix.set(1, 0, MathUtility.sin(angle));
         rotateMatrix.set(1, 1, MathUtility.cos(angle));
         
         return rotateMatrix;
@@ -222,23 +223,22 @@ export class MatrixHandler{
         const rotateMatrix = MatrixHandler.identity(4);
         if(axis == DefaultVectorConstants.AXIS2DX){
             rotateMatrix.set(1, 1, MathUtility.cos(angle));
-            rotateMatrix.set(2, 1, -MathUtility.sin(angle));
-            rotateMatrix.set(1, 2, MathUtility.sin(angle));
+            rotateMatrix.set(1, 2, -MathUtility.sin(angle));
+            rotateMatrix.set(2, 1, MathUtility.sin(angle));
             rotateMatrix.set(2, 2, MathUtility.cos(angle));
         }
         if(axis == DefaultVectorConstants.AXIS2DY){
             rotateMatrix.set(0, 0, MathUtility.cos(angle));
-            rotateMatrix.set(2, 0, MathUtility.sin(angle));
-            rotateMatrix.set(0, 2, -MathUtility.sin(angle));
+            rotateMatrix.set(0, 2, MathUtility.sin(angle));
+            rotateMatrix.set(2, 0, -MathUtility.sin(angle));
             rotateMatrix.set(2, 2, MathUtility.cos(angle));
         }
         if(axis == DefaultVectorConstants.AXIS2DZ){
             rotateMatrix.set(0, 0, MathUtility.cos(angle));
-            rotateMatrix.set(1, 0, -MathUtility.sin(angle));
-            rotateMatrix.set(0, 1, MathUtility.sin(angle));
+            rotateMatrix.set(0, 1, -MathUtility.sin(angle));
+            rotateMatrix.set(1, 0, MathUtility.sin(angle));
             rotateMatrix.set(1, 1, MathUtility.cos(angle));
         }
-
         return rotateMatrix;
     }
 
