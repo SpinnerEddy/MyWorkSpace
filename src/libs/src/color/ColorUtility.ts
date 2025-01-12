@@ -4,7 +4,7 @@ import { MyColorConstants255 } from "./ColorConstants";
 
 export class ColorUtility
 {
-    public static hexToColor255(colorCode : string) : Color255
+    public static hexToColor255(colorCode: string): Color255
     {
         const format = /^#([0-9A-Fa-f]{6})$/;
         const result = format.exec(colorCode);
@@ -22,7 +22,7 @@ export class ColorUtility
         return new Color255(r, g, b);
     } 
 
-    public static hexToColor01(colorCode : string) : Color
+    public static hexToColor01(colorCode: string): Color
     {
         const color255 = this.hexToColor255(colorCode);
 

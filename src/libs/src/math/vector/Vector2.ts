@@ -2,7 +2,7 @@ import { Matrix } from "../matrix/Matrix";
 import { Vector } from "./Vector";
 
 export class Vector2 extends Vector{
-    constructor(x : number, y : number){
+    constructor(x: number, y: number){
         super([x, y]);
     }
 

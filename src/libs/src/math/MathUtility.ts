@@ -17,13 +17,18 @@ export class MathUtility{
         return Math.max(Math.min(inputValue, 1), 0);
     }
 
-    static sin(angle : number) : number{
+    static sin(angle: number): number{
         const value = Math.sin(angle);
         return MathUtility.roundToZero(value);
     }
 
-    static cos(angle : number) : number{
+    static cos(angle: number): number{
         const value = Math.cos(angle);
+        return MathUtility.roundToZero(value);
+    }
+
+    static tan(angle: number): number{
+        const value = Math.tan(angle);
         return MathUtility.roundToZero(value);
     }
 

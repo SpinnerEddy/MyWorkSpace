@@ -7,12 +7,12 @@ import { Vector4 } from "./vector/Vector4";
 import { DefaultVectorConstants } from "./vector/VectorConstants";
 
 export class MatrixHandler{
-    static create(sizeNum : number) : Matrix{
+    static create(sizeNum: number): Matrix{
         let matrix = new Matrix(sizeNum, sizeNum);
         return matrix;
     }
 
-    static identity(sizeNum : number) : Matrix{
+    static identity(sizeNum: number): Matrix{
         let matrix = this.create(sizeNum);
         for(let i = 0; i < sizeNum; i++){
             matrix.set(i, i, 1);
@@ -21,7 +21,7 @@ export class MatrixHandler{
         return matrix;
     }
 
-    static add(a : Matrix, b : Matrix) : Matrix{
+    static add(a: Matrix, b: Matrix): Matrix{
         if(!this.checkSizeEqual(a, b)){
             throw new Error("Not Equal Matrix Dimension. Cannot Calculate!")
         }
@@ -36,7 +36,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static sub(a : Matrix, b : Matrix) : Matrix{
+    static sub(a: Matrix, b: Matrix): Matrix{
         if(!this.checkSizeEqual(a, b)){
             throw new Error("Not Equal Matrix Dimension. Cannot Calculate!")
         }
@@ -51,10 +51,10 @@ export class MatrixHandler{
         return result;
     }
 
-    static multiply(a : Matrix, b : Matrix): Matrix;
-    static multiply(a : Matrix, b : Vector): Matrix;
-    static multiply(a : Matrix, b : number): Matrix;
-    static multiply(a : Matrix, b : Matrix | Vector | number) : Matrix{
+    static multiply(a: Matrix, b: Matrix): Matrix;
+    static multiply(a: Matrix, b: Vector): Matrix;
+    static multiply(a: Matrix, b: number): Matrix;
+    static multiply(a: Matrix, b: Matrix | Vector | number): Matrix{
         if(b instanceof Matrix || b instanceof Vector){
             if(b instanceof Vector){
                 b = b.toMatrix();
@@ -88,7 +88,7 @@ export class MatrixHandler{
         }
     }
 
-    static divide(a : Matrix, b : number) : Matrix{
+    static divide(a: Matrix, b: number): Matrix{
         if(b == 0){
             throw new Error("b is zero. Cannot Divide!")
         }
@@ -103,7 +103,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static translate2D(a : Vector2, b : Vector2) : Matrix{
+    static translate2D(a: Vector2, b: Vector2): Matrix{
         const translateMatrix = MatrixHandler.identity(3);
         translateMatrix.set(0, 2, b.x);
         translateMatrix.set(1, 2, b.y);
@@ -115,7 +115,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static translate3D(a : Vector3, b : Vector3) : Matrix{
+    static translate3D(a: Vector3, b: Vector3): Matrix{
         const translateMatrix = MatrixHandler.identity(4);
         translateMatrix.set(0, 3, b.x);
         translateMatrix.set(1, 3, b.y);
@@ -127,7 +127,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static rotate2D(vec : Vector2, angle : number) : Matrix{
+    static rotate2D(vec: Vector2, angle: number): Matrix{
         const rotateMatrix = MatrixHandler.createRotateMatrix2D(angle);
         const rotatedVec = new Vector3(vec.x, vec.y, 1);
 
@@ -135,7 +135,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static rotate3D(vec : Vector3, angle : number, axis : Vector3) : Matrix{
+    static rotate3D(vec: Vector3, angle: number, axis: Vector3): Matrix{
         const rotateMatrix = MatrixHandler.createRotateMatrix3D(angle, axis);
         const rotatedVec = new Vector4(vec.x, vec.y, vec.z, 1);
 
@@ -143,7 +143,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static scale2D(vec : Vector2, scalarX : number, scalarY : number) : Matrix{
+    static scale2D(vec: Vector2, scalarX: number, scalarY: number): Matrix{
         const scaleMatrix = MatrixHandler.createScaleMatrix2D(scalarX, scalarY);
         const scaledVec = new Vector3(vec.x, vec.y, 1);
 
@@ -151,7 +151,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static scale3D(vec : Vector3, scalarX : number, scalarY : number, scalarZ : number) : Matrix{
+    static scale3D(vec: Vector3, scalarX: number, scalarY: number, scalarZ: number): Matrix{
         const scaleMatrix = MatrixHandler.createScaleMatrix3D(scalarX, scalarY, scalarZ);
         const scaledVec = new Vector4(vec.x, vec.y, vec.z, 1);
 
@@ -159,7 +159,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static transpose(baseMatrix : Matrix) : Matrix{
+    static transpose(baseMatrix: Matrix): Matrix{
         const baseCol = baseMatrix.col;
         const baseRow = baseMatrix.row;
         const result = new Matrix(baseCol, baseRow);
@@ -172,7 +172,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static inverse(baseMatrix : Matrix) : Matrix{
+    static inverse(baseMatrix: Matrix): Matrix{
         if(!baseMatrix.isSquareMatrix){
             throw new Error("Not Square Matrix. Cannot Calculate Inverse!!");
         }
@@ -190,14 +190,69 @@ export class MatrixHandler{
         }
     }
 
-    static checkSquare(matrix : Matrix, sizeNum : number) : boolean{
+    static orthographic(left: number, right: number, top: number, bottom: number, near: number, far: number){
+        const width = right - left;
+        const height = top - bottom;
+        const depth = far - near;
+
+        if(width == 0){
+            throw new Error('Right and Left are same value. Cannot calculate orthographic.');
+        }
+        if(height == 0){
+            throw new Error('Top and bottom are same value. Cannot calculate orthographic.');
+        }
+        if(depth == 0){
+            throw new Error('Far and Near are same value. Cannot calculate orthographic.');
+        }
+
+        const rw = 1 / width;
+        const rh = 1 / height;
+        const rd = 1 / depth;
+
+        const result = new Matrix(4, 4);
+        result.set(0, 0, 2 * rw);
+        result.set(1, 1, 2 * rh);
+        result.set(2, 2, -2 * rd);
+        result.set(3, 3, 1);
+        result.set(0, 3, -(right + left) * rw);
+        result.set(1, 3, -(top + bottom) * rh);
+        result.set(2, 3, -(far + near) * rd);
+
+        return result;
+    }
+
+    static perspective(fovDegrees: number, width: number, height:number, near: number, far: number){
+        if(height == 0){
+            throw new Error('Height is zero!');
+        }
+        const aspect = width / height;
+
+        const depth = far - near;
+        if(depth == 0){
+            throw new Error('depth is zero!');
+        }
+
+        const fovRadians = MathUtility.degreesToRadians(fovDegrees);
+        const tanValue = MathUtility.tan(fovRadians / 2);
+        
+        const result = new Matrix(4, 4);
+        result.set(0, 0, 1 / (tanValue * aspect));
+        result.set(1, 1, 1 / tanValue);
+        result.set(2, 2, -(far + near) / depth);
+        result.set(2, 3, -(2 * far * near) / depth);
+        result.set(3, 2, -1);
+
+        return result;
+    }
+
+    static checkSquare(matrix: Matrix, sizeNum: number): boolean{
         return (matrix.col == sizeNum) && (matrix.row == sizeNum);
     }
 
-    private static checkSizeEqual(a : Matrix, b : Matrix) : boolean{
+    private static checkSizeEqual(a: Matrix, b: Matrix): boolean{
         if(a.col != b.col || a.row != b.row){
-            console.log(`col : ${a.col},${b.col}`);
-            console.log(`row : ${a.row},${b.row}`);
+            console.log(`col: ${a.col},${b.col}`);
+            console.log(`row: ${a.row},${b.row}`);
             return false;
         }
 
@@ -254,7 +309,7 @@ export class MatrixHandler{
         return scaleMatrix;
     }
 
-    private static createInverseMatrix22(matrix: Matrix) : Matrix{
+    private static createInverseMatrix22(matrix: Matrix): Matrix{
         const a = matrix.get(0, 0);
         const b = matrix.get(0, 1);
         const c = matrix.get(1, 0);
@@ -274,7 +329,7 @@ export class MatrixHandler{
         return result;
     }
 
-    private static createInverseMatrix33(matrix: Matrix) : Matrix{
+    private static createInverseMatrix33(matrix: Matrix): Matrix{
         const a = matrix.get(0, 0);
         const b = matrix.get(0, 1);
         const c = matrix.get(0, 2);
@@ -304,7 +359,7 @@ export class MatrixHandler{
         return result;
     }
 
-    private static createInverseMatrix44(matrix: Matrix) : Matrix{
+    private static createInverseMatrix44(matrix: Matrix): Matrix{
         const a = matrix.get(0, 0);
         const b = matrix.get(0, 1);
         const c = matrix.get(0, 2);

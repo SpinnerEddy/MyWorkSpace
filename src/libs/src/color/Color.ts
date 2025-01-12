@@ -2,12 +2,12 @@ import { MathUtility } from "../math/MathUtility";
 import { Color255 } from "./Color255";
 
 export class Color{
-    private r : number;
-    private g : number;
-    private b : number;
-    private a : number;
+    private r: number;
+    private g: number;
+    private b: number;
+    private a: number;
 
-    constructor(r : number, g : number, b : number, a : number = 1.0)
+    constructor(r: number, g: number, b: number, a: number = 1.0)
     {
         this.r = MathUtility.clamp(r, 0.0, 1.0);
         this.g = MathUtility.clamp(g, 0.0, 1.0);
@@ -15,27 +15,27 @@ export class Color{
         this.a = MathUtility.clamp(a, 0.0, 1.0);
     }
 
-    get red() : number
+    get red(): number
     {
         return this.r;
     }
 
-    get green() : number
+    get green(): number
     {
         return this.g;
     }
 
-    get blue() : number
+    get blue(): number
     {
         return this.b;
     }
 
-    get alpha() : number
+    get alpha(): number
     {
         return this.a;
     }
 
-    public translateTo255() : Color255
+    public translateTo255(): Color255
     {
         const r = Math.round(this.r * 255.0);
         const g = Math.round(this.g * 255.0);

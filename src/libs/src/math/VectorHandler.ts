@@ -7,13 +7,13 @@ export class VectorHandler{
     static min<T extends Vector>(a: T, b: T): T {
         const aLength = this.length(a);
         const bLength = this.length(b);
-        return aLength <= bLength ? a : b;
+        return aLength <= bLength ? a: b;
     }
 
     static max<T extends Vector>(a: T, b: T): T {
         const aLength = this.length(a);
         const bLength = this.length(b);
-        return aLength >= bLength ? a : b;
+        return aLength >= bLength ? a: b;
     }
 
     static add<T extends Vector>(a: T, b: T): T {
@@ -119,7 +119,7 @@ export class VectorHandler{
         return result;
     }
 
-    static cross(a: Vector3, b: Vector3) : Vector3{
+    static cross(a: Vector3, b: Vector3): Vector3{
         const v1 = a.y*b.z - a.z*b.y;
         const v2 = a.z*b.x - a.x*b.z;
         const v3 = a.x*b.y - a.y*b.x;
@@ -131,7 +131,7 @@ export class VectorHandler{
         return radians;
     }
 
-    static heading3D(vector: Vector3) : [elevation: number, azimuth: number] {
+    static heading3D(vector: Vector3): [elevation: number, azimuth: number] {
         const elevation = Math.atan2(vector.z, Math.sqrt(Math.pow(vector.x, 2.0) + Math.pow(vector.y, 2.0)));
         const azimuth = Math.atan2(vector.y, vector.x);
         return [elevation, azimuth];
