@@ -291,3 +291,59 @@ test("Matrix Inverse 4x4", () => {
 
     expect(result).toEqual(exceptResult);
 });
+
+test("Matrix Perspective", () => {
+    let result = MatrixHandler.perspective(90, 16, 9, 1, 100);
+
+    let exceptResult = new Matrix(4, 4);
+    exceptResult.set(0, 0, 0.5625);
+    exceptResult.set(1, 1, 1);
+    exceptResult.set(2, 2, -1.0202);
+    exceptResult.set(2, 3, -2.0202);
+    exceptResult.set(3, 2, -1);
+
+    expect(result.get(0, 0)).toBeCloseTo(exceptResult.get(0, 0));
+    expect(result.get(0, 1)).toBeCloseTo(exceptResult.get(0, 1));
+    expect(result.get(0, 2)).toBeCloseTo(exceptResult.get(0, 2));
+    expect(result.get(0, 3)).toBeCloseTo(exceptResult.get(0, 3));
+    expect(result.get(1, 0)).toBeCloseTo(exceptResult.get(1, 0));
+    expect(result.get(1, 1)).toBeCloseTo(exceptResult.get(1, 1));
+    expect(result.get(1, 2)).toBeCloseTo(exceptResult.get(1, 2));
+    expect(result.get(1, 3)).toBeCloseTo(exceptResult.get(1, 3));
+    expect(result.get(2, 0)).toBeCloseTo(exceptResult.get(2, 0));
+    expect(result.get(2, 1)).toBeCloseTo(exceptResult.get(2, 1));
+    expect(result.get(2, 2)).toBeCloseTo(exceptResult.get(2, 2));
+    expect(result.get(2, 3)).toBeCloseTo(exceptResult.get(2, 3));
+    expect(result.get(3, 0)).toBeCloseTo(exceptResult.get(3, 0));
+    expect(result.get(3, 1)).toBeCloseTo(exceptResult.get(3, 1));
+    expect(result.get(3, 2)).toBeCloseTo(exceptResult.get(3, 2));
+    expect(result.get(3, 3)).toBeCloseTo(exceptResult.get(3, 3));
+});
+
+test("Matrix Orthographic", () => {
+    let result = MatrixHandler.orthographic(-2, 2, 2, -2, 1, 10);
+
+    let exceptResult = new Matrix(4, 4);
+    exceptResult.set(0, 0, 0.5);
+    exceptResult.set(1, 1, 0.5);
+    exceptResult.set(2, 2, -0.222);
+    exceptResult.set(2, 3, -1.222);
+    exceptResult.set(3, 3, 1);
+
+    expect(result.get(0, 0)).toBeCloseTo(exceptResult.get(0, 0));
+    expect(result.get(0, 1)).toBeCloseTo(exceptResult.get(0, 1));
+    expect(result.get(0, 2)).toBeCloseTo(exceptResult.get(0, 2));
+    expect(result.get(0, 3)).toBeCloseTo(exceptResult.get(0, 3));
+    expect(result.get(1, 0)).toBeCloseTo(exceptResult.get(1, 0));
+    expect(result.get(1, 1)).toBeCloseTo(exceptResult.get(1, 1));
+    expect(result.get(1, 2)).toBeCloseTo(exceptResult.get(1, 2));
+    expect(result.get(1, 3)).toBeCloseTo(exceptResult.get(1, 3));
+    expect(result.get(2, 0)).toBeCloseTo(exceptResult.get(2, 0));
+    expect(result.get(2, 1)).toBeCloseTo(exceptResult.get(2, 1));
+    expect(result.get(2, 2)).toBeCloseTo(exceptResult.get(2, 2));
+    expect(result.get(2, 3)).toBeCloseTo(exceptResult.get(2, 3));
+    expect(result.get(3, 0)).toBeCloseTo(exceptResult.get(3, 0));
+    expect(result.get(3, 1)).toBeCloseTo(exceptResult.get(3, 1));
+    expect(result.get(3, 2)).toBeCloseTo(exceptResult.get(3, 2));
+    expect(result.get(3, 3)).toBeCloseTo(exceptResult.get(3, 3));
+});
