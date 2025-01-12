@@ -177,17 +177,16 @@ export class MatrixHandler{
             throw new Error("Not Square Matrix. Cannot Calculate Inverse!!");
         }
 
-        if(baseMatrix.col == 2){
-            return MatrixHandler.createInverseMatrix22(baseMatrix);
-        }
-        else if(baseMatrix.col == 3){
-            return MatrixHandler.createInverseMatrix33(baseMatrix);
-        }
-        else if(baseMatrix.col == 4){
-            return MatrixHandler.createInverseMatrix44(baseMatrix);
-        }
-        else{
-            return Matrix.Empty;
+        switch(baseMatrix.col){
+            case 2:
+                return MatrixHandler.createInverseMatrix22(baseMatrix);
+            case 3:
+                return MatrixHandler.createInverseMatrix33(baseMatrix);
+            case 4:
+                return MatrixHandler.createInverseMatrix44(baseMatrix);
+            default:
+                console.log("Not Calculate Inverse!")
+                return Matrix.Empty;
         }
     }
 
