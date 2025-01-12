@@ -5,6 +5,7 @@ import { Vector2 } from "./vector/Vector2";
 import { Vector3 } from "./vector/Vector3";
 import { Vector4 } from "./vector/Vector4";
 import { DefaultVectorConstants } from "./vector/VectorConstants";
+import { VectorHandler } from "./VectorHandler";
 
 export class MatrixHandler{
     static create(sizeNum: number): Matrix{
@@ -190,7 +191,7 @@ export class MatrixHandler{
         }
     }
 
-    static orthographic(left: number, right: number, top: number, bottom: number, near: number, far: number){
+    static orthographic(left: number, right: number, top: number, bottom: number, near: number, far: number): Matrix{
         const width = right - left;
         const height = top - bottom;
         const depth = far - near;
@@ -209,7 +210,7 @@ export class MatrixHandler{
         const rh = 1 / height;
         const rd = 1 / depth;
 
-        const result = new Matrix(4, 4);
+        const result = MatrixHandler.create(4);
         result.set(0, 0, 2 * rw);
         result.set(1, 1, 2 * rh);
         result.set(2, 2, -2 * rd);
@@ -221,7 +222,7 @@ export class MatrixHandler{
         return result;
     }
 
-    static perspective(fovDegrees: number, width: number, height:number, near: number, far: number){
+    static perspective(fovDegrees: number, width: number, height:number, near: number, far: number): Matrix{
         if(height == 0){
             throw new Error('Height is zero!');
         }
@@ -235,12 +236,34 @@ export class MatrixHandler{
         const fovRadians = MathUtility.degreesToRadians(fovDegrees);
         const tanValue = MathUtility.tan(fovRadians / 2);
         
-        const result = new Matrix(4, 4);
+        const result = MatrixHandler.create(4);
         result.set(0, 0, 1 / (tanValue * aspect));
         result.set(1, 1, 1 / tanValue);
         result.set(2, 2, -(far + near) / depth);
         result.set(2, 3, -(2 * far * near) / depth);
         result.set(3, 2, -1);
+
+        return result;
+    }
+
+    static lookAt(eyePos: Vector3, targetPos: Vector3, up: Vector3): Matrix{
+        const f = VectorHandler.normalize(VectorHandler.sub(eyePos, targetPos));
+        const r = VectorHandler.normalize(VectorHandler.cross(f, up));
+        const u = VectorHandler.normalize(VectorHandler.cross(r, f));
+        
+        const result = MatrixHandler.identity(4);
+        result.set(0, 0, r.x);
+        result.set(0, 1, r.y);
+        result.set(0, 2, r.z);
+        result.set(1, 0, u.x);
+        result.set(1, 1, u.y);
+        result.set(1, 2, u.z);
+        result.set(2, 0, -f.x);
+        result.set(2, 1, -f.y);
+        result.set(2, 2, -f.z);
+        result.set(3, 0, -VectorHandler.dot(r, eyePos));
+        result.set(3, 1, -VectorHandler.dot(u, eyePos));
+        result.set(3, 2, VectorHandler.dot(f, eyePos));
 
         return result;
     }
@@ -321,7 +344,7 @@ export class MatrixHandler{
         }
 
         const invDet = 1 / det;
-        const result = new Matrix(matrix.col, matrix.row);
+        const result = MatrixHandler.create(2);
         result.set(0, 0, d * invDet);
         result.set(0, 1, -b * invDet);
         result.set(1, 0, -c * invDet);
@@ -346,7 +369,7 @@ export class MatrixHandler{
         }
         
         const invDet = 1 / det;
-        const result = new Matrix(matrix.col, matrix.row);
+        const result = MatrixHandler.create(3);
         result.set(0, 0,  (e*i - f*h) * invDet);
         result.set(0, 1, -(b*i - c*h) * invDet);
         result.set(0, 2,  (b*f - c*e) * invDet);
@@ -390,7 +413,7 @@ export class MatrixHandler{
         }
 
         const invDet = 1 / det;
-        const result = new Matrix(matrix.col, matrix.row);
+        const result = MatrixHandler.create(4);
         result.set(0, 0, (f*k*p + g*l*n + h*j*o - h*k*n - g*j*p - f*l*o) * invDet);
         result.set(0, 1, (-b*k*p - c*l*n - d*j*o + d*k*n + c*j*p + b*l*o) * invDet);
         result.set(0, 2, (b*g*p + c*h*n + d*f*o - d*g*n - c*f*p - b*h*o) * invDet);
