@@ -15,7 +15,7 @@ export class Vector2 extends Vector{
     }
 
     override toMatrix(): Matrix {
-        var matrix = new Matrix(2, 1);
+        const matrix = new Matrix(2, 1);
         matrix.set(0, 0, this.x);
         matrix.set(1, 0, this.y);
         return matrix;
