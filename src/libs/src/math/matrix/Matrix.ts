@@ -1,7 +1,7 @@
 export class Matrix{
-    protected rowNum: number;
-    protected colNum: number;
-    protected data: Float32Array;
+    private rowNum: number;
+    private colNum: number;
+    private data: Float32Array;
 
     static Empty: Matrix = new Matrix(0, 0);
 

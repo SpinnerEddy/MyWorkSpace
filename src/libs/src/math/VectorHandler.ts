@@ -137,8 +137,8 @@ export class VectorHandler{
         return [elevation, azimuth];
     }
 
-    private static convertVector<T extends Vector>(length: number, values: number[]): T{
-        const vectorProcessor: { [key: number]: (values: number[]) => Vector } = {
+    private static convertVector<T extends Vector>(length: number, values: Float32Array): T{
+        const vectorProcessor: { [key: number]: (values: Float32Array) => Vector } = {
             2: (values) => new Vector2(values[0], values[1]),
             3: (values) => new Vector3(values[0], values[1], values[2]),
             4: (values) => new Vector4(values[0], values[1], values[2], values[3]),

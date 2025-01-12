@@ -3,7 +3,7 @@ import { Vector } from "./Vector";
 
 export class Vector4 extends Vector{
     constructor(x: number, y: number, z: number, w: number){
-        super([x, y, z, w]);
+        super(new Float32Array([x, y, z, w]));
     }
 
     get x(){

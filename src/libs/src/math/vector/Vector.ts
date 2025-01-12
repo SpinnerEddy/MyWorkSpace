@@ -1,13 +1,13 @@
 import { Matrix } from "../matrix/Matrix";
 
 export class Vector{
-    protected components: number[];
+    protected components: Float32Array;
 
-    constructor(components: number[]){
+    constructor(components: Float32Array){
         this.components = components;
     }
 
-    get values(): number[]{
+    get values(): Float32Array{
         return this.components;
     }
 
