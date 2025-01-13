@@ -1,4 +1,5 @@
 import { QuaternionHandler } from "../../src/math/QuaternionHandler";
+import { Vector3 } from "../../src/math/vector/Vector3";
 
 test("Quaternion Add", () => {
     const a = QuaternionHandler.create(1, 2, 3, 4);
@@ -25,6 +26,60 @@ test("Quaternion Multiply", () => {
     const result = QuaternionHandler.multiply(q1, q2);
     const except = QuaternionHandler.create(0.2134, -0.4170, -0.0089, 0.8835);
 
+    expect(result.x).toBeCloseTo(except.x);
+    expect(result.y).toBeCloseTo(except.y);
+    expect(result.z).toBeCloseTo(except.z);
+    expect(result.w).toBeCloseTo(except.w);
+});
+
+test("Quaternion Scale", () => {
+    const q = QuaternionHandler.create(5, 4, 3, 2);
+
+    const result = QuaternionHandler.scale(q, 4);
+    const except = QuaternionHandler.create(20, 16, 12, 8);
+    expect(result).toEqual(except);
+});
+
+test("Quaternion CreateFromAxisAndRadians", () => {
+    const result = QuaternionHandler.createFromAxisAndRadians(new Vector3(1, 1, 1), Math.PI / 3);
+
+    const except = QuaternionHandler.create(0.2887, 0.2887, 0.2887, 0.866);
+    expect(result.x).toBeCloseTo(except.x);
+    expect(result.y).toBeCloseTo(except.y);
+    expect(result.z).toBeCloseTo(except.z);
+    expect(result.w).toBeCloseTo(except.w);
+});
+
+test("Quaternion Dot", () => {
+    const q1 = QuaternionHandler.create(2, 2, 3, 4);
+    const q2 = QuaternionHandler.create(1, 4, 3, 2);
+    const result = QuaternionHandler.dot(q1, q2);
+
+    const except = 27;
+    expect(result).toEqual(except);
+});
+
+test("Quaternion Conjugate", () => {
+    const q = QuaternionHandler.create(2, -2, -3, 4);
+    const result = QuaternionHandler.conjugate(q);
+
+    const except = QuaternionHandler.create(-2, 2, 3, 4);
+    expect(result).toEqual(except);
+});
+
+test("Quaternion Normalize", () => {
+    const q = QuaternionHandler.create(3, -3, -3, 3);
+    const result = QuaternionHandler.normalize(q);
+
+    const except = QuaternionHandler.create(0.5, -0.5, -0.5, 0.5);
+    expect(result).toEqual(except);
+});
+
+test("Quaternion Inverse", () => {
+    const q = QuaternionHandler.create(4, 2, -2, 1);
+    const result = QuaternionHandler.inverse(q);
+
+    const except = QuaternionHandler.create(-0.16, -0.08, 0.08, 0.04);
     expect(result.x).toBeCloseTo(except.x);
     expect(result.y).toBeCloseTo(except.y);
     expect(result.z).toBeCloseTo(except.z);

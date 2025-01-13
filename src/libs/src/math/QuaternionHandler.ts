@@ -88,7 +88,7 @@ export class QuaternionHandler{
 
     static inverse(q: Quaternion): Quaternion{
         const lengthSquared = q.x*q.x + q.y*q.y + q.z*q.z + q.w*q.w;
-        if(length == 0){
+        if(lengthSquared == 0){
             throw new Error("Zero length quaternion. Cannot inverse!!")
         }
 
