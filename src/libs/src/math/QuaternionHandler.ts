@@ -110,15 +110,24 @@ export class QuaternionHandler{
     }
 
     static slerp(a: Quaternion, b: Quaternion, t: number): Quaternion{
-        const dot = QuaternionHandler.dot(a, b);
+        let dot = QuaternionHandler.dot(a, b);
         if(dot < 0.0){
-            return a;
+            b = QuaternionHandler.scale(b, -1);
+            dot *= -1;
         }
 
         const theta = Math.acos(dot);
-        const q1 = QuaternionHandler.scale(a, MathUtility.sin(theta * (1 - t)) / MathUtility.sin(theta));
-        const q2 = QuaternionHandler.scale(b, MathUtility.sin(theta * t) / MathUtility.sin(theta));
-        return QuaternionHandler.add(q1, q2);
+        const sinTheta = MathUtility.sin(theta);
+        if(sinTheta == 0){
+            const q1 = QuaternionHandler.scale(a, 1 - t);
+            const q2 = QuaternionHandler.scale(b, t);
+            return QuaternionHandler.add(q1, q2);
+        }
+        else{
+            const q1 = QuaternionHandler.scale(a, MathUtility.sin(theta * (1 - t)) / sinTheta);
+            const q2 = QuaternionHandler.scale(b, MathUtility.sin(theta * t) / sinTheta);
+            return QuaternionHandler.add(q1, q2);
+        }
     }
 
     private static toQuaternion(vector: Vector3): Quaternion
