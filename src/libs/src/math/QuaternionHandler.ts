@@ -106,7 +106,7 @@ export class QuaternionHandler{
     static rotateVector(q: Quaternion, v: Vector3): Vector3
     static rotateVector(q: Quaternion, v: Vector4): Vector3
     static rotateVector(q: Quaternion, v: Vector3 | Vector4): Vector3{
-        const qVec = v.toQuaternion();
+        const qVec = QuaternionHandler.toQuaternion(v);
         const inverse = QuaternionHandler.inverse(q);
 
         const temp = QuaternionHandler.multiply(q, qVec);
@@ -125,5 +125,11 @@ export class QuaternionHandler{
         const q1 = QuaternionHandler.scale(a, MathUtility.sin(theta * (1 - t)) / MathUtility.sin(theta));
         const q2 = QuaternionHandler.scale(b, MathUtility.sin(theta * t) / MathUtility.sin(theta));
         return QuaternionHandler.add(q1, q2);
+    }
+
+    private static toQuaternion(vector: Vector3): Quaternion
+    private static toQuaternion(vector: Vector4): Quaternion
+    private static toQuaternion(vector: Vector3 | Vector4): Quaternion{
+        return QuaternionHandler.create(vector.x, vector.y, vector.z, 0);
     }
 }

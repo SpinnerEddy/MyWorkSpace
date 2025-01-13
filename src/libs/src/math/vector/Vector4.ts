@@ -1,6 +1,4 @@
 import { Matrix } from "../matrix/Matrix";
-import { Quaternion } from "../quaternion/Quaternion";
-import { QuaternionHandler } from "../QuaternionHandler";
 import { Vector } from "./Vector";
 
 export class Vector4 extends Vector{
@@ -22,10 +20,6 @@ export class Vector4 extends Vector{
 
     get w(){
         return this.components[3];
-    }
-
-    toQuaternion(): Quaternion{
-        return QuaternionHandler.create(this.x, this.y, this.z, 0);
     }
 
     override toMatrix(): Matrix {
