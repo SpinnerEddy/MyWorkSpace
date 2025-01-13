@@ -9,20 +9,14 @@ export class QuaternionHandler{
         return new Quaternion(x, y, z, w);
     }
 
-    static createFromEuler(pitch: number, yaw: number, roll: number){
-        const cp = MathUtility.cos(pitch * 0.5);
-        const cy = MathUtility.cos(yaw * 0.5);
-        const cr = MathUtility.cos(roll * 0.5);
-        const sp = MathUtility.sin(pitch * 0.5);
-        const sy = MathUtility.sin(yaw * 0.5);
-        const sr = MathUtility.sin(roll * 0.5);
+    static createFromEuler(roll: number, pitch: number, yaw: number){
+        const h = QuaternionHandler.create(0, -MathUtility.sin(pitch * 0.5), 0, MathUtility.cos(pitch * 0.5));
+        const p = QuaternionHandler.create(-MathUtility.sin(roll * 0.5), 0, 0, MathUtility.cos(roll * 0.5));
+        const b = QuaternionHandler.create(0, 0, -MathUtility.sin(yaw * 0.5), MathUtility.cos(yaw * 0.5));
 
-        const x = sr*cp*cy - cr*sp*sy;
-        const y = cr*sp*cy + sr*cp*sy;
-        const z = cr*cp*sy - sr*sp*cy;
-        const w = cr*cp*cy + sr*sp*sy;
-
-        return QuaternionHandler.create(x, y, z, w);
+        const hp = QuaternionHandler.multiply(h, p);
+        const hpb = QuaternionHandler.multiply(hp, b);
+        return hpb;
     }
 
     static createFromAxisAndRadians(axis: Vector3, radians: number){
@@ -56,10 +50,10 @@ export class QuaternionHandler{
     }
 
     static multiply(a: Quaternion, b: Quaternion): Quaternion{
-        const x = a.w*b.x + a.x*b.w + a.y*b.z - a.z*b.y;
-        const y = a.w*b.y - a.x*b.z + a.y*b.w + a.z*b.x;
-        const z = a.w*b.z + a.x*b.y - a.y*b.x - a.z*b.w;
         const w = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z;
+        const x = a.w*b.x + a.x*b.w + a.y*b.z - a.z*b.y;
+        const y = a.w*b.y + a.y*b.w + a.z*b.x - a.x*b.z;
+        const z = a.w*b.z + a.z*b.w + a.x*b.y - a.y*b.x;
 
         return QuaternionHandler.create(x, y, z, w);
     }
