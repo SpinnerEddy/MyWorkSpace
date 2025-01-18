@@ -1,3 +1,4 @@
+import { MathUtility } from "./MathUtility";
 import { Vector } from "./vector/Vector";
 import { Vector2 } from "./vector/Vector2";
 import { Vector3 } from "./vector/Vector3";
@@ -5,14 +6,14 @@ import { Vector4 } from "./vector/Vector4";
 
 export class VectorHandler{
     static min<T extends Vector>(a: T, b: T): T {
-        const aLength = this.length(a);
-        const bLength = this.length(b);
+        const aLength = VectorHandler.length(a);
+        const bLength = VectorHandler.length(b);
         return aLength <= bLength ? a: b;
     }
 
     static max<T extends Vector>(a: T, b: T): T {
-        const aLength = this.length(a);
-        const bLength = this.length(b);
+        const aLength = VectorHandler.length(a);
+        const bLength = VectorHandler.length(b);
         return aLength >= bLength ? a: b;
     }
 
@@ -22,7 +23,7 @@ export class VectorHandler{
         }
 
         const result = a.values.map((val, index) => val + b.values[index]);
-        return this.convertVector(a.length, result);
+        return VectorHandler.convertVector(a.length, result);
     }
 
     static sub<T extends Vector>(a: T, b: T): T {
@@ -31,12 +32,12 @@ export class VectorHandler{
         }
 
         const result = b.values.map((val, index) => val - a.values[index]);
-        return this.convertVector(a.length, result);
+        return VectorHandler.convertVector(a.length, result);
     }
 
     static calcDistance<T extends Vector>(a: T, b: T): number {
-        const subVector = this.sub(a, b);
-        const result = this.length(subVector);
+        const subVector = VectorHandler.sub(a, b);
+        const result = VectorHandler.length(subVector);
         return result;
     }
 
@@ -45,16 +46,16 @@ export class VectorHandler{
             throw new Error("Vector lengths not equal! Cannot Additive!")
         }
 
-        const dotProduct = this.dot(a, b);
-        const aLength = this.length(a);
-        const bLength = this.length(b);
+        const dotProduct = VectorHandler.dot(a, b);
+        const aLength = VectorHandler.length(a);
+        const bLength = VectorHandler.length(b);
 
         if(aLength == 0 || bLength == 9){
             throw new Error('Vector length is zero. Cannot calculate!')
         }
 
         const cosTheta = dotProduct / (aLength * bLength);
-        const angle = Math.acos(cosTheta);
+        const angle = MathUtility.acos(cosTheta);
 
         return angle;
     }
@@ -70,7 +71,7 @@ export class VectorHandler{
 
     static multiply<T extends Vector>(a: T, b: number): T {
         const result = a.values.map((val) => val * b);
-        return this.convertVector(a.length, result);
+        return VectorHandler.convertVector(a.length, result);
     }
 
     static divide<T extends Vector>(a: T, b: number): T {
@@ -78,7 +79,7 @@ export class VectorHandler{
             throw new Error("Cannot divide because b is zero!!");
         }
         const result = a.values.map((val) => val / b);
-        return this.convertVector(a.length, result);
+        return VectorHandler.convertVector(a.length, result);
     }
 
     static limit<T extends Vector>(a: T, b: number): T {
@@ -86,19 +87,19 @@ export class VectorHandler{
             return a;
         }
 
-        const result = this.setLength(a, b);
+        const result = VectorHandler.setLength(a, b);
         return result;
     }
 
     static setLength<T extends Vector>(a: T, b: number): T {
-        const norm = this.normalize(a);
-        const result = this.multiply(norm, b);
+        const norm = VectorHandler.normalize(a);
+        const result = VectorHandler.multiply(norm, b);
         return result;
     }
 
     static normalize<T extends Vector>(vector: T): T {
-        const len = this.length(vector);
-        const result = this.divide(vector, len);
+        const len = VectorHandler.length(vector);
+        const result = VectorHandler.divide(vector, len);
 
         return result;
     }
@@ -113,9 +114,9 @@ export class VectorHandler{
         if(t == 0) return min;
         if(t == 1) return max;
 
-        const a = this.multiply(min, (1 - t));
-        const b = this.multiply(max, t);
-        const result = this.add(a, b);
+        const a = VectorHandler.multiply(min, (1 - t));
+        const b = VectorHandler.multiply(max, t);
+        const result = VectorHandler.add(a, b);
         return result;
     }
 
@@ -127,13 +128,13 @@ export class VectorHandler{
     }
 
     static heading2D(vector: Vector2): number {
-        const radians = Math.atan2(vector.y, vector.x);
+        const radians = MathUtility.atan2(vector.y, vector.x);
         return radians;
     }
 
     static heading3D(vector: Vector3): [elevation: number, azimuth: number] {
-        const elevation = Math.atan2(vector.z, Math.sqrt(Math.pow(vector.x, 2.0) + Math.pow(vector.y, 2.0)));
-        const azimuth = Math.atan2(vector.y, vector.x);
+        const elevation = MathUtility.atan2(vector.z, Math.sqrt(Math.pow(vector.x, 2.0) + Math.pow(vector.y, 2.0)));
+        const azimuth = MathUtility.atan2(vector.y, vector.x);
         return [elevation, azimuth];
     }
 

@@ -108,7 +108,6 @@ export class MatrixHandler{
         const translateMatrix = MatrixHandler.identity(3);
         translateMatrix.set(0, 2, b.x);
         translateMatrix.set(1, 2, b.y);
-        console.log(translateMatrix);
 
         const translatedVector = new Vector3(a.x, a.y, 1);
 

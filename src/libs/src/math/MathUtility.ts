@@ -1,12 +1,12 @@
-export class MathUtility{
-    static EPSILON = 1e-6;
+import { DefaultValueConstants, TrigonometricConstants } from "./ValueConstants";
 
+export class MathUtility{
     static degreesToRadians(degrees: number): number {
-        return (Math.PI / 180.0) * degrees;
+        return TrigonometricConstants.DEG_TO_RAD * degrees;
     }
 
     static radiansToDegrees(radians: number): number {
-        return radians * (180.0 / Math.PI);
+        return radians * TrigonometricConstants.RAD_TO_DEG;
     }
 
     static clamp(inputValue: number, minValue: number, maxValue: number): number {
@@ -32,7 +32,17 @@ export class MathUtility{
         return MathUtility.roundToZero(value);
     }
 
+    static acos(angle: number): number{
+        const value = Math.acos(angle);
+        return MathUtility.roundToZero(value);
+    }
+
+    static atan2(y: number, x: number): number{
+        const value = Math.atan2(y, x);
+        return MathUtility.roundToZero(value);
+    }
+    
     private static roundToZero(inputValue: number){
-        return Math.abs(inputValue) < MathUtility.EPSILON ? 0 : inputValue;
+        return Math.abs(inputValue) < DefaultValueConstants.EPSILON ? 0 : inputValue;
     }
 }
