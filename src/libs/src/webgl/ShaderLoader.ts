@@ -1,6 +1,6 @@
 export class ShaderLoader{
     private static instance: ShaderLoader;
-    private shaderCache: Map<string, Promise<string>>;
+    private shaderCache: Map<string, string>;
 
     private constructor(){
         this.shaderCache = new Map();
@@ -15,16 +15,35 @@ export class ShaderLoader{
     }
 
     async loadShaderSource(name: string, type: 'vert' | 'frag'): Promise<string>{
-        const fileName = `${name}.${type}`;
+        switch(type){
+            case 'vert':
+                return this.loadVertexShaderSource(name);
+            case 'frag':
+                return this.loadFragmentShaderSource(name);
+            default:
+                throw new Error(`Unknown type shader!! ${name}.${type}`);
+        }
+    }
+
+    async loadVertexShaderSource(name: string): Promise<string>{
+        const fileName = `${name}.vert`;
         if(this.shaderCache.has(fileName)){
             return this.shaderCache.get(fileName)!;
         }
 
-        const shaders = import.meta.glob(`./shader/${name}.{vert, frag}`, {as: 'raw'});
-        const shaderPath = `./shader/${fileName}`;
-        const shaderLoadPromise = shaders[shaderPath] ? shaders[shaderPath]() : Promise.reject(new Error(`Shader file cannot Find!!: ${fileName}`));
+        const shaderSource = await import(`./shader/${name}.vert?raw`);
+        this.shaderCache.set(fileName, shaderSource.default);
+        return shaderSource.default;
+    }
 
-        this.shaderCache.set(fileName, shaderLoadPromise);
-        return shaderLoadPromise;
+    async loadFragmentShaderSource(name: string): Promise<string>{
+        const fileName = `${name}.frag`;
+        if(this.shaderCache.has(fileName)){
+            return this.shaderCache.get(fileName)!;
+        }
+
+        const shaderSource = await import(`./shader/${name}.frag?raw`);
+        this.shaderCache.set(fileName, shaderSource.default);
+        return shaderSource.default;
     }
 }

@@ -8,18 +8,18 @@ export class WebGLUtility{
         this.gl = this.initializeWebGL2RenderingContext(canvas);
     }
 
-    public getWebGL2RenderingContext() : WebGL2RenderingContext
+    public getWebGL2RenderingContext(): WebGL2RenderingContext
     {
         return this.gl;
     }
 
-    public clearColor(color : Color) : void
+    public clearColor(color : Color): void
     {
         this.gl.clearColor(color.red, color.green, color.blue, color.alpha);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     }
 
-    private initializeWebGL2RenderingContext(canvas: HTMLCanvasElement) : WebGL2RenderingContext
+    private initializeWebGL2RenderingContext(canvas: HTMLCanvasElement): WebGL2RenderingContext
     {
         const gl = canvas.getContext('webgl2');
         if(gl == null){
