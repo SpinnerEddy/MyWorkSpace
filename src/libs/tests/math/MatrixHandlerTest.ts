@@ -355,10 +355,10 @@ test("Matrix LookAt", () => {
     let result = MatrixHandler.lookAt(eyePos, targetPos, up);
 
     let exceptResult = MatrixHandler.create(4);
-    exceptResult.set(0, 2, -1);
+    exceptResult.set(2, 0, -1);
     exceptResult.set(1, 1, 1);
-    exceptResult.set(2, 0, 1);
-    exceptResult.set(3, 2, -1);
+    exceptResult.set(0, 2, 1);
+    exceptResult.set(2, 3, -1);
     exceptResult.set(3, 3, 1);
 
     expect(result.get(0, 0)).toBeCloseTo(exceptResult.get(0, 0));

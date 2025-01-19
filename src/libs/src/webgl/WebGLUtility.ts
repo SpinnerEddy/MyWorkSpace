@@ -89,9 +89,9 @@ export class WebGLUtility{
     private createShader(type: 'vert' | 'frag'): WebGLShader{
         switch(type){
             case 'vert':
-                return this.gl.createShader(this.gl.VERTEX_SHADER);
+                return this.gl.createShader(this.gl.VERTEX_SHADER)!;
             case 'frag':
-                return this.gl.createShader(this.gl.FRAGMENT_SHADER);
+                return this.gl.createShader(this.gl.FRAGMENT_SHADER)!;
             default:
                 throw new Error(`Unknown type shader!!`);
         }

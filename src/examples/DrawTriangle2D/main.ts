@@ -1,6 +1,5 @@
 import { MyColorCode } from "../../libs/src/color/ColorConstants";
 import { ColorUtility } from "../../libs/src/color/ColorUtility";
-import { Matrix } from "../../libs/src/math/matrix/Matrix";
 import { MatrixHandler } from "../../libs/src/math/MatrixHandler";
 import { Vector3 } from "../../libs/src/math/vector/Vector3";
 import { ShaderLoader } from "../../libs/src/webgl/ShaderLoader";
@@ -17,19 +16,19 @@ async function main()
     canvas.width = 500;
     canvas.height = 500;
 
-    const gui = new GUI();
+    // const gui = new GUI();
 
-    const params = {
-        color: MyColorCode.COLOR_EMPTY,
-        function() { console.log( 'hi' ) }
-    };
+    // const params = {
+    //     color: MyColorCode.COLOR_EMPTY,
+    //     function() { console.log( 'hi' ) }
+    // };
 
-    gui.addColor( params, 'color' ).onChange(
-        function(value : string){
-            gl.clearColor(ColorUtility.hexToColor01(value));
-        }
-    );
-    gui.add(document, 'title');
+    // gui.addColor( params, 'color' ).onChange(
+    //     function(value : string){
+    //         gl.clearColor(ColorUtility.hexToColor01(value));
+    //     }
+    // );
+    // gui.add(document, 'title');
 
     const shaderLoader = ShaderLoader.getInstance();
 
@@ -44,7 +43,7 @@ async function main()
     }
 
     const gl = new WebGLUtility(canvas);
-    gl.clearColor(ColorUtility.hexToColor01(params.color));
+    gl.clearColor(ColorUtility.hexToColor01(MyColorCode.COLOR_EMPTY));
 
     const program = gl.createProgram(vs, fs);
     let vertexPosition = [
@@ -57,10 +56,10 @@ async function main()
 
     let mMatrix = MatrixHandler.identity(4);
     let vMatrix = MatrixHandler.lookAt(new Vector3(0.0, 1.0, 3.0), new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 1.0, 0.0));
+    console.log(vMatrix);
     let pMatrix = MatrixHandler.perspective(90, canvas.width, canvas.height, 0.1, 100);
     let mvpMatrix = MatrixHandler.multiply(MatrixHandler.multiply(pMatrix, vMatrix), mMatrix);
 
-    console.log(mvpMatrix);
     gl.SetUniformMatrix(program, 'mvpMatrix', mvpMatrix);
     gl.drawArrays(3);
 

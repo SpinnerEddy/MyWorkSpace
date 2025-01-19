@@ -252,17 +252,17 @@ export class MatrixHandler{
         
         const result = MatrixHandler.identity(4);
         result.set(0, 0, r.x);
-        result.set(0, 1, r.y);
-        result.set(0, 2, r.z);
-        result.set(1, 0, u.x);
+        result.set(1, 0, r.y);
+        result.set(2, 0, r.z);
+        result.set(0, 1, u.x);
         result.set(1, 1, u.y);
-        result.set(1, 2, u.z);
-        result.set(2, 0, -f.x);
-        result.set(2, 1, -f.y);
+        result.set(2, 1, u.z);
+        result.set(0, 2, -f.x);
+        result.set(1, 2, -f.y);
         result.set(2, 2, -f.z);
-        result.set(3, 0, -VectorHandler.dot(r, eyePos));
-        result.set(3, 1, -VectorHandler.dot(u, eyePos));
-        result.set(3, 2, VectorHandler.dot(f, eyePos));
+        result.set(0, 3, -VectorHandler.dot(r, eyePos));
+        result.set(1, 3, -VectorHandler.dot(u, eyePos));
+        result.set(2, 3, VectorHandler.dot(f, eyePos));
 
         return result;
     }
