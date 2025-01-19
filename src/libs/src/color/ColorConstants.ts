@@ -28,3 +28,22 @@ export const MyColorConstants255 =
     COLOR_LILJA: new Color255(234, 253, 255, 255),
     COLOR_SUMIKA: new Color255(124, 252, 0, 255)
 }
+
+export const MyColorCode =
+{
+    COLOR_EMPTY: '#000000',
+
+    COLOR_SUBARU: '#aeb49c',
+
+    COLOR_NOCTCHILL: '#384d98',
+    COLOR_TORU: '#50d0d0',
+    COLOR_MADOKA: '#be1e3e',
+    COLOR_KOITO: '#7967c3',
+    COLOR_HINANA: '#ffc639',
+    COLOR_HARUKI: '#ead7a4',
+
+    COLOR_CHINA: '#f68b1f',
+    COLOR_SENA: '#f6ae54',
+    COLOR_LILJA: '#eafdff',
+    COLOR_SUMIKA: '#7cfc00'
+}
