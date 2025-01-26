@@ -1,34 +1,25 @@
 import { MyColorCode } from "../../libs/src/color/ColorConstants";
 import { ColorUtility } from "../../libs/src/color/ColorUtility";
 import { MatrixHandler } from "../../libs/src/math/MatrixHandler";
+import { Vector2 } from "../../libs/src/math/vector/Vector2";
 import { Vector3 } from "../../libs/src/math/vector/Vector3";
 import { ShaderLoader } from "../../libs/src/webgl/ShaderLoader";
 import { WebGLUtility } from "../../libs/src/webgl/WebGLUtility";
-import GUI from "lil-gui";
 
-async function main()
+let canvas: HTMLCanvasElement;
+let gl: WebGLUtility;
+let program: WebGLProgram;
+let startTime: number | null = null;
+
+async function setup()
 {
-    const canvas = document.getElementById('webgl-canvas') as HTMLCanvasElement;
+    canvas = document.getElementById('webgl-canvas') as HTMLCanvasElement;
     if(canvas == null){
         console.error('Not Found Canvas!!');
         return;
     }
     canvas.width = 500;
     canvas.height = 500;
-
-    // const gui = new GUI();
-
-    // const params = {
-    //     color: MyColorCode.COLOR_EMPTY,
-    //     function() { console.log( 'hi' ) }
-    // };
-
-    // gui.addColor( params, 'color' ).onChange(
-    //     function(value : string){
-    //         gl.clearColor(ColorUtility.hexToColor01(value));
-    //     }
-    // );
-    // gui.add(document, 'title');
 
     const shaderLoader = ShaderLoader.getInstance();
 
@@ -42,10 +33,10 @@ async function main()
         console.error(error);
     }
 
-    const gl = new WebGLUtility(canvas);
+    gl = new WebGLUtility(canvas);
     gl.clearColor(ColorUtility.hexToColor01(MyColorCode.COLOR_EMPTY));
 
-    const program = gl.createProgram(vs, fs);
+    program = gl.createProgram(vs, fs);
     let vertexPosition = [
         0.0, 1.0, 0.0,
         1.0, 0.0, 0.0,
@@ -53,16 +44,35 @@ async function main()
     ]
     let vbo = gl.createVbo(new Float32Array(vertexPosition));
     gl.SetAttributeVboLocation(program, 'aPosition', 3, vbo);
+}
 
+function animation(){
+    const render = (time: number) => {
+        if(startTime == null) startTime = time;
+        const elapsedTime = (time - startTime) / 1000.0;
+
+        update(elapsedTime);
+        draw();
+
+        requestAnimationFrame(render);
+    };
+
+    requestAnimationFrame(render);
+}
+
+function update(elapsedTime: number){
     let mMatrix = MatrixHandler.identity(4);
     let vMatrix = MatrixHandler.lookAt(new Vector3(0.0, 1.0, 3.0), new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 1.0, 0.0));
-    console.log(vMatrix);
     let pMatrix = MatrixHandler.perspective(90, canvas.width, canvas.height, 0.1, 100);
     let mvpMatrix = MatrixHandler.multiply(MatrixHandler.multiply(pMatrix, vMatrix), mMatrix);
 
     gl.SetUniformMatrix(program, 'mvpMatrix', mvpMatrix);
-    gl.drawArrays(3);
-
 }
 
-main();
+function draw(){
+    gl.clearColor(ColorUtility.hexToColor01(MyColorCode.COLOR_EMPTY));
+    gl.drawArrays(3);
+}
+
+await setup();
+animation();

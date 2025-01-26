@@ -19,7 +19,11 @@ export class WebGLUtility{
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     }
 
-    public createProgram(vertexShaderSource: string, fragmentShaderSource: string): WebGLProgram{
+    public createProgram(vertexShaderSource: string | undefined, fragmentShaderSource: string | undefined): WebGLProgram{
+        if(vertexShaderSource == undefined || fragmentShaderSource == undefined){
+            throw new Error('Cannot create program!!')
+        }
+        
         const program = this.gl.createProgram();
 
         const vertexShader = this.compileShader(vertexShaderSource, 'vert');
@@ -35,7 +39,7 @@ export class WebGLUtility{
         }
         else{
             alert(this.gl.getProgramInfoLog(program));
-            throw new Error('Cannot create program!!')
+            throw new Error('Cannot create program!!');
         }
     }
 
@@ -68,9 +72,7 @@ export class WebGLUtility{
         this.gl.uniformMatrix4fv(uniLocation, false, matrix.toArray());
     }
 
-    public drawArrays(
-        pointNumber: number
-    ){
+    public drawArrays(pointNumber: number){
         this.gl.drawArrays(this.gl.TRIANGLES, 0, pointNumber);
         this.gl.flush();
     }
