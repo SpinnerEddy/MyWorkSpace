@@ -1,7 +1,6 @@
 import { MyColorCode } from "../../libs/src/color/ColorConstants";
 import { ColorUtility } from "../../libs/src/color/ColorUtility";
 import { MatrixHandler } from "../../libs/src/math/MatrixHandler";
-import { Vector2 } from "../../libs/src/math/vector/Vector2";
 import { Vector3 } from "../../libs/src/math/vector/Vector3";
 import { ShaderLoader } from "../../libs/src/webgl/ShaderLoader";
 import { WebGLUtility } from "../../libs/src/webgl/WebGLUtility";

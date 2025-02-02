@@ -35,6 +35,11 @@ export class Color{
         return this.a;
     }
 
+    get toRGBArray(): Float32Array
+    {
+        return new Float32Array([this.r, this.g, this.b]);
+    }
+
     public translateTo255(): Color255
     {
         const r = Math.round(this.r * 255.0);

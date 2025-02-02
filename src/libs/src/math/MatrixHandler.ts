@@ -135,11 +135,18 @@ export class MatrixHandler{
         return result;
     }
 
-    static rotate3D(vec: Vector3, angle: number, axis: Vector3): Matrix{
+    static rotate3DVec(vec: Vector3, angle: number, axis: Vector3): Matrix{
         const rotateMatrix = MatrixHandler.createRotateMatrix3D(angle, axis);
         const rotatedVec = new Vector4(vec.x, vec.y, vec.z, 1);
 
         const result = MatrixHandler.multiply(rotateMatrix, rotatedVec);
+        return result;
+    }
+
+    static rotate3D(mat: Matrix, angle: number, axis: Vector3): Matrix{
+        const rotateMatrix = MatrixHandler.createRotateMatrix3D(angle, axis);
+
+        const result = MatrixHandler.multiply(rotateMatrix, mat);
         return result;
     }
 
@@ -281,7 +288,7 @@ export class MatrixHandler{
         return true;
     }
 
-    private static createRotateMatrix2D(angle: number){
+    private static createRotateMatrix2D(angle: number): Matrix{
         const rotateMatrix = MatrixHandler.identity(3);
         rotateMatrix.set(0, 0, MathUtility.cos(angle));
         rotateMatrix.set(0, 1, -MathUtility.sin(angle));
@@ -291,7 +298,7 @@ export class MatrixHandler{
         return rotateMatrix;
     }
 
-    private static createRotateMatrix3D(angle: number, axis: Vector3){
+    private static createRotateMatrix3D(angle: number, axis: Vector3): Matrix{
         const rotateMatrix = MatrixHandler.identity(4);
         if(axis == DefaultVectorConstants.AXIS2DX){
             rotateMatrix.set(1, 1, MathUtility.cos(angle));
@@ -314,7 +321,7 @@ export class MatrixHandler{
         return rotateMatrix;
     }
 
-    private static createScaleMatrix2D(scalarX: number, scalarY: number){
+    private static createScaleMatrix2D(scalarX: number, scalarY: number): Matrix{
         const scaleMatrix = MatrixHandler.identity(3);
         scaleMatrix.set(0, 0, scalarX);
         scaleMatrix.set(1, 1, scalarY);
@@ -322,7 +329,7 @@ export class MatrixHandler{
         return scaleMatrix;
     }
 
-    private static createScaleMatrix3D(scalarX: number, scalarY: number, scalarZ: number){
+    private static createScaleMatrix3D(scalarX: number, scalarY: number, scalarZ: number): Matrix{
         const scaleMatrix = MatrixHandler.identity(4);
         scaleMatrix.set(0, 0, scalarX);
         scaleMatrix.set(1, 1, scalarY);
