@@ -215,7 +215,7 @@ test("Vector rotate3D 1", () => {
     let vector = new Vector3(1, 0, 0);
     let angle = Math.PI * 0.5;
 
-    let result = MatrixHandler.rotate3D(vector, angle, DefaultVectorConstants.AXIS2DY);
+    let result = MatrixHandler.rotate3DVec(vector, angle, DefaultVectorConstants.AXIS2DY);
     let exceptResult = new Matrix(4, 1);
     exceptResult.set(0, 0, 0);
     exceptResult.set(1, 0, 0);
@@ -229,7 +229,7 @@ test("Vector rotate3D 2", () => {
     let vector = new Vector3(0, 1, 0);
     let angle = Math.PI * 0.5;
 
-    let result = MatrixHandler.rotate3D(vector, angle, DefaultVectorConstants.AXIS2DX);
+    let result = MatrixHandler.rotate3DVec(vector, angle, DefaultVectorConstants.AXIS2DX);
     let exceptResult = new Matrix(4, 1);
     exceptResult.set(0, 0, 0);
     exceptResult.set(1, 0, 0);
