@@ -2,7 +2,7 @@ import { MathUtility } from "./MathUtility";
 import { Quaternion } from "./quaternion/Quaternion";
 import { Vector3 } from "./vector/Vector3";
 import { Vector4 } from "./vector/Vector4";
-import { VectorHandler } from "./VectorHandler";
+import { VectorHandler } from "./VectorUtility";
 
 export class QuaternionHandler{
     static create(x: number, y: number, z: number, w: number): Quaternion{

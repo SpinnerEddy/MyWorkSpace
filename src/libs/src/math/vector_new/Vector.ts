@@ -11,6 +11,10 @@ export abstract class Vector<T extends Vector<T>> implements VectorOperation<T>{
         return this.components;
     }
 
+    get size(): number{
+        return this.components.length;
+    }
+
     get(index: number): number{
         return this.components[index];
     }

@@ -2,7 +2,7 @@ import { MathUtility } from "../MathUtility";
 import { Vector2 } from "../vector/Vector2";
 import { Vector3 } from "../vector/Vector3";
 import { DefaultVectorConstants } from "../vector/VectorConstants";
-import { VectorHandler } from "../VectorHandler";
+import { VectorHandler } from "../VectorUtility";
 import { Matrix } from "./Matrix";
 
 export class Matrix44 extends Matrix<Matrix44>{

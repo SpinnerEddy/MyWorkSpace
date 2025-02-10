@@ -5,7 +5,7 @@ import { Vector2 } from "./vector/Vector2";
 import { Vector3 } from "./vector/Vector3";
 import { Vector4 } from "./vector/Vector4";
 import { DefaultVectorConstants } from "./vector/VectorConstants";
-import { VectorHandler } from "./VectorHandler";
+import { VectorHandler } from "./VectorUtility";
 
 export class MatrixHandler{
     static create(sizeNum: number): Matrix{
