@@ -1,5 +1,5 @@
-import { Vector2 } from "../../src/math/vector_new/Vector2";
-import { Vector3 } from "../../src/math/vector_new/Vector3";
+import { Vector2 } from "../../src/math/vector/Vector2";
+import { Vector3 } from "../../src/math/vector/Vector3";
 import { VectorUtility } from "../../src/math/VectorUtility";
 
 test("Vector Add", () => {

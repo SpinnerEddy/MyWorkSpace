@@ -1,8 +1,8 @@
 import { MathUtility } from "./MathUtility";
-import { Vector } from "./vector_new/Vector";
-import { Vector2 } from "./vector_new/Vector2";
-import { Vector3 } from "./vector_new/Vector3";
-import { Vector4 } from "./vector_new/Vector4";
+import { Vector } from "./vector/Vector";
+import { Vector2 } from "./vector/Vector2";
+import { Vector3 } from "./vector/Vector3";
+import { Vector4 } from "./vector/Vector4";
 
 export class VectorUtility{
     static readonly vectorClassAndSizePair: Record<number, new (...args: number[]) => Vector<any>> = {
