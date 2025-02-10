@@ -18,15 +18,15 @@ export class Vector3 extends Vector<Vector3>{
         this.components[2] = z;
     }
 
-    get x(){
+    get x(): number {
         return this.components[0];
     }
 
-    get y(){
+    get y(): number {
         return this.components[1];
     }
 
-    get z(){
+    get z(): number　{
         return this.components[2];
     }
 

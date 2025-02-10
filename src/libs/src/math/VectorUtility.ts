@@ -2,15 +2,9 @@ import { MathUtility } from "./MathUtility";
 import { Vector } from "./vector/Vector";
 import { Vector2 } from "./vector/Vector2";
 import { Vector3 } from "./vector/Vector3";
-import { Vector4 } from "./vector/Vector4";
+import { VectorClassAndSizePair } from "./vector/VectorConstants";
 
 export class VectorUtility{
-    static readonly vectorClassAndSizePair: Record<number, new (...args: number[]) => Vector<any>> = {
-        2: Vector2,
-        3: Vector3,
-        4: Vector4
-    };
-
     static min<T extends Vector<T>>(a: T, b: T): T {
         const aLength = VectorUtility.length(a);
         const bLength = VectorUtility.length(b);
@@ -145,7 +139,7 @@ export class VectorUtility{
     }
 
     private static convertVector<T extends Vector<T>>(size: number, values: Float32Array): T {
-        const VectorClassName = this.vectorClassAndSizePair[size];
+        const VectorClassName = VectorClassAndSizePair[size];
 
         if (!VectorClassName) {
             throw new Error(`Unsupported vector size: ${size}`);

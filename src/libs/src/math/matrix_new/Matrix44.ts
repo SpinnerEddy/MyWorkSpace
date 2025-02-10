@@ -2,7 +2,7 @@ import { MathUtility } from "../MathUtility";
 import { Vector2 } from "../vector/Vector2";
 import { Vector3 } from "../vector/Vector3";
 import { DefaultVectorConstants } from "../vector/VectorConstants";
-import { VectorHandler } from "../VectorUtility";
+import { VectorUtility } from "../VectorUtility";
 import { Matrix } from "./Matrix";
 
 export class Matrix44 extends Matrix<Matrix44>{
@@ -227,9 +227,9 @@ export class Matrix44 extends Matrix<Matrix44>{
     }
 
     lookAt(eyePos: Vector3, targetPos: Vector3, up: Vector3, out?: Matrix44): Matrix44 {
-        const f = VectorHandler.normalize(VectorHandler.sub(eyePos, targetPos));
-        const r = VectorHandler.normalize(VectorHandler.cross(f, up));
-        const u = VectorHandler.normalize(VectorHandler.cross(r, f));
+        const f = VectorUtility.normalize(VectorUtility.sub(eyePos, targetPos));
+        const r = VectorUtility.normalize(VectorUtility.cross(f, up));
+        const u = VectorUtility.normalize(VectorUtility.cross(r, f));
         const result = out ? out : new Matrix44();
         result.set(0, 0, r.x);
         result.set(1, 0, r.y);
@@ -240,9 +240,9 @@ export class Matrix44 extends Matrix<Matrix44>{
         result.set(0, 2, -f.x);
         result.set(1, 2, -f.y);
         result.set(2, 2, -f.z);
-        result.set(0, 3, -VectorHandler.dot(r, eyePos));
-        result.set(1, 3, -VectorHandler.dot(u, eyePos));
-        result.set(2, 3, VectorHandler.dot(f, eyePos));
+        result.set(0, 3, -VectorUtility.dot(r, eyePos));
+        result.set(1, 3, -VectorUtility.dot(u, eyePos));
+        result.set(2, 3, VectorUtility.dot(f, eyePos));
 
         return result;
     }

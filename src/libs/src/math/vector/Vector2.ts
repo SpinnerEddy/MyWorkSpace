@@ -2,7 +2,6 @@ import { MathUtility } from "../MathUtility";
 import { Vector } from "./Vector";
 
 export class Vector2 extends Vector<Vector2>{
-
     constructor(x: number, y: number) {
         super(new Float32Array([x, y]));
     }
@@ -15,11 +14,11 @@ export class Vector2 extends Vector<Vector2>{
         this.components[1] = y;
     }
 
-    get x() {
+    get x(): number {
         return this.components[0];
     }
 
-    get y() {
+    get y(): number {
         return this.components[1];
     }
 

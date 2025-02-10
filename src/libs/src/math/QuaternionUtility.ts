@@ -2,29 +2,29 @@ import { MathUtility } from "./MathUtility";
 import { Quaternion } from "./quaternion/Quaternion";
 import { Vector3 } from "./vector/Vector3";
 import { Vector4 } from "./vector/Vector4";
-import { VectorHandler } from "./VectorUtility";
+import { VectorUtility } from "./VectorUtility";
 
-export class QuaternionHandler{
+export class QuaternionUtility{
     static create(x: number, y: number, z: number, w: number): Quaternion{
         return new Quaternion(x, y, z, w);
     }
 
     static createFromEuler(roll: number, pitch: number, yaw: number){
-        const h = QuaternionHandler.create(0, -MathUtility.sin(pitch * 0.5), 0, MathUtility.cos(pitch * 0.5));
-        const p = QuaternionHandler.create(-MathUtility.sin(roll * 0.5), 0, 0, MathUtility.cos(roll * 0.5));
-        const b = QuaternionHandler.create(0, 0, -MathUtility.sin(yaw * 0.5), MathUtility.cos(yaw * 0.5));
+        const h = QuaternionUtility.create(0, -MathUtility.sin(pitch * 0.5), 0, MathUtility.cos(pitch * 0.5));
+        const p = QuaternionUtility.create(-MathUtility.sin(roll * 0.5), 0, 0, MathUtility.cos(roll * 0.5));
+        const b = QuaternionUtility.create(0, 0, -MathUtility.sin(yaw * 0.5), MathUtility.cos(yaw * 0.5));
 
-        const hp = QuaternionHandler.multiply(h, p);
-        const hpb = QuaternionHandler.multiply(hp, b);
+        const hp = QuaternionUtility.multiply(h, p);
+        const hpb = QuaternionUtility.multiply(hp, b);
         return hpb;
     }
 
     static createFromAxisAndRadians(axis: Vector3, radians: number){
-        const normalizeAxis = VectorHandler.normalize(axis);
+        const normalizeAxis = VectorUtility.normalize(axis);
         const h = radians * 0.5;
         const s = MathUtility.sin(h);
 
-        return QuaternionHandler.create(normalizeAxis.x * s, normalizeAxis.y * s, normalizeAxis.z * s, MathUtility.cos(h));
+        return QuaternionUtility.create(normalizeAxis.x * s, normalizeAxis.y * s, normalizeAxis.z * s, MathUtility.cos(h));
     }
 
     static identity(): Quaternion{
@@ -37,7 +37,7 @@ export class QuaternionHandler{
         const z = a.z + b.z;
         const w = a.w + b.w;
 
-        return QuaternionHandler.create(x, y, z, w);
+        return QuaternionUtility.create(x, y, z, w);
     }
 
     static sub(a: Quaternion, b: Quaternion): Quaternion{
@@ -46,7 +46,7 @@ export class QuaternionHandler{
         const z = a.z - b.z;
         const w = a.w - b.w;
 
-        return QuaternionHandler.create(x, y, z, w);
+        return QuaternionUtility.create(x, y, z, w);
     }
 
     static multiply(a: Quaternion, b: Quaternion): Quaternion{
@@ -55,7 +55,7 @@ export class QuaternionHandler{
         const y = a.w*b.y + a.y*b.w + a.z*b.x - a.x*b.z;
         const z = a.w*b.z + a.z*b.w + a.x*b.y - a.y*b.x;
 
-        return QuaternionHandler.create(x, y, z, w);
+        return QuaternionUtility.create(x, y, z, w);
     }
 
     static scale(a: Quaternion, s: number): Quaternion{
@@ -64,7 +64,7 @@ export class QuaternionHandler{
         const z = a.z * s;
         const w = a.w * s;
 
-        return QuaternionHandler.create(x, y, z, w);
+        return QuaternionUtility.create(x, y, z, w);
     }
 
     static dot(a: Quaternion, b: Quaternion): number{
@@ -72,7 +72,7 @@ export class QuaternionHandler{
     }
 
     static conjugate(q: Quaternion): Quaternion{
-        return QuaternionHandler.create(-q.x, -q.y, -q.z, q.w);
+        return QuaternionUtility.create(-q.x, -q.y, -q.z, q.w);
     }
 
     static normalize(q: Quaternion): Quaternion{
@@ -83,7 +83,7 @@ export class QuaternionHandler{
 
         const invLength = 1 / length;
 
-        return QuaternionHandler.scale(q, invLength);
+        return QuaternionUtility.scale(q, invLength);
     }
 
     static inverse(q: Quaternion): Quaternion{
@@ -93,46 +93,44 @@ export class QuaternionHandler{
         }
 
         const invLengthSquared = 1 / lengthSquared;
-        const conjugate = QuaternionHandler.conjugate(q);
-        return QuaternionHandler.scale(conjugate, invLengthSquared);
+        const conjugate = QuaternionUtility.conjugate(q);
+        return QuaternionUtility.scale(conjugate, invLengthSquared);
     }
 
     static rotateVector(q: Quaternion, v: Vector3): Vector3
     static rotateVector(q: Quaternion, v: Vector4): Vector3
     static rotateVector(q: Quaternion, v: Vector3 | Vector4): Vector3{
-        const qVec = QuaternionHandler.toQuaternion(v);
-        const inverse = QuaternionHandler.inverse(q);
+        const qVec = QuaternionUtility.toQuaternion(v);
+        const inverse = QuaternionUtility.inverse(q);
 
-        const temp = QuaternionHandler.multiply(q, qVec);
-        const result = QuaternionHandler.multiply(temp, inverse);
+        const temp = QuaternionUtility.multiply(q, qVec);
+        const result = QuaternionUtility.multiply(temp, inverse);
 
         return new Vector3(result.x, result.y, result.z);
     }
 
     static slerp(a: Quaternion, b: Quaternion, t: number): Quaternion{
-        let dot = QuaternionHandler.dot(a, b);
+        let dot = QuaternionUtility.dot(a, b);
         if(dot < 0.0){
-            b = QuaternionHandler.scale(b, -1);
+            b = QuaternionUtility.scale(b, -1);
             dot *= -1;
         }
 
         const theta = Math.acos(dot);
         const sinTheta = MathUtility.sin(theta);
         if(sinTheta == 0){
-            const q1 = QuaternionHandler.scale(a, 1 - t);
-            const q2 = QuaternionHandler.scale(b, t);
-            return QuaternionHandler.add(q1, q2);
+            const q1 = QuaternionUtility.scale(a, 1 - t);
+            const q2 = QuaternionUtility.scale(b, t);
+            return QuaternionUtility.add(q1, q2);
         }
         else{
-            const q1 = QuaternionHandler.scale(a, MathUtility.sin(theta * (1 - t)) / sinTheta);
-            const q2 = QuaternionHandler.scale(b, MathUtility.sin(theta * t) / sinTheta);
-            return QuaternionHandler.add(q1, q2);
+            const q1 = QuaternionUtility.scale(a, MathUtility.sin(theta * (1 - t)) / sinTheta);
+            const q2 = QuaternionUtility.scale(b, MathUtility.sin(theta * t) / sinTheta);
+            return QuaternionUtility.add(q1, q2);
         }
     }
 
-    private static toQuaternion(vector: Vector3): Quaternion
-    private static toQuaternion(vector: Vector4): Quaternion
     private static toQuaternion(vector: Vector3 | Vector4): Quaternion{
-        return QuaternionHandler.create(vector.x, vector.y, vector.z, 0);
+        return QuaternionUtility.create(vector.x, vector.y, vector.z, 0);
     }
 }

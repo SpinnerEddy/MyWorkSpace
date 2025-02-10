@@ -22,19 +22,19 @@ export class Vector4 extends Vector<Vector4>{
         this.components[3] = w;
     }
 
-    get x(){
+    get x(): number　{
         return this.components[0];
     }
 
-    get y(){
+    get y(): number　{
         return this.components[1];
     }
 
-    get z(){
+    get z(): number　{
         return this.components[2];
     }
 
-    get w(){
+    get w(): number　{
         return this.components[3];
     }
 

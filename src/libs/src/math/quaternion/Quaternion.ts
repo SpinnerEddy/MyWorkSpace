@@ -1,5 +1,5 @@
 import { Matrix44 } from "../matrix_new/Matrix44";
-import { QuaternionHandler } from "../QuaternionHandler";
+import { QuaternionUtility } from "../QuaternionUtility";
 import { DefaultVectorConstants } from "../vector/VectorConstants";
 
 export class Quaternion{
@@ -29,9 +29,9 @@ export class Quaternion{
         const matrix = new Matrix44();
         let result = matrix.identity();
 
-        const x = QuaternionHandler.rotateVector(this, DefaultVectorConstants.AXIS2DX);
-        const y = QuaternionHandler.rotateVector(this, DefaultVectorConstants.AXIS2DY);
-        const z = QuaternionHandler.rotateVector(this, DefaultVectorConstants.AXIS2DZ);
+        const x = QuaternionUtility.rotateVector(this, DefaultVectorConstants.AXIS2DX);
+        const y = QuaternionUtility.rotateVector(this, DefaultVectorConstants.AXIS2DY);
+        const z = QuaternionUtility.rotateVector(this, DefaultVectorConstants.AXIS2DZ);
         result.set(0, 0, x.x);
         result.set(0, 1, x.y);
         result.set(0, 2, x.z);
