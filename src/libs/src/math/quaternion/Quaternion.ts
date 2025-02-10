@@ -1,5 +1,4 @@
-import { Matrix } from "../matrix/Matrix";
-import { MatrixHandler } from "../MatrixHandler";
+import { Matrix44 } from "../matrix_new/Matrix44";
 import { QuaternionHandler } from "../QuaternionHandler";
 import { DefaultVectorConstants } from "../vector/VectorConstants";
 
@@ -26,21 +25,22 @@ export class Quaternion{
         return this.components[3];
     }
 
-    toMatrix(): Matrix{
-        const matrix = MatrixHandler.identity(4);
+    toMatrix(): Matrix44{
+        const matrix = new Matrix44();
+        let result = matrix.identity();
 
         const x = QuaternionHandler.rotateVector(this, DefaultVectorConstants.AXIS2DX);
         const y = QuaternionHandler.rotateVector(this, DefaultVectorConstants.AXIS2DY);
         const z = QuaternionHandler.rotateVector(this, DefaultVectorConstants.AXIS2DZ);
-        matrix.set(0, 0, x.x);
-        matrix.set(0, 1, x.y);
-        matrix.set(0, 2, x.z);
-        matrix.set(0, 0, y.x);
-        matrix.set(0, 1, y.y);
-        matrix.set(0, 2, y.z);
-        matrix.set(0, 0, z.x);
-        matrix.set(0, 1, z.y);
-        matrix.set(0, 2, z.z);
+        result.set(0, 0, x.x);
+        result.set(0, 1, x.y);
+        result.set(0, 2, x.z);
+        result.set(0, 0, y.x);
+        result.set(0, 1, y.y);
+        result.set(0, 2, y.z);
+        result.set(0, 0, z.x);
+        result.set(0, 1, z.y);
+        result.set(0, 2, z.z);
 
         return matrix;
     }

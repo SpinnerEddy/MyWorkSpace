@@ -1,5 +1,7 @@
 import { MathUtility } from "../MathUtility";
+import { Vector2 } from "../vector/Vector2";
 import { Vector3 } from "../vector/Vector3";
+import { DefaultVectorConstants } from "../vector/VectorConstants";
 import { VectorHandler } from "../VectorHandler";
 import { Matrix } from "./Matrix";
 
@@ -245,7 +247,108 @@ export class Matrix44 extends Matrix<Matrix44>{
         return result;
     }
 
+    translate2D(target: Matrix44, offset: Vector2, out?: Matrix44): Matrix44 {
+        let result = out ? out : new Matrix44();
+        const translateMatrix = this.identity();
+        translateMatrix.set(0, 2, offset.x);
+        translateMatrix.set(1, 2, offset.y);
+
+        result = target.multiply(translateMatrix);
+        return result;
+    }
+
+    translate3D(target: Matrix44, offset: Vector3, out?: Matrix44): Matrix44 {
+        let result = out ? out : new Matrix44();
+        const translateMatrix = this.identity();
+        translateMatrix.set(0, 3, offset.x);
+        translateMatrix.set(1, 3, offset.y);
+        translateMatrix.set(2, 3, offset.z);
+
+        result = target.multiply(translateMatrix);
+        return result;
+    }
+
+    rotateX(target: Matrix44, angle: number, out?: Matrix44): Matrix44 {
+        return this.rotate3D(target, angle, DefaultVectorConstants.AXIS2DX, out);
+    }
+
+    rotateY(target: Matrix44, angle: number, out?: Matrix44): Matrix44 {
+        return this.rotate3D(target, angle, DefaultVectorConstants.AXIS2DY, out);
+    }
+
+    rotateZ(target: Matrix44, angle: number, out?: Matrix44): Matrix44 {
+        return this.rotate3D(target, angle, DefaultVectorConstants.AXIS2DZ, out);
+    }
+
+    rotate2D(target: Matrix44, angle: number, out?: Matrix44): Matrix44 {
+        return this.rotateZ(target, angle, out);
+    }
+
+    rotate3D(target: Matrix44, angle: number, axis: Vector3, out?: Matrix44): Matrix44 {
+        let result = out ? out : new Matrix44();
+
+        const rotateMatrix = this.createRotateMatrix3D(angle, axis);
+        result = target.multiply(rotateMatrix);
+        return result;
+    }
+
+    scale2D(target: Matrix44, scaleX: number, scaleY: number, out?: Matrix44): Matrix44 {
+        let result = out ? out : new Matrix44();
+
+        const rotateMatrix = this.createScaleMatrix2D(scaleX, scaleY);
+        result = target.multiply(rotateMatrix);
+        return result;
+    }
+
+    scale3D(target: Matrix44, scaleX: number, scaleY: number, scaleZ: number, out?: Matrix44): Matrix44 {
+        let result = out ? out : new Matrix44();
+
+        const rotateMatrix = this.createScaleMatrix3D(scaleX, scaleY, scaleZ);
+        result = target.multiply(rotateMatrix);
+        return result;
+    }
+
     clone(): Matrix44 {
         return new Matrix44(this.data);
+    }
+
+    private createRotateMatrix3D(angle: number, axis: Vector3): Matrix44 {
+        const rotateMatrix = this.identity();
+        if(axis == DefaultVectorConstants.AXIS2DX){
+            rotateMatrix.set(1, 1, MathUtility.cos(angle));
+            rotateMatrix.set(1, 2, -MathUtility.sin(angle));
+            rotateMatrix.set(2, 1, MathUtility.sin(angle));
+            rotateMatrix.set(2, 2, MathUtility.cos(angle));
+        }
+        if(axis == DefaultVectorConstants.AXIS2DY){
+            rotateMatrix.set(0, 0, MathUtility.cos(angle));
+            rotateMatrix.set(0, 2, MathUtility.sin(angle));
+            rotateMatrix.set(2, 0, -MathUtility.sin(angle));
+            rotateMatrix.set(2, 2, MathUtility.cos(angle));
+        }
+        if(axis == DefaultVectorConstants.AXIS2DZ){
+            rotateMatrix.set(0, 0, MathUtility.cos(angle));
+            rotateMatrix.set(0, 1, -MathUtility.sin(angle));
+            rotateMatrix.set(1, 0, MathUtility.sin(angle));
+            rotateMatrix.set(1, 1, MathUtility.cos(angle));
+        }
+        return rotateMatrix;
+    }
+
+    private createScaleMatrix2D(scalarX: number, scalarY: number): Matrix44 {
+        const scaleMatrix = this.identity();
+        scaleMatrix.set(0, 0, scalarX);
+        scaleMatrix.set(1, 1, scalarY);
+
+        return scaleMatrix;
+    }
+
+    private createScaleMatrix3D(scalarX: number, scalarY: number, scalarZ: number): Matrix44 {
+        const scaleMatrix = this.identity();
+        scaleMatrix.set(0, 0, scalarX);
+        scaleMatrix.set(1, 1, scalarY);
+        scaleMatrix.set(2, 2, scalarZ);
+
+        return scaleMatrix;
     }
 }

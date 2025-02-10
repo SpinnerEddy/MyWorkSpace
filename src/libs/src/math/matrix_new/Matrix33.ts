@@ -1,4 +1,5 @@
 import { Matrix } from "./Matrix";
+import { Matrix44 } from "./Matrix44";
 
 export class Matrix33 extends Matrix<Matrix33>{
 
@@ -126,5 +127,15 @@ export class Matrix33 extends Matrix<Matrix33>{
 
     clone(): Matrix33 {
         return new Matrix33(this.data);
+    }
+
+    normalMatrix(modelMatrix: Matrix44): Matrix33 {
+        const subMatrix = new Matrix33(Float32Array.of(
+            modelMatrix.get(0, 0), modelMatrix.get(0, 1), modelMatrix.get(0, 2),
+            modelMatrix.get(1, 0), modelMatrix.get(1, 1), modelMatrix.get(1, 2),
+            modelMatrix.get(2, 0), modelMatrix.get(2, 1), modelMatrix.get(2, 2), 
+        ));
+
+        return subMatrix.inverse();
     }
 }
