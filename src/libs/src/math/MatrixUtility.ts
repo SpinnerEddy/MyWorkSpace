@@ -1,13 +1,11 @@
 import { MathUtility } from "./MathUtility";
 import { Matrix } from "./matrix/Matrix";
-import { Vector } from "./vector/Vector";
 import { Vector2 } from "./vector/Vector2";
 import { Vector3 } from "./vector/Vector3";
-import { Vector4 } from "./vector/Vector4";
 import { DefaultVectorConstants } from "./vector/VectorConstants";
-import { VectorHandler } from "./VectorUtility";
+import { VectorUtility } from "./VectorUtility";
 
-export class MatrixHandler{
+export class MatrixUtility{
     static create(sizeNum: number): Matrix{
         let matrix = new Matrix(sizeNum, sizeNum);
         return matrix;
@@ -53,14 +51,9 @@ export class MatrixHandler{
     }
 
     static multiply(a: Matrix, b: Matrix): Matrix;
-    static multiply(a: Matrix, b: Vector): Matrix;
     static multiply(a: Matrix, b: number): Matrix;
-    static multiply(a: Matrix, b: Matrix | Vector | number): Matrix{
-        if(b instanceof Matrix || b instanceof Vector){
-            if(b instanceof Vector){
-                b = b.toMatrix();
-            }
-
+    static multiply(a: Matrix, b: Matrix | number): Matrix{
+        if(b instanceof Matrix){
             if(a.col != b.row){
                 throw new Error("Not Equal A Row Number and B Col Number. Cannot Multiply!");
             }
@@ -104,65 +97,50 @@ export class MatrixHandler{
         return result;
     }
 
-    static translate2D(a: Vector2, b: Vector2): Matrix{
-        const translateMatrix = MatrixHandler.identity(3);
-        translateMatrix.set(0, 2, b.x);
-        translateMatrix.set(1, 2, b.y);
+    static translate2D(mat: Matrix, b: Vector2): Matrix{
+        const translateMatrix = MatrixUtility.identity(4);
+        translateMatrix.set(0, 3, b.x);
+        translateMatrix.set(1, 3, b.y);
 
-        const translatedVector = new Vector3(a.x, a.y, 1);
-
-        const result = MatrixHandler.multiply(translateMatrix, translatedVector);
+        const result = MatrixUtility.multiply(translateMatrix, mat);
         return result;
     }
 
-    static translate3D(a: Vector3, b: Vector3): Matrix{
-        const translateMatrix = MatrixHandler.identity(4);
+    static translate3D(mat: Matrix, b: Vector3): Matrix{
+        const translateMatrix = MatrixUtility.identity(4);
         translateMatrix.set(0, 3, b.x);
         translateMatrix.set(1, 3, b.y);
         translateMatrix.set(2, 3, b.z);
 
-        const translatedVector = new Vector4(a.x, a.y, a.z, 1);
-
-        const result = MatrixHandler.multiply(translateMatrix, translatedVector);
+        const result = MatrixUtility.multiply(translateMatrix, mat);
         return result;
     }
 
-    static rotate2D(vec: Vector2, angle: number): Matrix{
-        const rotateMatrix = MatrixHandler.createRotateMatrix2D(angle);
-        const rotatedVec = new Vector3(vec.x, vec.y, 1);
+    static rotate2D(mat: Matrix, angle: number): Matrix{
+        const rotateMatrix = MatrixUtility.createRotateMatrix2D(angle);
 
-        const result = MatrixHandler.multiply(rotateMatrix, rotatedVec);
-        return result;
-    }
-
-    static rotate3DVec(vec: Vector3, angle: number, axis: Vector3): Matrix{
-        const rotateMatrix = MatrixHandler.createRotateMatrix3D(angle, axis);
-        const rotatedVec = new Vector4(vec.x, vec.y, vec.z, 1);
-
-        const result = MatrixHandler.multiply(rotateMatrix, rotatedVec);
+        const result = MatrixUtility.multiply(rotateMatrix, mat);
         return result;
     }
 
     static rotate3D(mat: Matrix, angle: number, axis: Vector3): Matrix{
-        const rotateMatrix = MatrixHandler.createRotateMatrix3D(angle, axis);
+        const rotateMatrix = MatrixUtility.createRotateMatrix3D(angle, axis);
 
-        const result = MatrixHandler.multiply(rotateMatrix, mat);
+        const result = MatrixUtility.multiply(rotateMatrix, mat);
         return result;
     }
 
-    static scale2D(vec: Vector2, scalarX: number, scalarY: number): Matrix{
-        const scaleMatrix = MatrixHandler.createScaleMatrix2D(scalarX, scalarY);
-        const scaledVec = new Vector3(vec.x, vec.y, 1);
+    static scale2D(mat: Matrix, scalarX: number, scalarY: number): Matrix{
+        const scaleMatrix = MatrixUtility.createScaleMatrix2D(scalarX, scalarY);
 
-        const result = MatrixHandler.multiply(scaleMatrix, scaledVec);
+        const result = MatrixUtility.multiply(scaleMatrix, mat);
         return result;
     }
 
-    static scale3D(vec: Vector3, scalarX: number, scalarY: number, scalarZ: number): Matrix{
-        const scaleMatrix = MatrixHandler.createScaleMatrix3D(scalarX, scalarY, scalarZ);
-        const scaledVec = new Vector4(vec.x, vec.y, vec.z, 1);
+    static scale3D(mat: Matrix, scalarX: number, scalarY: number, scalarZ: number): Matrix{
+        const scaleMatrix = MatrixUtility.createScaleMatrix3D(scalarX, scalarY, scalarZ);
 
-        const result = MatrixHandler.multiply(scaleMatrix, scaledVec);
+        const result = MatrixUtility.multiply(scaleMatrix, mat);
         return result;
     }
 
@@ -186,11 +164,11 @@ export class MatrixHandler{
 
         switch(baseMatrix.col){
             case 2:
-                return MatrixHandler.createInverseMatrix22(baseMatrix);
+                return MatrixUtility.createInverseMatrix22(baseMatrix);
             case 3:
-                return MatrixHandler.createInverseMatrix33(baseMatrix);
+                return MatrixUtility.createInverseMatrix33(baseMatrix);
             case 4:
-                return MatrixHandler.createInverseMatrix44(baseMatrix);
+                return MatrixUtility.createInverseMatrix44(baseMatrix);
             default:
                 console.log("Not Calculate Inverse!")
                 return Matrix.Empty;
@@ -216,7 +194,7 @@ export class MatrixHandler{
         const rh = 1 / height;
         const rd = 1 / depth;
 
-        const result = MatrixHandler.create(4);
+        const result = MatrixUtility.create(4);
         result.set(0, 0, 2 * rw);
         result.set(1, 1, 2 * rh);
         result.set(2, 2, -2 * rd);
@@ -242,7 +220,7 @@ export class MatrixHandler{
         const fovRadians = MathUtility.degreesToRadians(fovDegrees);
         const tanValue = MathUtility.tan(fovRadians / 2);
         
-        const result = MatrixHandler.create(4);
+        const result = MatrixUtility.create(4);
         result.set(0, 0, 1 / (tanValue * aspect));
         result.set(1, 1, 1 / tanValue);
         result.set(2, 2, -(far + near) / depth);
@@ -253,11 +231,11 @@ export class MatrixHandler{
     }
 
     static lookAt(eyePos: Vector3, targetPos: Vector3, up: Vector3): Matrix{
-        const f = VectorHandler.normalize(VectorHandler.sub(eyePos, targetPos));
-        const r = VectorHandler.normalize(VectorHandler.cross(f, up));
-        const u = VectorHandler.normalize(VectorHandler.cross(r, f));
+        const f = VectorUtility.normalize(VectorUtility.sub(eyePos, targetPos));
+        const r = VectorUtility.normalize(VectorUtility.cross(f, up));
+        const u = VectorUtility.normalize(VectorUtility.cross(r, f));
         
-        const result = MatrixHandler.identity(4);
+        const result = MatrixUtility.identity(4);
         result.set(0, 0, r.x);
         result.set(1, 0, r.y);
         result.set(2, 0, r.z);
@@ -267,9 +245,9 @@ export class MatrixHandler{
         result.set(0, 2, -f.x);
         result.set(1, 2, -f.y);
         result.set(2, 2, -f.z);
-        result.set(0, 3, -VectorHandler.dot(r, eyePos));
-        result.set(1, 3, -VectorHandler.dot(u, eyePos));
-        result.set(2, 3, VectorHandler.dot(f, eyePos));
+        result.set(0, 3, -VectorUtility.dot(r, eyePos));
+        result.set(1, 3, -VectorUtility.dot(u, eyePos));
+        result.set(2, 3, VectorUtility.dot(f, eyePos));
 
         return result;
     }
@@ -289,7 +267,7 @@ export class MatrixHandler{
     }
 
     private static createRotateMatrix2D(angle: number): Matrix{
-        const rotateMatrix = MatrixHandler.identity(3);
+        const rotateMatrix = MatrixUtility.identity(4);
         rotateMatrix.set(0, 0, MathUtility.cos(angle));
         rotateMatrix.set(0, 1, -MathUtility.sin(angle));
         rotateMatrix.set(1, 0, MathUtility.sin(angle));
@@ -299,7 +277,7 @@ export class MatrixHandler{
     }
 
     private static createRotateMatrix3D(angle: number, axis: Vector3): Matrix{
-        const rotateMatrix = MatrixHandler.identity(4);
+        const rotateMatrix = MatrixUtility.identity(4);
         if(axis == DefaultVectorConstants.AXIS2DX){
             rotateMatrix.set(1, 1, MathUtility.cos(angle));
             rotateMatrix.set(1, 2, -MathUtility.sin(angle));
@@ -322,7 +300,7 @@ export class MatrixHandler{
     }
 
     private static createScaleMatrix2D(scalarX: number, scalarY: number): Matrix{
-        const scaleMatrix = MatrixHandler.identity(3);
+        const scaleMatrix = MatrixUtility.identity(3);
         scaleMatrix.set(0, 0, scalarX);
         scaleMatrix.set(1, 1, scalarY);
 
@@ -330,7 +308,7 @@ export class MatrixHandler{
     }
 
     private static createScaleMatrix3D(scalarX: number, scalarY: number, scalarZ: number): Matrix{
-        const scaleMatrix = MatrixHandler.identity(4);
+        const scaleMatrix = MatrixUtility.identity(4);
         scaleMatrix.set(0, 0, scalarX);
         scaleMatrix.set(1, 1, scalarY);
         scaleMatrix.set(2, 2, scalarZ);
@@ -350,7 +328,7 @@ export class MatrixHandler{
         }
 
         const invDet = 1 / det;
-        const result = MatrixHandler.create(2);
+        const result = MatrixUtility.create(2);
         result.set(0, 0, d * invDet);
         result.set(0, 1, -b * invDet);
         result.set(1, 0, -c * invDet);
@@ -375,7 +353,7 @@ export class MatrixHandler{
         }
         
         const invDet = 1 / det;
-        const result = MatrixHandler.create(3);
+        const result = MatrixUtility.create(3);
         result.set(0, 0,  (e*i - f*h) * invDet);
         result.set(0, 1, -(b*i - c*h) * invDet);
         result.set(0, 2,  (b*f - c*e) * invDet);
@@ -419,7 +397,7 @@ export class MatrixHandler{
         }
 
         const invDet = 1 / det;
-        const result = MatrixHandler.create(4);
+        const result = MatrixUtility.create(4);
         result.set(0, 0, (f*k*p + g*l*n + h*j*o - h*k*n - g*j*p - f*l*o) * invDet);
         result.set(0, 1, (-b*k*p - c*l*n - d*j*o + d*k*n + c*j*p + b*l*o) * invDet);
         result.set(0, 2, (b*g*p + c*h*n + d*f*o - d*g*n - c*f*p - b*h*o) * invDet);
