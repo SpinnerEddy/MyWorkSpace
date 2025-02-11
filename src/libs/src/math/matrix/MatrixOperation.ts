@@ -7,4 +7,5 @@ export interface MatrixOperation<T> {
     transpose(): T;
     inverse(): T;
     clone(): T;
+    fillNumber(value: number): void;
 }

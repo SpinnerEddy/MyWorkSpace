@@ -1,41 +1,51 @@
-export class Matrix{
-    private rowNum: number;
-    private colNum: number;
-    private data: Float32Array;
+import { MatrixOperation } from "./MatrixOperation";
 
-    static Empty: Matrix = new Matrix(0, 0);
+export abstract class Matrix<T extends Matrix<T>> implements MatrixOperation<T>{
+    protected dimensionNum: number;
+    protected data: Float32Array;
 
-    constructor(rowNum: number, colNum: number, initializeValue: number = 0){
-        this.rowNum = rowNum;
-        this.colNum = colNum;
-        this.data = new Float32Array(rowNum * colNum).fill(initializeValue);
+    constructor(dimensionNum: number, data?: Float32Array, initializeValue: number = 0){
+        this.dimensionNum = dimensionNum;
+        this.data = data ? 
+                    new Float32Array(data) :
+                    new Float32Array(dimensionNum * dimensionNum).fill(initializeValue);
     }
 
     get(rowIndex: number, colIndex: number): number{
-        return this.data[this.rowNum * colIndex + rowIndex];
+        return this.data[this.dimensionNum * colIndex + rowIndex];
     }
 
     set(rowIndex: number, colIndex: number, value: number): void{
-        this.data[this.rowNum * colIndex + rowIndex] = value;
+        this.data[this.dimensionNum * colIndex + rowIndex] = value;
     }
 
     get col(): number{
-        return this.colNum;
+        return this.dimensionNum;
     }
 
     get row(): number{
-        return this.rowNum;
-    }
-    
-    get isSquareMatrix(): boolean{
-        return this.colNum == this.rowNum;
+        return this.dimensionNum;
     }
 
-    get isEmpty(): boolean{
-        return this == Matrix.Empty;
+    get size(): number{
+        return this.dimensionNum;
+    }
+
+    get elementSize(): number{
+        return this.dimensionNum * this.dimensionNum;
     }
 
     toArray(): Float32Array{
         return this.data;
     }
+
+    abstract identity(): T;
+    abstract add(other: T, out?: T): T;
+    abstract sub(other: T, out?: T): T;
+    abstract multiply(other: T, out?: T): T;
+    abstract div(other: number, out?: T): T;
+    abstract transpose(): T;
+    abstract inverse(): T;
+    abstract clone(): T;
+    abstract fillNumber(value: number): void;
 }

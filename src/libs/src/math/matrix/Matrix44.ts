@@ -8,7 +8,7 @@ import { Matrix } from "./Matrix";
 export class Matrix44 extends Matrix<Matrix44>{
 
     constructor(data?: Float32Array){
-        super(3, data);
+        super(4, data);
     }
 
     identity(): Matrix44 {
@@ -173,6 +173,14 @@ export class Matrix44 extends Matrix<Matrix44>{
         return result;
     }
 
+    clone(): Matrix44 {
+        return new Matrix44(this.data);
+    }
+
+    fillNumber(value: number): void {
+        this.data.fill(value);
+    }
+
     orthographic(left: number, right: number, top: number, bottom: number, near: number, far: number, out?: Matrix44): Matrix44 {
         const width = right - left;
         const height = top - bottom;
@@ -230,7 +238,8 @@ export class Matrix44 extends Matrix<Matrix44>{
         const f = VectorUtility.normalize(VectorUtility.sub(eyePos, targetPos));
         const r = VectorUtility.normalize(VectorUtility.cross(f, up));
         const u = VectorUtility.normalize(VectorUtility.cross(r, f));
-        const result = out ? out : new Matrix44();
+        let result = out ? out : new Matrix44();
+        result = result.identity();
         result.set(0, 0, r.x);
         result.set(1, 0, r.y);
         result.set(2, 0, r.z);
@@ -250,10 +259,10 @@ export class Matrix44 extends Matrix<Matrix44>{
     translate2D(target: Matrix44, offset: Vector2, out?: Matrix44): Matrix44 {
         let result = out ? out : new Matrix44();
         const translateMatrix = this.identity();
-        translateMatrix.set(0, 2, offset.x);
-        translateMatrix.set(1, 2, offset.y);
+        translateMatrix.set(0, 3, offset.x);
+        translateMatrix.set(1, 3, offset.y);
 
-        result = target.multiply(translateMatrix);
+        result = translateMatrix.multiply(target);
         return result;
     }
 
@@ -264,7 +273,7 @@ export class Matrix44 extends Matrix<Matrix44>{
         translateMatrix.set(1, 3, offset.y);
         translateMatrix.set(2, 3, offset.z);
 
-        result = target.multiply(translateMatrix);
+        result = translateMatrix.multiply(target);
         return result;
     }
 
@@ -288,7 +297,7 @@ export class Matrix44 extends Matrix<Matrix44>{
         let result = out ? out : new Matrix44();
 
         const rotateMatrix = this.createRotateMatrix3D(angle, axis);
-        result = target.multiply(rotateMatrix);
+        result = rotateMatrix.multiply(target);
         return result;
     }
 
@@ -296,20 +305,16 @@ export class Matrix44 extends Matrix<Matrix44>{
         let result = out ? out : new Matrix44();
 
         const rotateMatrix = this.createScaleMatrix2D(scaleX, scaleY);
-        result = target.multiply(rotateMatrix);
+        result = rotateMatrix.multiply(target);
         return result;
     }
 
     scale3D(target: Matrix44, scaleX: number, scaleY: number, scaleZ: number, out?: Matrix44): Matrix44 {
         let result = out ? out : new Matrix44();
 
-        const rotateMatrix = this.createScaleMatrix3D(scaleX, scaleY, scaleZ);
-        result = target.multiply(rotateMatrix);
+        const scaleMatrix = this.createScaleMatrix3D(scaleX, scaleY, scaleZ);
+        result = scaleMatrix.multiply(target);
         return result;
-    }
-
-    clone(): Matrix44 {
-        return new Matrix44(this.data);
     }
 
     private createRotateMatrix3D(angle: number, axis: Vector3): Matrix44 {

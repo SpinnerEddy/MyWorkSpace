@@ -129,6 +129,10 @@ export class Matrix33 extends Matrix<Matrix33>{
         return new Matrix33(this.data);
     }
 
+    fillNumber(value: number): void {
+        this.data.fill(value);
+    }
+
     normalMatrix(modelMatrix: Matrix44): Matrix33 {
         const subMatrix = new Matrix33(Float32Array.of(
             modelMatrix.get(0, 0), modelMatrix.get(0, 1), modelMatrix.get(0, 2),

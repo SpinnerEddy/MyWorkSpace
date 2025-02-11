@@ -101,4 +101,8 @@ export class Matrix22 extends Matrix<Matrix22>{
     clone(): Matrix22 {
         return new Matrix22(this.data);
     }
+
+    fillNumber(value: number): void {
+        this.data.fill(value);
+    }
 }

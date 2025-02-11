@@ -1,12 +1,12 @@
-import { Matrix } from "../../src/math/matrix/Matrix";
+import { Matrix44 } from "../../src/math/matrix/Matrix44";
 import { MatrixUtility } from "../../src/math/MatrixUtility";
 import { Vector2 } from "../../src/math/vector/Vector2";
 import { Vector3 } from "../../src/math/vector/Vector3";
 import { DefaultVectorConstants } from "../../src/math/vector/VectorConstants";
 
 test("Matrix Add", () => {
-    let matrixA = MatrixUtility.identity(2);
-    let matrixB = MatrixUtility.identity(2);
+    let matrixA = MatrixUtility.identity22();
+    let matrixB = MatrixUtility.identity22();
 
     matrixA.set(0, 1, 2);
     matrixA.set(1, 0, 3);
@@ -14,7 +14,7 @@ test("Matrix Add", () => {
     matrixB.set(1, 0, 3);
 
     let result = MatrixUtility.add(matrixA, matrixB);
-    let exceptResult = new Matrix(2, 2);
+    let exceptResult = MatrixUtility.identity22();
     exceptResult.set(0, 0, 2);
     exceptResult.set(0, 1, 4);
     exceptResult.set(1, 0, 6);
@@ -24,10 +24,10 @@ test("Matrix Add", () => {
 });
 
 test("Matrix Multiply number", () => {
-    let matrixA = MatrixUtility.identity(2);
+    let matrixA = MatrixUtility.identity22();
 
     let result = MatrixUtility.multiply(matrixA, 5);
-    let exceptResult = new Matrix(2, 2);
+    let exceptResult = MatrixUtility.identity22();
     exceptResult.set(0, 0, 5);
     exceptResult.set(0, 1, 0);
     exceptResult.set(1, 0, 0);
@@ -37,14 +37,16 @@ test("Matrix Multiply number", () => {
 });
 
 test("Matrix Multiply Matrix", () => {
-    let matrixA = MatrixUtility.identity(2);
-    let matrixB = MatrixUtility.identity(2);
+    let matrixA = MatrixUtility.identity22();
+    let matrixB = MatrixUtility.identity22();
+
     matrixA = MatrixUtility.multiply(matrixA, 5);
     matrixB.set(0, 1, 3);
     matrixB.set(1, 0, 2);
     let result = MatrixUtility.multiply(matrixA, matrixB);
 
-    let exceptResult = new Matrix(2, 2);
+    let exceptResult = MatrixUtility.identity22();
+    exceptResult.identity();
     exceptResult.set(0, 0, 5);
     exceptResult.set(0, 1, 15);
     exceptResult.set(1, 0, 10);
@@ -54,14 +56,15 @@ test("Matrix Multiply Matrix", () => {
 });
 
 test("Matrix Multiply Matrix", () => {
-    let matrixA = MatrixUtility.identity(2);
-    let matrixB = MatrixUtility.identity(2);
+    let matrixA = MatrixUtility.identity22();
+    let matrixB = MatrixUtility.identity22();
+
     matrixA = MatrixUtility.multiply(matrixA, 5);
     matrixB.set(0, 1, 3);
     matrixB.set(1, 0, 2);
     let result = MatrixUtility.multiply(matrixA, matrixB);
 
-    let exceptResult = new Matrix(2, 2);
+    let exceptResult = MatrixUtility.identity22();
     exceptResult.set(0, 0, 5);
     exceptResult.set(0, 1, 15);
     exceptResult.set(1, 0, 10);
@@ -70,48 +73,15 @@ test("Matrix Multiply Matrix", () => {
     expect(result).toEqual(exceptResult);
 });
 
-test("Matrix Multiply Matrix not square", () => {
-    let matrixA = new Matrix(3, 2, 0);
-    let matrixB = new Matrix(2, 3, 0);
-    matrixA.set(0, 0, 1);
-    matrixA.set(0, 1, 2);
-    matrixA.set(0, 2, 3);
-    matrixA.set(1, 0, 1);
-    matrixA.set(1, 1, 2);
-    matrixA.set(1, 2, 3);
-
-    matrixB.set(0, 0, 1);
-    matrixB.set(0, 1, 1);
-    matrixB.set(1, 0, 2);
-    matrixB.set(1, 1, 2);
-    matrixB.set(2, 0, 3);
-    matrixB.set(2, 1, 3);
-
-    let result = MatrixUtility.multiply(matrixA, matrixB);
-
-    let exceptResult = new Matrix(3, 3);
-    exceptResult.set(0, 0, 2);
-    exceptResult.set(1, 0, 4);
-    exceptResult.set(2, 0, 6);
-    exceptResult.set(0, 1, 4);
-    exceptResult.set(1, 1, 8);
-    exceptResult.set(2, 1, 12);
-    exceptResult.set(0, 2, 6);
-    exceptResult.set(1, 2, 12);
-    exceptResult.set(2, 2, 18);
-
-    expect(result.row).toEqual(exceptResult.row);
-    expect(result.col).toEqual(exceptResult.col);
-});
 
 test("Vector Translate2D", () => {
-    let mat = MatrixUtility.identity(4);
+    let mat = MatrixUtility.identity44();
     mat.set(0, 3, 1);
     mat.set(1, 3, 2);
     let translateVector = new Vector2(3, 4);
 
     let result = MatrixUtility.translate2D(mat, translateVector);
-    let exceptResult = MatrixUtility.identity(4);
+    let exceptResult = MatrixUtility.identity44();
     exceptResult.set(0, 3, 4);
     exceptResult.set(1, 3, 6);
 
@@ -119,11 +89,11 @@ test("Vector Translate2D", () => {
 });
 
 test("Vector Translate3D 1", () => {
-    let mat = MatrixUtility.identity(4);
+    let mat = MatrixUtility.identity44();
     let translateVector = new Vector3(1, 2, 3);
 
     let result = MatrixUtility.translate3D(mat, translateVector);
-    let exceptResult = MatrixUtility.identity(4);
+    let exceptResult = MatrixUtility.identity44();
     exceptResult.set(0, 3, 1);
     exceptResult.set(1, 3, 2);
     exceptResult.set(2, 3, 3);
@@ -133,14 +103,14 @@ test("Vector Translate3D 1", () => {
 });
 
 test("Vector Translate3D 2", () => {
-    let mat = MatrixUtility.identity(4);
+    let mat = MatrixUtility.identity44();
     mat.set(0, 3, 5);
     mat.set(1, 3, -5);
     mat.set(2, 3, 10);
     let translateVector = new Vector3(2, 3, -4);
 
     let result = MatrixUtility.translate3D(mat, translateVector);
-    let exceptResult = MatrixUtility.identity(4);
+    let exceptResult = MatrixUtility.identity44();
     exceptResult.set(0, 3, 7);
     exceptResult.set(1, 3, -2);
     exceptResult.set(2, 3, 6);
@@ -150,14 +120,14 @@ test("Vector Translate3D 2", () => {
 });
 
 test("Vector Translate3D 3", () => {
-    let mat = MatrixUtility.identity(4);
+    let mat = MatrixUtility.identity44();
     mat.set(0, 3, 5);
     mat.set(1, 3, -5);
     mat.set(2, 3, 10);
     let translateVector = new Vector3(0, 0, 0);
 
     let result = MatrixUtility.translate3D(mat, translateVector);
-    let exceptResult = MatrixUtility.identity(4);
+    let exceptResult = MatrixUtility.identity44();
     exceptResult.set(0, 3, 5);
     exceptResult.set(1, 3, -5);
     exceptResult.set(2, 3, 10);
@@ -167,13 +137,13 @@ test("Vector Translate3D 3", () => {
 });
 
 test("Vector rotate2D 1", () => {
-    let mat = MatrixUtility.identity(4);
+    let mat = MatrixUtility.identity44();
     mat.set(0, 3, 1);
     mat.set(1, 3, 0);
     let angle = Math.PI * 0.5;
 
     let result = MatrixUtility.rotate2D(mat, angle);
-    let exceptResult = MatrixUtility.identity(4);
+    let exceptResult = MatrixUtility.identity44();
     exceptResult.set(0, 0, 0);
     exceptResult.set(0, 1, -1);
     exceptResult.set(1, 0, 1);
@@ -184,13 +154,13 @@ test("Vector rotate2D 1", () => {
 });
 
 test("Vector rotate2D 2", () => {
-    let mat = MatrixUtility.identity(4);
+    let mat = MatrixUtility.identity44();
     mat.set(0, 3, 1);
     mat.set(1, 3, 0);
     let angle = Math.PI;
 
     let result = MatrixUtility.rotate2D(mat, angle);
-    let exceptResult = MatrixUtility.identity(4);
+    let exceptResult = MatrixUtility.identity44();
     exceptResult.set(0, 0, -1);
     exceptResult.set(0, 3, -1);
     exceptResult.set(1, 1, -1);
@@ -199,14 +169,14 @@ test("Vector rotate2D 2", () => {
 });
 
 test("Vector rotate3D 1", () => {
-    let mat = MatrixUtility.identity(4);
+    let mat = MatrixUtility.identity44();
     mat.set(0, 3, 1);
     mat.set(1, 3, 0);
     mat.set(2, 3, 0);
     let angle = Math.PI * 0.5;
 
     let result = MatrixUtility.rotate3D(mat, angle, DefaultVectorConstants.AXIS2DY);
-    let exceptResult = MatrixUtility.identity(4);
+    let exceptResult = MatrixUtility.identity44();
     exceptResult.set(0, 0, 0);
     exceptResult.set(0, 2, 1);
     exceptResult.set(2, 0, -1);
@@ -217,14 +187,14 @@ test("Vector rotate3D 1", () => {
 });
 
 test("Vector rotate3D 2", () => {
-    let mat = MatrixUtility.identity(4);
+    let mat = MatrixUtility.identity44();
     mat.set(0, 3, 0);
     mat.set(1, 3, 1);
     mat.set(2, 3, 0);
     let angle = Math.PI * 0.5;
 
     let result = MatrixUtility.rotate3D(mat, angle, DefaultVectorConstants.AXIS2DX);
-    let exceptResult = MatrixUtility.identity(4);
+    let exceptResult = MatrixUtility.identity44();
     exceptResult.set(1, 1, 0);
     exceptResult.set(1, 2, -1);
     exceptResult.set(2, 1, 1);
@@ -235,7 +205,7 @@ test("Vector rotate3D 2", () => {
 });
 
 test("Matrix Inverse 2x2", () => {
-    let matrix = new Matrix(2, 2, 0);
+    let matrix = MatrixUtility.identity22();
     matrix.set(0, 0, 1);
     matrix.set(0, 1, 2);
     matrix.set(1, 0, 3);
@@ -243,7 +213,7 @@ test("Matrix Inverse 2x2", () => {
 
     let result = MatrixUtility.inverse(matrix);
 
-    let exceptResult = new Matrix(2, 2, 0);
+    let exceptResult = MatrixUtility.identity22();
     exceptResult.set(0, 0, -2);
     exceptResult.set(0, 1, 1);
     exceptResult.set(1, 0, 1.5);
@@ -253,14 +223,16 @@ test("Matrix Inverse 2x2", () => {
 });
 
 test("Matrix Inverse 3x3", () => {
-    let matrix = new Matrix(3, 3, 1);
+    let matrix = MatrixUtility.identity33();
+    matrix.fillNumber(1);
     matrix.set(0, 2, 2);
     matrix.set(1, 1, 2);
     matrix.set(2, 0, 2);
 
     let result = MatrixUtility.inverse(matrix);
 
-    let exceptResult = new Matrix(3, 3, -0.25);
+    let exceptResult = MatrixUtility.identity33();
+    exceptResult.fillNumber(-0.25);
     exceptResult.set(0, 2, 0.75);
     exceptResult.set(1, 1, 0.75);
     exceptResult.set(2, 0, 0.75);
@@ -270,7 +242,8 @@ test("Matrix Inverse 3x3", () => {
 
 
 test("Matrix Inverse 4x4", () => {
-    let matrix = new Matrix(4, 4, 1);
+    let matrix = MatrixUtility.identity44();
+    matrix.fillNumber(1);
     matrix.set(0, 3, -1);
     matrix.set(1, 2, -1);
     matrix.set(2, 1, -1);
@@ -278,7 +251,8 @@ test("Matrix Inverse 4x4", () => {
 
     let result = MatrixUtility.inverse(matrix);
 
-    let exceptResult = new Matrix(4, 4, 1/4);
+    let exceptResult = MatrixUtility.identity44();
+    exceptResult.fillNumber(1/4);
     exceptResult.set(0, 3, -1/4);
     exceptResult.set(1, 2, -1/4);
     exceptResult.set(2, 1, -1/4);
@@ -290,7 +264,7 @@ test("Matrix Inverse 4x4", () => {
 test("Matrix Perspective", () => {
     let result = MatrixUtility.perspective(90, 16, 9, 1, 100);
 
-    let exceptResult = MatrixUtility.create(4);
+    let exceptResult = new Matrix44();
     exceptResult.set(0, 0, 0.5625);
     exceptResult.set(1, 1, 1);
     exceptResult.set(2, 2, -1.0202);
@@ -318,7 +292,7 @@ test("Matrix Perspective", () => {
 test("Matrix Orthographic", () => {
     let result = MatrixUtility.orthographic(-2, 2, 2, -2, 1, 10);
 
-    let exceptResult = MatrixUtility.create(4);
+    let exceptResult = new Matrix44();
     exceptResult.set(0, 0, 0.5);
     exceptResult.set(1, 1, 0.5);
     exceptResult.set(2, 2, -0.222);
@@ -349,7 +323,7 @@ test("Matrix LookAt", () => {
     const up = new Vector3(0, 1, 0);
     let result = MatrixUtility.lookAt(eyePos, targetPos, up);
 
-    let exceptResult = MatrixUtility.create(4);
+    let exceptResult = new Matrix44();
     exceptResult.set(2, 0, -1);
     exceptResult.set(1, 1, 1);
     exceptResult.set(0, 2, 1);

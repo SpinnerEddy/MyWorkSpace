@@ -1,4 +1,4 @@
-import { Matrix44 } from "../matrix_new/Matrix44";
+import { Matrix44 } from "../matrix/Matrix44";
 import { QuaternionUtility } from "../QuaternionUtility";
 import { DefaultVectorConstants } from "../vector/VectorConstants";
 
