@@ -51,16 +51,27 @@ export class Matrix33 extends Matrix<Matrix33>{
         return out ?? new Matrix33(result);
     }
 
-    multiply(other: Matrix33, out?: Matrix33): Matrix33 {
+    multiply(other: Matrix33, out?: Matrix33): Matrix33;
+    multiply(other: number, out?: Matrix33): Matrix33;
+    multiply(other: Matrix33 | number, out?: Matrix33): Matrix33 {
         const result = out ?? new Matrix33(new Float32Array(this.elementSize));
 
-        for(let rowIndex = 0; rowIndex < this.row; rowIndex++){
-            for(let colIndex = 0; colIndex < other.col; colIndex++){
-                let sum = 0;
-                for(let k = 0; k < this.col; k++){
-                    sum += this.get(rowIndex, k) * other.get(k, colIndex);
+        if(other instanceof Matrix){
+            for(let rowIndex = 0; rowIndex < this.row; rowIndex++){
+                for(let colIndex = 0; colIndex < other.col; colIndex++){
+                    let sum = 0;
+                    for(let k = 0; k < this.col; k++){
+                        sum += this.get(rowIndex, k) * other.get(k, colIndex);
+                    }
+                    result.set(rowIndex, colIndex, sum);
                 }
-                result.set(rowIndex, colIndex, sum);
+            }
+        }
+        else{
+            for(let rowIndex = 0; rowIndex < this.row; rowIndex++){
+                for(let colIndex = 0; colIndex < this.col; colIndex++){
+                    result.set(rowIndex, colIndex, this.get(rowIndex, colIndex) * other);
+                }
             }
         }
 

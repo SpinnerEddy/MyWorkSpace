@@ -42,6 +42,7 @@ export abstract class Matrix<T extends Matrix<T>> implements MatrixOperation<T>{
     abstract identity(): T;
     abstract add(other: T, out?: T): T;
     abstract sub(other: T, out?: T): T;
+    abstract multiply(other: number, out?: T): T;
     abstract multiply(other: T, out?: T): T;
     abstract div(other: number, out?: T): T;
     abstract transpose(): T;

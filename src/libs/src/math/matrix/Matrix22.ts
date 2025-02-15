@@ -39,16 +39,27 @@ export class Matrix22 extends Matrix<Matrix22>{
         return out ?? new Matrix22(result);
     }
 
-    multiply(other: Matrix22, out?: Matrix22): Matrix22 {
+    multiply(other: Matrix22, out?: Matrix22): Matrix22;
+    multiply(other: number, out?: Matrix22): Matrix22;
+    multiply(other: Matrix22 | number, out?: Matrix22): Matrix22 {
         const result = out ?? new Matrix22(new Float32Array(this.elementSize));
 
-        for(let rowIndex = 0; rowIndex < this.row; rowIndex++){
-            for(let colIndex = 0; colIndex < other.col; colIndex++){
-                let sum = 0;
-                for(let k = 0; k < this.col; k++){
-                    sum += this.get(rowIndex, k) * other.get(k, colIndex);
+        if(other instanceof Matrix){
+            for(let rowIndex = 0; rowIndex < this.row; rowIndex++){
+                for(let colIndex = 0; colIndex < other.col; colIndex++){
+                    let sum = 0;
+                    for(let k = 0; k < this.col; k++){
+                        sum += this.get(rowIndex, k) * other.get(k, colIndex);
+                    }
+                    result.set(rowIndex, colIndex, sum);
                 }
-                result.set(rowIndex, colIndex, sum);
+            }
+        }
+        else{
+            for(let rowIndex = 0; rowIndex < this.row; rowIndex++){
+                for(let colIndex = 0; colIndex < this.col; colIndex++){
+                    result.set(rowIndex, colIndex, this.get(rowIndex, colIndex) * other);
+                }
             }
         }
 

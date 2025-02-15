@@ -44,25 +44,21 @@ export class MatrixUtility{
     static multiply<T extends Matrix<T>>(a: T, b: T): T;
     static multiply<T extends Matrix<T>>(a: T, b: number): T;
     static multiply<T extends Matrix<T>>(a: T, b: T | number): T {
+        const result = this.createMatrixInstance<T>(a.size);
+
         if(b instanceof Matrix){
             if(a.col != b.row){
                 throw new Error("Not Equal A Row Number and B Col Number. Cannot Multiply!");
             }
 
-            const result = this.createMatrixInstance<T>(a.size);
             a.multiply(b, result);
-            
-            return result;
         }
         else{
-            const result = this.createMatrixInstance<T>(a.size);
-            for(let rowIndex = 0; rowIndex < a.row; rowIndex++){
-                for(let colIndex = 0; colIndex < a.col; colIndex++){
-                    result.set(rowIndex, colIndex, a.get(rowIndex, colIndex) * b);
-                }
-            }
-            return result;
+            
+            a.multiply(b, result);
         }
+        
+        return result;
     }
 
     static div<T extends Matrix<T>>(a: T, b: number): T {

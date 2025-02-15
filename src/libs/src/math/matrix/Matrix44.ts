@@ -71,16 +71,27 @@ export class Matrix44 extends Matrix<Matrix44>{
         return out ?? new Matrix44(result);
     }
 
-    multiply(other: Matrix44, out?: Matrix44): Matrix44 {
+    multiply(other: Matrix44, out?: Matrix44): Matrix44;
+    multiply(other: number, out?: Matrix44): Matrix44;
+    multiply(other: Matrix44 | number, out?: Matrix44): Matrix44 {
         const result = out ?? new Matrix44();
 
-        for(let rowIndex = 0; rowIndex < this.row; rowIndex++){
-            for(let colIndex = 0; colIndex < other.col; colIndex++){
-                let sum = 0;
-                for(let k = 0; k < this.col; k++){
-                    sum += this.get(rowIndex, k) * other.get(k, colIndex);
+        if(other instanceof Matrix){
+            for(let rowIndex = 0; rowIndex < this.row; rowIndex++){
+                for(let colIndex = 0; colIndex < other.col; colIndex++){
+                    let sum = 0;
+                    for(let k = 0; k < this.col; k++){
+                        sum += this.get(rowIndex, k) * other.get(k, colIndex);
+                    }
+                    result.set(rowIndex, colIndex, sum);
                 }
-                result.set(rowIndex, colIndex, sum);
+            }
+        }
+        else{
+            for(let rowIndex = 0; rowIndex < this.row; rowIndex++){
+                for(let colIndex = 0; colIndex < this.col; colIndex++){
+                    result.set(rowIndex, colIndex, this.get(rowIndex, colIndex) * other);
+                }
             }
         }
 
