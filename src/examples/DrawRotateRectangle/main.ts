@@ -70,7 +70,7 @@ function main()
 
     function render(){
         util.clearColor(ColorUtility.hexToColor01(MyColorCode.COLOR_HARUKI));
-        modelMatrix = modelMatrix.rotate3D(modelMatrix, 0.05, DefaultVectorConstants.AXIS2DZ, modelMatrix);
+        modelMatrix = modelMatrix.rotate3D(0.05, DefaultVectorConstants.AXIS2DZ, modelMatrix);
         mvpMatrix = MatrixCalculator.multiply(MatrixCalculator.multiply(projectionMatrix, viewMatrix), modelMatrix);
 
         gl.uniform3fv(colorUniformLocation, ColorUtility.hexToColor01(MyColorCode.COLOR_SENA).toRGBArray);

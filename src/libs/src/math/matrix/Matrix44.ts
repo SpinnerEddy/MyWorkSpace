@@ -267,64 +267,64 @@ export class Matrix44 extends Matrix<Matrix44>{
         return result;
     }
 
-    translate2D(target: Matrix44, offset: Vector2, out?: Matrix44): Matrix44 {
+    translate2D(offset: Vector2, out?: Matrix44): Matrix44 {
         let result = out ? out : new Matrix44();
         const translateMatrix = this.identity();
         translateMatrix.set(0, 3, offset.x);
         translateMatrix.set(1, 3, offset.y);
 
-        result = translateMatrix.multiply(target);
+        result = translateMatrix.multiply(this);
         return result;
     }
 
-    translate3D(target: Matrix44, offset: Vector3, out?: Matrix44): Matrix44 {
+    translate3D(offset: Vector3, out?: Matrix44): Matrix44 {
         let result = out ? out : new Matrix44();
         const translateMatrix = this.identity();
         translateMatrix.set(0, 3, offset.x);
         translateMatrix.set(1, 3, offset.y);
         translateMatrix.set(2, 3, offset.z);
 
-        result = translateMatrix.multiply(target);
+        result = translateMatrix.multiply(this);
         return result;
     }
 
-    rotateX(target: Matrix44, angle: number, out?: Matrix44): Matrix44 {
-        return this.rotate3D(target, angle, DefaultVectorConstants.AXIS2DX, out);
+    rotateX(angle: number, out?: Matrix44): Matrix44 {
+        return this.rotate3D(angle, DefaultVectorConstants.AXIS2DX, out);
     }
 
-    rotateY(target: Matrix44, angle: number, out?: Matrix44): Matrix44 {
-        return this.rotate3D(target, angle, DefaultVectorConstants.AXIS2DY, out);
+    rotateY(angle: number, out?: Matrix44): Matrix44 {
+        return this.rotate3D(angle, DefaultVectorConstants.AXIS2DY, out);
     }
 
-    rotateZ(target: Matrix44, angle: number, out?: Matrix44): Matrix44 {
-        return this.rotate3D(target, angle, DefaultVectorConstants.AXIS2DZ, out);
+    rotateZ(angle: number, out?: Matrix44): Matrix44 {
+        return this.rotate3D(angle, DefaultVectorConstants.AXIS2DZ, out);
     }
 
-    rotate2D(target: Matrix44, angle: number, out?: Matrix44): Matrix44 {
-        return this.rotateZ(target, angle, out);
+    rotate2D(angle: number, out?: Matrix44): Matrix44 {
+        return this.rotateZ(angle, out);
     }
 
-    rotate3D(target: Matrix44, angle: number, axis: Vector3, out?: Matrix44): Matrix44 {
+    rotate3D(angle: number, axis: Vector3, out?: Matrix44): Matrix44 {
         let result = out ? out : new Matrix44();
 
         const rotateMatrix = this.createRotateMatrix3D(angle, axis);
-        result = rotateMatrix.multiply(target);
+        result = rotateMatrix.multiply(this);
         return result;
     }
 
-    scale2D(target: Matrix44, scaleX: number, scaleY: number, out?: Matrix44): Matrix44 {
+    scale2D(scaleX: number, scaleY: number, out?: Matrix44): Matrix44 {
         let result = out ? out : new Matrix44();
 
         const rotateMatrix = this.createScaleMatrix2D(scaleX, scaleY);
-        result = rotateMatrix.multiply(target);
+        result = rotateMatrix.multiply(this);
         return result;
     }
 
-    scale3D(target: Matrix44, scaleX: number, scaleY: number, scaleZ: number, out?: Matrix44): Matrix44 {
+    scale3D(scaleX: number, scaleY: number, scaleZ: number, out?: Matrix44): Matrix44 {
         let result = out ? out : new Matrix44();
 
         const scaleMatrix = this.createScaleMatrix3D(scaleX, scaleY, scaleZ);
-        result = scaleMatrix.multiply(target);
+        result = scaleMatrix.multiply(this);
         return result;
     }
 

@@ -73,32 +73,32 @@ export class MatrixCalculator{
     }
 
     static translate2D(target: Matrix44, offset: Vector2): Matrix44 {
-        const result = target.translate2D(target, offset);
+        const result = target.translate2D(offset);
         return result;
     }
 
     static translate3D(target: Matrix44, offset: Vector3): Matrix44 {
-        const result = target.translate3D(target, offset);
+        const result = target.translate3D(offset);
         return result;
     }
 
     static rotate2D(target: Matrix44, angle: number): Matrix44 {
-        const result = target.rotate2D(target, angle);
+        const result = target.rotate2D(angle);
         return result;
     }
 
     static rotate3D(target: Matrix44, angle: number, axis: Vector3): Matrix44 {
-        const result = target.rotate3D(target, angle, axis);
+        const result = target.rotate3D(angle, axis);
         return result;
     }
 
     static scale2D(target: Matrix44, scaleX: number, scaleY: number): Matrix44 {
-        const result = target.scale2D(target, scaleX, scaleY);
+        const result = target.scale2D(scaleX, scaleY);
         return result;
     }
 
     static scale3D(target: Matrix44, scaleX: number, scaleY: number, scaleZ: number): Matrix44 {
-        const result = target.scale3D(target, scaleX, scaleY, scaleZ);
+        const result = target.scale3D(scaleX, scaleY, scaleZ);
         return result;
     }
 
