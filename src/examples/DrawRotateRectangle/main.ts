@@ -1,6 +1,6 @@
 import { MyColorCode } from "../../libs/src/color/ColorConstants";
 import { ColorUtility } from "../../libs/src/color/ColorUtility";
-import { MatrixUtility } from "../../libs/src/math/MatrixCalculator";
+import { MatrixCalculator } from "../../libs/src/math/MatrixCalculator";
 import { Vector3 } from "../../libs/src/math/vector/Vector3";
 import { DefaultVectorConstants } from "../../libs/src/math/vector/VectorConstants";
 import { WebGLUtility } from "../../libs/src/webgl/WebGLUtility";
@@ -60,10 +60,10 @@ function main()
     gl.enableVertexAttribArray(positionLocationIndex);
     gl.vertexAttribPointer(positionLocationIndex, 3, gl.FLOAT, false, 0, 0);
 
-    let modelMatrix = MatrixUtility.identity44();
-    let viewMatrix = MatrixUtility.lookAt(new Vector3(0.0, 0.0, 3.0), new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 1.0, 0.0));
-    let projectionMatrix = MatrixUtility.perspective(45, canvas.width, canvas.height, 0.1, 100);
-    let mvpMatrix = MatrixUtility.multiply(MatrixUtility.multiply(projectionMatrix, viewMatrix), modelMatrix);
+    let modelMatrix = MatrixCalculator.identity44();
+    let viewMatrix = MatrixCalculator.lookAt(new Vector3(0.0, 0.0, 3.0), new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 1.0, 0.0));
+    let projectionMatrix = MatrixCalculator.perspective(45, canvas.width, canvas.height, 0.1, 100);
+    let mvpMatrix = MatrixCalculator.multiply(MatrixCalculator.multiply(projectionMatrix, viewMatrix), modelMatrix);
 
     const mvpMatrixUniformLocation = gl.getUniformLocation(program, 'mvpMatrix');
     const colorUniformLocation = gl.getUniformLocation(program, 'uColor');
@@ -71,7 +71,7 @@ function main()
     function render(){
         util.clearColor(ColorUtility.hexToColor01(MyColorCode.COLOR_HARUKI));
         modelMatrix = modelMatrix.rotate3D(modelMatrix, 0.05, DefaultVectorConstants.AXIS2DZ, modelMatrix);
-        mvpMatrix = MatrixUtility.multiply(MatrixUtility.multiply(projectionMatrix, viewMatrix), modelMatrix);
+        mvpMatrix = MatrixCalculator.multiply(MatrixCalculator.multiply(projectionMatrix, viewMatrix), modelMatrix);
 
         gl.uniform3fv(colorUniformLocation, ColorUtility.hexToColor01(MyColorCode.COLOR_SENA).toRGBArray);
         gl.uniformMatrix4fv(mvpMatrixUniformLocation, false, mvpMatrix.toArray());
