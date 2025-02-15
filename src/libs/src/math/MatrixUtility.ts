@@ -25,11 +25,7 @@ export class MatrixUtility{
         }
         
         const result = this.createMatrixInstance<T>(a.size);
-        for(let x = 0; x < a.row; x++){
-            for(let y = 0; y < a.col; y++){
-                result.set(x, y, a.get(x, y) + b.get(x, y));
-            }
-        }
+        a.add(b, result);
 
         return result;
     }
@@ -40,11 +36,7 @@ export class MatrixUtility{
         }
         
         const result = this.createMatrixInstance<T>(a.size);
-        for(let x = 0; x < a.row; x++){
-            for(let y = 0; y < a.col; y++){
-                result.set(x, y, a.get(x, y) - b.get(x, y));
-            }
-        }
+        a.sub(b, result);
 
         return result;
     }
@@ -58,15 +50,7 @@ export class MatrixUtility{
             }
 
             const result = this.createMatrixInstance<T>(a.size);
-            for(let rowIndex = 0; rowIndex < a.row; rowIndex++){
-                for(let colIndex = 0; colIndex < b.col; colIndex++){
-                    let sum = 0;
-                    for(let k = 0; k < a.col; k++){
-                        sum += a.get(rowIndex, k) * b.get(k, colIndex);
-                    }
-                    result.set(rowIndex, colIndex, sum);
-                }
-            }
+            a.multiply(b, result);
             
             return result;
         }
@@ -87,11 +71,7 @@ export class MatrixUtility{
         }
 
         const result = this.createMatrixInstance<T>(a.size);
-        for(let x = 0; x < a.row; x++){
-            for(let y = 0; y < a.col; y++){
-                result.set(x, y, a.get(x, y) / b);
-            }
-        }
+        a.div(b, result);
 
         return result;
     }

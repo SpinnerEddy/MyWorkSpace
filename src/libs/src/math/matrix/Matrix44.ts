@@ -235,7 +235,7 @@ export class Matrix44 extends Matrix<Matrix44>{
     }
 
     lookAt(eyePos: Vector3, targetPos: Vector3, up: Vector3, out?: Matrix44): Matrix44 {
-        const f = VectorUtility.normalize(VectorUtility.sub(eyePos, targetPos));
+        const f = VectorUtility.normalize(VectorUtility.sub(targetPos, eyePos));
         const r = VectorUtility.normalize(VectorUtility.cross(f, up));
         const u = VectorUtility.normalize(VectorUtility.cross(r, f));
         let result = out ? out : new Matrix44();
@@ -251,7 +251,7 @@ export class Matrix44 extends Matrix<Matrix44>{
         result.set(2, 2, -f.z);
         result.set(0, 3, -VectorUtility.dot(r, eyePos));
         result.set(1, 3, -VectorUtility.dot(u, eyePos));
-        result.set(2, 3, VectorUtility.dot(f, eyePos));
+        result.set(2, 3, -VectorUtility.dot(f, eyePos));
 
         return result;
     }

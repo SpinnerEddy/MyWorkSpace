@@ -323,12 +323,16 @@ test("Matrix LookAt", () => {
     const up = new Vector3(0, 1, 0);
     let result = MatrixUtility.lookAt(eyePos, targetPos, up);
 
+    console.log(result);
+
     let exceptResult = new Matrix44();
-    exceptResult.set(2, 0, -1);
+    exceptResult.set(0, 2, -1);
     exceptResult.set(1, 1, 1);
-    exceptResult.set(0, 2, 1);
+    exceptResult.set(2, 0, 1);
     exceptResult.set(2, 3, -1);
     exceptResult.set(3, 3, 1);
+
+    console.log(exceptResult);
 
     expect(result.get(0, 0)).toBeCloseTo(exceptResult.get(0, 0));
     expect(result.get(0, 1)).toBeCloseTo(exceptResult.get(0, 1));
