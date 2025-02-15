@@ -4,16 +4,16 @@ import { Vector2 } from "./vector/Vector2";
 import { Vector3 } from "./vector/Vector3";
 import { VectorClassAndSizePair } from "./vector/VectorConstants";
 
-export class VectorUtility{
+export class VectorCalculator{
     static min<T extends Vector<T>>(a: T, b: T): T {
-        const aLength = VectorUtility.length(a);
-        const bLength = VectorUtility.length(b);
+        const aLength = VectorCalculator.length(a);
+        const bLength = VectorCalculator.length(b);
         return aLength <= bLength ? a: b;
     }
 
     static max<T extends Vector<T>>(a: T, b: T): T {
-        const aLength = VectorUtility.length(a);
-        const bLength = VectorUtility.length(b);
+        const aLength = VectorCalculator.length(a);
+        const bLength = VectorCalculator.length(b);
         return aLength >= bLength ? a: b;
     }
 
@@ -23,7 +23,7 @@ export class VectorUtility{
         }
 
         const result = a.values.map((val, index) => val + b.values[index]);
-        return VectorUtility.convertVector(a.size, result);
+        return VectorCalculator.convertVector(a.size, result);
     }
 
     static sub<T extends Vector<T>>(a: T, b: T): T {
@@ -32,12 +32,12 @@ export class VectorUtility{
         }
 
         const result = b.values.map((val, index) => val - a.values[index]);
-        return VectorUtility.convertVector(a.size, result);
+        return VectorCalculator.convertVector(a.size, result);
     }
 
     static calcDistance<T extends Vector<T>>(a: T, b: T): number {
-        const subVector = VectorUtility.sub(a, b);
-        const result = VectorUtility.length(subVector);
+        const subVector = VectorCalculator.sub(a, b);
+        const result = VectorCalculator.length(subVector);
         return result;
     }
 
@@ -46,9 +46,9 @@ export class VectorUtility{
             throw new Error("Vector lengths not equal! Cannot Additive!")
         }
 
-        const dotProduct = VectorUtility.dot(a, b);
-        const aLength = VectorUtility.length(a);
-        const bLength = VectorUtility.length(b);
+        const dotProduct = VectorCalculator.dot(a, b);
+        const aLength = VectorCalculator.length(a);
+        const bLength = VectorCalculator.length(b);
 
         if(aLength == 0 || bLength == 9){
             throw new Error('Vector length is zero. Cannot calculate!')
@@ -71,7 +71,7 @@ export class VectorUtility{
 
     static multiply<T extends Vector<T>>(a: T, b: number): T {
         const result = a.values.map((val) => val * b);
-        return VectorUtility.convertVector(a.size, result);
+        return VectorCalculator.convertVector(a.size, result);
     }
 
     static divide<T extends Vector<T>>(a: T, b: number): T {
@@ -79,7 +79,7 @@ export class VectorUtility{
             throw new Error("Cannot divide because b is zero!!");
         }
         const result = a.values.map((val) => val / b);
-        return VectorUtility.convertVector(a.size, result);
+        return VectorCalculator.convertVector(a.size, result);
     }
 
     static limit<T extends Vector<T>>(a: T, b: number): T {
@@ -87,19 +87,19 @@ export class VectorUtility{
             return a;
         }
 
-        const result = VectorUtility.setLength(a, b);
+        const result = VectorCalculator.setLength(a, b);
         return result;
     }
 
     static setLength<T extends Vector<T>>(a: T, b: number): T {
-        const norm = VectorUtility.normalize(a);
-        const result = VectorUtility.multiply(norm, b);
+        const norm = VectorCalculator.normalize(a);
+        const result = VectorCalculator.multiply(norm, b);
         return result;
     }
 
     static normalize<T extends Vector<T>>(vector: T): T {
-        const len = VectorUtility.length(vector);
-        const result = VectorUtility.divide(vector, len);
+        const len = VectorCalculator.length(vector);
+        const result = VectorCalculator.divide(vector, len);
 
         return result;
     }
@@ -114,9 +114,9 @@ export class VectorUtility{
         if(t == 0) return min;
         if(t == 1) return max;
 
-        const a = VectorUtility.multiply(min, (1 - t));
-        const b = VectorUtility.multiply(max, t);
-        const result = VectorUtility.add(a, b);
+        const a = VectorCalculator.multiply(min, (1 - t));
+        const b = VectorCalculator.multiply(max, t);
+        const result = VectorCalculator.add(a, b);
         return result;
     }
 

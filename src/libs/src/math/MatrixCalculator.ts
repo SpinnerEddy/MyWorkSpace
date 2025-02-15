@@ -6,7 +6,7 @@ import { MatrixClassAndSizePair } from "./matrix/MatrixConstants";
 import { Vector2 } from "./vector/Vector2";
 import { Vector3 } from "./vector/Vector3";
 
-export class MatrixUtility{
+export class MatrixCalculator{
     static identity22(): Matrix22 {
         return new Matrix22().identity();
     }
@@ -139,7 +139,6 @@ export class MatrixUtility{
 
         return true;
     }
-
 
     private static createMatrixInstance<T extends Matrix<T>>(size: number): T {
         const matrixClass = MatrixClassAndSizePair[size] as new () => T;
