@@ -61,6 +61,7 @@ function main()
     gl.vertexAttribPointer(positionLocationIndex, 3, gl.FLOAT, false, 0, 0);
 
     let modelMatrix = MatrixCalculator.identity44();
+    let vpMatrix = MatrixCalculator.identity44();
     let viewMatrix = MatrixCalculator.lookAt(new Vector3(0.0, 0.0, 3.0), new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 1.0, 0.0));
     let projectionMatrix = MatrixCalculator.perspective(45, canvas.width, canvas.height, 0.1, 100);
     let mvpMatrix = MatrixCalculator.multiply(MatrixCalculator.multiply(projectionMatrix, viewMatrix), modelMatrix);
@@ -71,7 +72,8 @@ function main()
     function render(){
         util.clearColor(ColorUtility.hexToColor01(MyColorCode.COLOR_HARUKI));
         modelMatrix = modelMatrix.rotate3D(0.05, DefaultVectorConstants.AXIS2DZ, modelMatrix);
-        mvpMatrix = MatrixCalculator.multiply(MatrixCalculator.multiply(projectionMatrix, viewMatrix), modelMatrix);
+        vpMatrix = projectionMatrix.multiply(viewMatrix, vpMatrix);
+        mvpMatrix = vpMatrix.multiply(modelMatrix, mvpMatrix);
 
         gl.uniform3fv(colorUniformLocation, ColorUtility.hexToColor01(MyColorCode.COLOR_SENA).toRGBArray);
         gl.uniformMatrix4fv(mvpMatrixUniformLocation, false, mvpMatrix.toArray());
