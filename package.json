@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:lib": "vite --config src/libs/vite.config.ts",
+    "dev:withLib": "vite && vite --config src/libs/vite.config.ts",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "jest",

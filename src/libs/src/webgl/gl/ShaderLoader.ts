@@ -15,7 +15,16 @@ export class ShaderLoader{
     }
 
     public async loadCommonShaders(): Promise<void> {
-
+        const vertShaderFiles = import.meta.glob('/src/libs/src/webgl/shader/*.vert', {query: '?raw', import: 'default'});
+        const fragShaderFiles = import.meta.glob('/src/libs/src/webgl/shader/*.frag', {query: '?raw', import: 'default'});
+        for (const file in vertShaderFiles) {
+            const content = await vertShaderFiles[file]();
+            console.log(content);
+        }
+        for (const file in fragShaderFiles) {
+            const content = await fragShaderFiles[file]();
+            console.log(content);
+        }
     }
 
 }

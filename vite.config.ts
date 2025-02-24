@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import glsl from 'vite-plugin-glsl'
+import path from 'path'
 
 export default defineConfig({
     plugins: [
@@ -9,5 +10,10 @@ export default defineConfig({
     ],
     server: {
         port: 2222
+    },
+    resolve:{
+        alias:{
+            '@webgl':path.resolve(__dirname, 'libs/src/webgl'),
+        }
     }
 });

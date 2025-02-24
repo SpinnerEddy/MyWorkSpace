@@ -3,6 +3,7 @@ import { ColorUtility } from "../../libs/src/color/ColorUtility";
 import { MatrixCalculator } from "../../libs/src/math/MatrixCalculator";
 import { Vector3 } from "../../libs/src/math/vector/Vector3";
 import { DefaultVectorConstants } from "../../libs/src/math/vector/VectorConstants";
+import { ShaderLoader } from "../../libs/src/webgl/gl/ShaderLoader";
 import { WebGLUtility } from "../../libs/src/webgl/gl/WebGLUtility";
 
 const vertexShaderSource = `#version 300 es
@@ -36,6 +37,13 @@ function main()
     const util = new WebGLUtility(canvas);
     util.clearColor(ColorUtility.hexToColor01(MyColorCode.COLOR_SENA));
     const gl = util.getWebGL2RenderingContext();
+
+    const loader = ShaderLoader.getInstance();
+    async function load(){
+        await loader.loadCommonShaders();
+    }
+
+    load();
 
     const program = createProgram(gl, vertexShaderSource, fragmentShaderSource);
 
@@ -79,6 +87,7 @@ function main()
         gl.uniformMatrix4fv(mvpMatrixUniformLocation, false, mvpMatrix.toArray());
         gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 3);
         requestAnimationFrame(render);
+
     }
 
     render();
