@@ -3,7 +3,7 @@ import { ColorUtility } from "../../libs/src/color/ColorUtility";
 import { MatrixCalculator } from "../../libs/src/math/MatrixCalculator";
 import { Vector3 } from "../../libs/src/math/vector/Vector3";
 import { DefaultVectorConstants } from "../../libs/src/math/vector/VectorConstants";
-import { WebGLUtility } from "../../libs/src/webgl/WebGLUtility";
+import { WebGLUtility } from "../../libs/src/webgl/gl/WebGLUtility";
 
 const vertexShaderSource = `#version 300 es
 layout(location = 0) in vec3 aPosition;
@@ -57,8 +57,8 @@ function main()
     gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
     const positionLocationIndex = 0;
-    gl.enableVertexAttribArray(positionLocationIndex);
     gl.vertexAttribPointer(positionLocationIndex, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(positionLocationIndex);
 
     let modelMatrix = MatrixCalculator.identity44();
     let vpMatrix = MatrixCalculator.identity44();
@@ -77,7 +77,7 @@ function main()
 
         gl.uniform3fv(colorUniformLocation, ColorUtility.hexToColor01(MyColorCode.COLOR_SENA).toRGBArray);
         gl.uniformMatrix4fv(mvpMatrixUniformLocation, false, mvpMatrix.toArray());
-        gl.drawArrays(gl.TRIANGLES, 0, vertices.length);
+        gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 3);
         requestAnimationFrame(render);
     }
 

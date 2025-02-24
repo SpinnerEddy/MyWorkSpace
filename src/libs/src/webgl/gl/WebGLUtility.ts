@@ -1,5 +1,5 @@
-import { Color } from "../color/Color";
-import { Matrix } from "../math/matrix/Matrix";
+import { Color } from "../../color/Color";
+import { Matrix } from "../../math/matrix/Matrix";
 
 export class WebGLUtility{
     private gl: WebGL2RenderingContext;
